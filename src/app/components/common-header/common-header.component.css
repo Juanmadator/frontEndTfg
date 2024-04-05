@@ -1,0 +1,22 @@
+input.form-control {
+  outline: none;
+  box-shadow: none !important
+}
+
+#chatNotif {
+  margin-left: -18px;
+}
+
+#searchInput {
+  padding-left: 32px;
+}
+
+.nav-link{
+  font-weight: 600;
+}
+
+.nav-link:hover{
+  cursor: pointer;
+  font-weight: 600;
+  color: rgb(95, 156, 25);
+}

@@ -1,0 +1,51 @@
+<body class="bg-light ">
+  <div class="navbar navbar-light w-75 navbar-expand-md container  px-3">
+    <a href="#" class="navbar-brand">
+      <img src="../../../assets/images/casa.png" alt="" width="50px" height="50px" />
+    </a>
+    <div class="w-50">
+      <div class="input-group">
+        <input class="form-control" id="searchInput" type="text" placeholder="Search"/>
+        <span class="input-group-text">
+          <i class="fa-solid fa-magnifying-glass text-secondary"></i>
+        </span>
+      </div>
+    </div>
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse" id="menu">
+      <ul class="navbar-nav d-fle justify-content-center ms-auto" style="list-style:none;">
+
+        <li class="nav-item mx-3" routerLinkActive="active">
+          <a routerLink="/home" class="nav-link">Publicar</a>
+        </li>
+        <li class="nav-item mx-3" routerLinkActive="active">
+          <a routerLink="/home" class="nav-link">Perfil</a>
+        </li>
+        <li class="nav-item mx-3" routerLinkActive="active">
+          <a routerLink="/home" class="nav-link">Mensajes</a>
+        </li>
+        <li class="nav-item mx-3" routerLinkActive="active">
+          <a routerLink="/home" class="nav-link">Descubrir</a>
+        </li>
+        <li class="nav-item mx-3">
+          <a class="nav-link position-relative"><i class="fa-solid fa-comment-dots fs-3"></i><span id="chatNotif" class="position-absolute top-0 start-100 translate-bottom badge rounded-pill bg-danger">9<sup>+</sup></span></a>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link"><i class="fa-solid fa-ellipsis fs-4"></i></a>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+            <li><a class="dropdown-item" href="#">Ayuda</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</body>
