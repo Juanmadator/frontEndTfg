@@ -5,11 +5,7 @@ export const routes: Routes = [
     {
         path: 'home',
         loadComponent: () => import('./components/home/home.component').then(c => c.HomeComponent)
-    },
-    {
-      path: 'chatBot',
-      loadComponent: () => import('./components/chat/chat.component').then(c => c.ChatComponent)
-  }
+    }
     // },
     // // {
     // //     path: 'header',

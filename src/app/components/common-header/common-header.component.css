@@ -18,5 +18,55 @@ input.form-control {
 .nav-link:hover{
   cursor: pointer;
   font-weight: 600;
-  color: rgb(95, 156, 25);
+  color: rgb(119, 201, 25);
+}
+
+
+#borde-menu:focus{
+  outline: none !important;
+}
+
+
+.chat{
+  font-weight: bold;
+font-size: 22px;
+}
+
+
+.dropdown-toggle::after {
+  display:none;
+}
+
+
+.contenido{
+  margin-bottom: 2px;
+}
+
+.box{
+  height: 50px;
+  display: flex;
+  cursor: pointer;
+  padding: 10px 20px;
+  background: #fff;
+  border-radius: 30px;
+  align-items: center;
+}
+
+.box:hover input{
+  width: 200px;
+}
+
+.box input{
+  width: 0;
+  outline: none;
+  border: none;
+  font-weight: 500;
+  transition: 0.8s;
+  background: transparent;
+}
+
+.box a .bi{
+  font-weight: bolder;
+color: rgb(119, 201, 25);
+font-size: 18px;
 }

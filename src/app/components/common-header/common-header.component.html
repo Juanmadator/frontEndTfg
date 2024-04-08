@@ -1,51 +1,63 @@
-<body class="bg-light ">
-  <div class="navbar navbar-light w-75 navbar-expand-md container  px-3">
-    <a href="#" class="navbar-brand">
-      <img src="../../../assets/images/casa.png" alt="" width="50px" height="50px" />
-    </a>
-    <div class="w-50">
-      <div class="input-group">
-        <input class="form-control" id="searchInput" type="text" placeholder="Search"/>
-        <span class="input-group-text">
-          <i class="fa-solid fa-magnifying-glass text-secondary"></i>
-        </span>
-      </div>
-    </div>
-    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="navbar-collapse collapse" id="menu">
-      <ul class="navbar-nav d-fle justify-content-center ms-auto" style="list-style:none;">
+<header class="bg-white fixed-top shadow-lg">
+  <nav class="navbar navbar-expand-lg p-3 p-lg-0  container w-100 ">
+    <div class="container-fluid contenido">
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+        aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="offcanvas bg-transparent offcanvas-end w-100  p-3" tabindex="-1" id="offcanvasNavbar"
+        aria-labelledby="offcanvasNavbarLabel">
+        <div class="offcanvas-header ">
+          <h5 class="offcanvas-title" id="offcanvasNavbarLabel"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
 
-        <li class="nav-item mx-3" routerLinkActive="active">
-          <a routerLink="/home" class="nav-link">Publicar</a>
-        </li>
-        <li class="nav-item mx-3" routerLinkActive="active">
-          <a routerLink="/home" class="nav-link">Perfil</a>
-        </li>
-        <li class="nav-item mx-3" routerLinkActive="active">
-          <a routerLink="/home" class="nav-link">Mensajes</a>
-        </li>
-        <li class="nav-item mx-3" routerLinkActive="active">
-          <a routerLink="/home" class="nav-link">Descubrir</a>
-        </li>
-        <li class="nav-item mx-3">
-          <a class="nav-link position-relative"><i class="fa-solid fa-comment-dots fs-3"></i><span id="chatNotif" class="position-absolute top-0 start-100 translate-bottom badge rounded-pill bg-danger">9<sup>+</sup></span></a>
-        </li>
+        <div class="offcanvas-body bg-white mt-1">
+          <ul class="navbar-nav justify-content-center align-items-center flex-grow-1 p-3">
+            <div class="box">
+              <input type="text" placeholder="Buscar...">
+              <a href="#">
+                <i class="bi bi-search"></i>
+              </a>
+          </div>
+            <li class="nav-item active">
+              <a class="nav-link mx-2" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link mx-2" aria-current="page" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link  mx-2" aria-current="page" href="#">Services</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link mx-2" aria-current="page" href="#">Portfolio</a>
+            </li>
 
-        <li class="nav-item dropdown">
-          <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <a class="nav-link"><i class="fa-solid fa-ellipsis fs-4"></i></a>
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
-            <li><a class="dropdown-item" href="#">Ayuda</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Ajustes
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="#">Contact</a>
+            </li>
           </ul>
-        </li>
 
-      </ul>
+        </div>
+      </div>
+
+
     </div>
-  </div>
-</body>
+  </nav>
+
+</header>
