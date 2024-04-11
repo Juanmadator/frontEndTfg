@@ -1,12 +1,19 @@
 import { Component } from '@angular/core';
 
 @Component({
+  standalone:true,
   selector: 'app-common-header',
-  standalone: true,
-  imports: [],
   templateUrl: './common-header.component.html',
-  styleUrl: './common-header.component.css'
+  styleUrls: ['./common-header.component.css']
 })
 export class CommonHeaderComponent {
+  offcanvasNavbar: boolean = false;
 
+  toggleOffcanvas() {
+    this.offcanvasNavbar = !this.offcanvasNavbar;
+  }
+
+  closeOffcanvas() {
+    this.offcanvasNavbar = false;
+  }
 }

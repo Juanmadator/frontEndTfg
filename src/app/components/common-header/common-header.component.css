@@ -1,72 +1,83 @@
-input.form-control {
-  outline: none;
-  box-shadow: none !important
-}
-
-#chatNotif {
-  margin-left: -18px;
-}
-
-#searchInput {
-  padding-left: 32px;
-}
-
-.nav-link{
-  font-weight: 600;
-}
-
-.nav-link:hover{
-  cursor: pointer;
-  font-weight: 600;
-  color: rgb(119, 201, 25);
+.container {
+  width: 80%;
+  margin: 0 auto;
 }
 
 
-#borde-menu:focus{
-  outline: none !important;
+
+img {
+  display: block;
+  width: 100%;
 }
 
-
-.chat{
-  font-weight: bold;
-font-size: 22px;
-}
-
-
-.dropdown-toggle::after {
-  display:none;
-}
-
-
-.contenido{
-  margin-bottom: 2px;
-}
-
-.box{
-  height: 50px;
-  display: flex;
-  cursor: pointer;
-  padding: 10px 20px;
-  background: #fff;
-  border-radius: 30px;
-  align-items: center;
-}
-
-.box:hover input{
-  width: 200px;
-}
-
-.box input{
-  width: 0;
-  outline: none;
-  border: none;
+.btn {
+  display: inline-block;
+  padding: var(--btn-padding);
   font-weight: 500;
-  transition: 0.8s;
-  background: transparent;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  border-color: var(--color-primary);
 }
 
-.box a .bi{
-  font-weight: bolder;
-color: rgb(119, 201, 25);
-font-size: 18px;
+.btn:hover {
+  opacity: 0.8;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: white;
+}
+
+.text-bold {
+  font-weight: 500;
+}
+
+.text-muted {
+  color: var(--color-gray);
+}
+
+/*NAVBAR*/
+
+nav {
+  width: 100%;
+  background: var(--color-white);
+  padding: 0.7rem 0;
+  position: fixed;
+  top: 0;
+  z-index: 10;
+}
+
+nav .container {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  justify-content: space-between;
+}
+
+nav .search-bar {
+  background: var(--color-light);
+  border-radius: var(--border-radius);
+  padding: var(--search-padding);
+}
+
+/*un input con un type concreto*/
+nav .search-bar input[type="search"] {
+  background: transparent;
+  width: 30vw;
+  margin-left: 1rem;
+  font-size: 0.9rem;
+  color: var(--color-dark);
+}
+
+/*para cambiar el color del place holder del input*/
+nav .search-bar input[type="search"]::placeholder {
+  color: var(--color-gray);
+}
+
+nav .create {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
 }

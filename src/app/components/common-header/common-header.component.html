@@ -1,63 +1,26 @@
-<header class="bg-white fixed-top shadow-lg">
-  <nav class="navbar navbar-expand-lg p-3 p-lg-0  container w-100 ">
-    <div class="container-fluid contenido">
-      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
-        aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="offcanvas bg-transparent offcanvas-end w-100  p-3" tabindex="-1" id="offcanvasNavbar"
-        aria-labelledby="offcanvasNavbarLabel">
-        <div class="offcanvas-header ">
-          <h5 class="offcanvas-title" id="offcanvasNavbarLabel"></h5>
-          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
+<body>
+  <nav>
+    <div class="container">
+      <h2 class="log">
+        fitnessApp
+      </h2>
 
-        <div class="offcanvas-body bg-white mt-1">
-          <ul class="navbar-nav justify-content-center align-items-center flex-grow-1 p-3">
-            <div class="box">
-              <input type="text" placeholder="Buscar...">
-              <a href="#">
-                <i class="bi bi-search"></i>
-              </a>
-          </div>
-            <li class="nav-item active">
-              <a class="nav-link mx-2" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link mx-2" aria-current="page" href="#">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link  mx-2" aria-current="page" href="#">Services</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link mx-2" aria-current="page" href="#">Portfolio</a>
-            </li>
-
-
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                Ajustes
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li>
-                  <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="#">Contact</a>
-            </li>
-          </ul>
-
-        </div>
+      <div class="search-bar d-flex">
+        <i class="uil uil-search"></i>
+        <input type="search" placeholder="Search for users">
       </div>
 
+      <div class="create">
+        <label class="btn btn-primary" for="create-post">
+          Create
+        </label>
 
+        <div class="profile-photo">
+          <img src="assets/images/profile-1.jpg" alt="Imagen de usuario">
+        </div>
+      </div>
     </div>
   </nav>
 
-</header>
+
+</body>
