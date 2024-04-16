@@ -1,8 +1,8 @@
-  
+
 
 /*NAVBAR*/
 
-nav {
+.navbar {
   width: 100%;
   background: var(--color-white);
   padding: 0.7rem 0;
@@ -11,21 +11,22 @@ nav {
   z-index: 10;
 }
 
-nav .container {
+.navbar .container {
   display: flex;
   align-items: center;
   justify-items: center;
   justify-content: space-between;
 }
 
-nav .search-bar {
+.navbar .search-bar {
   background: var(--color-light);
   border-radius: var(--border-radius);
   padding: var(--search-padding);
+  display: block;
 }
 
 /*un input con un type concreto*/
-nav .search-bar input[type="search"] {
+.navbar .search-bar input[type="search"] {
   background: transparent;
   width: 30vw;
   margin-left: 1rem;
@@ -34,12 +35,20 @@ nav .search-bar input[type="search"] {
 }
 
 /*para cambiar el color del place holder del input*/
-nav .search-bar input[type="search"]::placeholder {
+.navbar .search-bar input[type="search"]::placeholder {
   color: var(--color-gray);
 }
 
-nav .create {
+.navbar .create {
   display: flex;
   align-items: center;
   gap: 2rem;
+}
+
+
+@media screen and (max-width: 992px) {
+  .navbar .search-bar {
+  display: none;
+  }
+
 }
