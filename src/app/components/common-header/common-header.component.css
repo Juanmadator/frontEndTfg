@@ -1,42 +1,4 @@
-.container {
-  width: 80%;
-  margin: 0 auto;
-}
-
-
-
-img {
-  display: block;
-  width: 100%;
-}
-
-.btn {
-  display: inline-block;
-  padding: var(--btn-padding);
-  font-weight: 500;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 0.9rem;
-  border-color: var(--color-primary);
-}
-
-.btn:hover {
-  opacity: 0.8;
-}
-
-.btn-primary {
-  background: var(--color-primary);
-  color: white;
-}
-
-.text-bold {
-  font-weight: 500;
-}
-
-.text-muted {
-  color: var(--color-gray);
-}
+  
 
 /*NAVBAR*/
 

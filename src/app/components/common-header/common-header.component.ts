@@ -16,4 +16,6 @@ export class CommonHeaderComponent {
   closeOffcanvas() {
     this.offcanvasNavbar = false;
   }
+
+  
 }
