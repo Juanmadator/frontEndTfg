@@ -4,134 +4,7 @@
   <div class="container">
 
     <!--LEFT SIDE -->
-    <div class="left">
-      <a class="profile">
-
-        <div class="profile-photo">
-          <img src="assets/images/profile-1.jpg" alt="">
-        </div>
-
-        <div class="handle">
-          <h4>Juanma</h4>
-          <p class="text-muted">
-            &#64;juanma
-          </p>
-        </div>
-      </a>
-
-      <div class="sidebar">
-        <a class="menu-item active">
-          <span><i class="uil uil-home "></i></span>
-          <h3>Home</h3>
-        </a>
-        <a class="menu-item">
-          <span><i class="uil uil-compass"></i></span>
-          <h3>Explora</h3>
-        </a>
-
-        <a class="menu-item" id="notifications">
-          <span><i class="uil uil-bell"><small class="notification-count">9+</small></i></span>
-          <h3>Notificaciones</h3>
-
-          <!--NOTIFICACIONES POP UP-->
-          <div class="notifications-popup">
-            <div>
-              <div class="profile-photo">
-                <img src="assets/images/profile-2.jpg" alt="">
-              </div>
-
-              <div class="notification-body">
-                <b>Juan</b> es ahora tu seguidor
-                <small class="text-muted">1 DAY AGO</small>
-              </div>
-            </div>
-
-            <div>
-              <div class="profile-photo">
-                <img src="assets/images/profile-3.jpg" alt="">
-              </div>
-
-              <div class="notification-body">
-                <b>Juan</b> es ahora tu seguidor
-                <small class="text-muted">1 DAY AGO</small>
-              </div>
-            </div>
-
-            <div>
-              <div class="profile-photo">
-                <img src="assets/images/profile-4.jpg" alt="">
-              </div>
-
-              <div class="notification-body">
-                <b>Juan</b> es ahora tu seguidor
-                <small class="text-muted">1 DAY AGO</small>
-              </div>
-            </div>
-
-            <div>
-              <div class="profile-photo">
-                <img src="assets/images/profile-5.jpg" alt="">
-              </div>
-
-              <div class="notification-body">
-                <b>Juan</b> es ahora tu seguidor
-                <small class="text-muted">1 DAY AGO</small>
-              </div>
-            </div>
-
-            <div>
-              <div class="profile-photo">
-                <img src="assets/images/profile-6.jpg" alt="">
-              </div>
-
-              <div class="notification-body">
-                <b>Juan</b> es ahora tu seguidor
-                <small class="text-muted">1 DAY AGO</small>
-              </div>
-            </div>
-
-            <div>
-              <div class="profile-photo">
-                <img src="assets/images/profile-7.jpg" alt="">
-              </div>
-
-              <div class="notification-body">
-                <b>Juan</b> es ahora tu seguidor
-                <small class="text-muted">1 DAY AGO</small>
-              </div>
-            </div>
-          </div>
-
-        </a>
-
-        <a class="menu-item">
-          <span><i class="uil uil-bookmark"></i></span>
-          <h3>Favoritos</h3>
-        </a>
-        <a class="menu-item">
-          <span><i class="uil uil-home"></i></span>
-          <h3>Crea tu rutina</h3>
-        </a>
-        <a class="menu-item" id="messages-notifications">
-          <span><i class="uil uil-chart-line"> <small class="notification-count">6</small></i></span>
-          <h3>Mensajes</h3>
-        </a>
-
-        <a class="menu-item">
-          <span><i class="uil uil-palette"></i></span>
-          <h3>Temas</h3>
-        </a>
-        <a class="menu-item">
-          <span><i class="uil uil-setting"></i></span>
-          <h3>Ajustes</h3>
-        </a>
-
-
-      </div>
-
-      <label for="create-post" class="btn btn-primary">Create post</label>
-
-    </div>
+   <app-navbar/>
     <!--END OF LEFT-->
 
     <div class="middle">
@@ -379,13 +252,17 @@
     <div class="right">
 
       <div class="messages">
-        <div class="heading">
-          <h4>Messages </h4><i class="uil uil-edit"></i>
-        </div>
+        <div class="heading-messages">
+          <div class="heading">
+            <h4>Messages </h4><i class="uil uil-edit"></i>
+          </div>
 
-        <div class="search-bar">
-          <i class="uil uil-search"></i>
-          <input type="search" placeholder="Search messages" id="message-search">
+          <div class="search-bar">
+            <i class="uil uil-search"></i>
+            <input type="search" placeholder="Search messages" id="message-search"
+            (keyup)="filterMessages()"
+           >
+          </div>
         </div>
 
         <div class="category">
@@ -393,13 +270,65 @@
           <h6>General</h6>
           <h6 class="message-requests">Requests(7)</h6>
         </div>
-        <div class="message">
-          <div class="profile-photo">
-            <img src="assets/images/profile-17.jpg" alt="Imagen usuario">
+        <div class="all-messages">
+          <div class="message">
+            <div class="profile-photo">
+              <img src="assets/images/profile-1.jpg" alt="Imagen usuario">
+            </div>
+            <div class="message-body">
+              <h5>Prueba</h5>
+              <p class="text-muted">Mensaje de priueba</p>
+            </div>
           </div>
-          <div class="message-body">
-            <h5>Edem Quist</h5>
-            <p class="text-muted">Mensaje de priueba</p>
+
+          <div class="message">
+            <div class="profile-photo">
+              <img src="assets/images/profile-1.jpg" alt="Imagen usuario">
+            </div>
+            <div class="message-body">
+              <h5>Prueba</h5>
+              <p class="text-muted">Mensaje de priueba</p>
+            </div>
+          </div>
+
+          <div class="message">
+            <div class="profile-photo">
+              <img src="assets/images/profile-1.jpg" alt="Imagen usuario">
+            </div>
+            <div class="message-body">
+              <h5>Prueba</h5>
+              <p class="text-muted">Mensaje de priueba</p>
+            </div>
+          </div>
+
+          <div class="message">
+            <div class="profile-photo">
+              <img src="assets/images/profile-1.jpg" alt="Imagen usuario">
+            </div>
+            <div class="message-body">
+              <h5>Prueba</h5>
+              <p class="text-muted">Mensaje de priueba</p>
+            </div>
+          </div>
+
+          <div class="message">
+            <div class="profile-photo">
+              <img src="assets/images/profile-1.jpg" alt="Imagen usuario">
+            </div>
+            <div class="message-body">
+              <h5>Juan</h5>
+              <p class="text-muted">Mensaje de priueba</p>
+            </div>
+          </div>
+
+          <div class="message">
+            <div class="profile-photo">
+              <img src="assets/images/profile-1.jpg" alt="Imagen usuario">
+            </div>
+            <div class="message-body">
+              <h5>Juanma</h5>
+              <p class="text-muted">Mensaje de priueba</p>
+            </div>
           </div>
         </div>
 
@@ -436,64 +365,6 @@
 </main>
 
 
-<div class="customize-theme">
-  <div class="card">
-    <h2>Customiza la vista de la web</h2>
-    <p class="text-muted">Gestiona el color</p>
-
-    <div class="font-size">
-      <h4>Font-size</h4>
-      <div>
-        <h6>Aa</h6>
-        <div class="choose-size">
-          <span class="font-size-1 active"></span>
-          <span class="font-size-2"></span>
-          <span class="font-size-3"></span>
-          <span class="font-size-4"></span>
-          <span class="font-size-5"></span>
-        </div>
-        <h3>Aa</h3>
-      </div>
-    </div>
-
-    <div class="color">
-      <h4>Color</h4>
-        <div class="choose-color">
-          <span class="color-1 active"></span>
-          <span class="color-2"></span>
-          <span class="color-3"></span>
-          <span class="color-4"></span>
-          <span class="color-5"></span>
-        </div>
-    </div>
-
-
-
-
-    <div class="background">
-      <h4>Background</h4>
-      <div class="choose-bg">
-        <div class="bg-1">
-          <span></span>
-          <h5 for="bg-1">Light</h5>
-        </div>
-
-        <div class="bg-2">
-          <span></span>
-          <h5 for="bg-2">Dim</h5>
-        </div>
-
-
-        <div class="bg-3">
-          <span></span>
-          <h5 for="bg-3">Lights Out</h5>
-        </div>
-      </div>
-    </div>
-
-
-  </div>
-</div>
 
 
 

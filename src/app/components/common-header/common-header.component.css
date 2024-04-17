@@ -22,7 +22,7 @@
   background: var(--color-light);
   border-radius: var(--border-radius);
   padding: var(--search-padding);
-  display: block;
+  display: flex;
 }
 
 /*un input con un type concreto*/
@@ -47,8 +47,12 @@
 
 
 @media screen and (max-width: 992px) {
-  .navbar .search-bar {
+  .navbar .search-bar input[type="search"]  {
   display: none;
+  }
+
+  .navbar .container .search-bar{
+   display: none;
   }
 
 }
