@@ -209,7 +209,11 @@ a {
 }
 
 
+<<<<<<< HEAD
 @media screen and (max-width: 1200px) {
+=======
+@media screen and (max-width: 768px) {
+>>>>>>> d271da6f09e7ed8f283c3da9264ad9720656433e
   .sidebar {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     z-index: 50;

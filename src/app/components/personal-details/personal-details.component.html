@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="other-navbar">
   <app-navbar></app-navbar>
 </div>
@@ -9,6 +10,15 @@
     <form (submit)="onSubmit($event)" #form="ngForm">
          <div class="imagen">
           <img *ngIf="user.profilepicture" [src]="'http://localhost:8080/profile-images/'+user.profilepicture" alt="Profile Picture"   (click)="openFileInput($event)">
+=======
+<main class="contenedor rounded-1 ">
+
+  <div class="formulario  p-5 ">
+    <h1 class="text-center username-title text-black">PERFIL</h1>
+    <form (submit)="onSubmit($event)" #form="ngForm">
+         <div class="imagen">
+          <img *ngIf="user.profilepicture" [src]="'http://localhost:8080/profile-images/' + user.profilepicture" alt="Profile Picture"   (click)="openFileInput($event)">
+>>>>>>> d271da6f09e7ed8f283c3da9264ad9720656433e
           <img *ngIf="!user.profilepicture" src="assets/images/anonimo.png" alt="Anónimo"   (click)="openFileInput($event)">
          </div>
 
@@ -30,6 +40,7 @@
     <span>  Nombre de usuario: </span><input type="text" placeholder="Username" [(ngModel)]="user.username" name="username" class="rounded-1 "
     required>
   </div>
+<<<<<<< HEAD
 <b>Género:</b>
   <select name="gender" id="gender" [(ngModel)]="user.gender">
     <option value="Select gender" [selected]="true" disabled>Select a gender</option>
@@ -58,6 +69,33 @@
          </div>
 
          <b>País:</b>
+=======
+
+    <div class="edad-email">
+     <div class="edad">
+      <span>Edad:</span>
+      @if(user.age<16){
+        <span class="red">Debes tener al menos 16 años</span>
+      } <input type="date" id="age" placeholder="Age" [(ngModel)]="user.age" name="age"
+        class="rounded-1" min="16" >
+     </div>
+
+       <div class="email w-100">
+        <span>Email:</span> <input type="text" disabled="" placeholder="Email" [(ngModel)]="user.email" name="email" class="rounded-1 " required>
+       </div>
+    </div>
+
+
+      <div class="d-flex justify-content-between">
+        <select name="gender" id="gender" [(ngModel)]="user.gender">
+          <option value="Select gender" [selected]="true" disabled>Select a gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
+
+
+>>>>>>> d271da6f09e7ed8f283c3da9264ad9720656433e
         <select [(ngModel)]="selectedCountry" name="country" (change)="handleCountryChange($event)">
           <option *ngIf="countries.length === 0" [ngValue]="'Cargando...'">Cargando...</option>
           <option *ngFor="let country of countries" [ngValue]="country.name.common">
@@ -75,6 +113,10 @@
 
   </div>
 
+<<<<<<< HEAD
+=======
+  <div class="publicaciones">CONTENEDOR DE PUBLICACIONES</div>
+>>>>>>> d271da6f09e7ed8f283c3da9264ad9720656433e
 
 
 </main>

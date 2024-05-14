@@ -8,11 +8,18 @@ import { Router } from '@angular/router';
 import { LoginServiceAuth } from '../../services/login/login.service';
 import { DateFormatPipePipe } from '../../Date/date-format-pipe.pipe';
 import CryptoJS from 'crypto-js';
+<<<<<<< HEAD
 import { NavbarComponent } from '../navbar/navbar.component';
 @Component({
   selector: 'app-personal-details',
   standalone: true,
   imports: [FormsModule, CommonModule, DateFormatPipePipe,NavbarComponent],
+=======
+@Component({
+  selector: 'app-personal-details',
+  standalone: true,
+  imports: [FormsModule, CommonModule, DateFormatPipePipe],
+>>>>>>> d271da6f09e7ed8f283c3da9264ad9720656433e
   templateUrl: './personal-details.component.html',
   styleUrl: './personal-details.component.css'
 })
@@ -60,7 +67,11 @@ export class PersonalDetailsComponent implements OnInit {
   }
 
   onSubmit(event: any) {
+<<<<<<< HEAD
 
+=======
+    console.log(this.selectedFile);
+>>>>>>> d271da6f09e7ed8f283c3da9264ad9720656433e
     event.preventDefault();
     //aqui se llamará al endpoint para actualizar el usuario
     this.updateUser();
@@ -73,10 +84,13 @@ export class PersonalDetailsComponent implements OnInit {
       const userId = parseInt(userIdString, 10);
       // Actualiza el campo country de this.user con selectedCountry
       this.user.country = this.selectedCountry;
+<<<<<<< HEAD
       const inputDateElement = document.getElementById('age') as HTMLInputElement;
       if(inputDateElement){
         this.user.age=inputDateElement.value;
       }
+=======
+>>>>>>> d271da6f09e7ed8f283c3da9264ad9720656433e
       // Llama al servicio para actualizar el usuario
       this.userService.updateUser(userId, this.user, this.selectedFile).subscribe(
         (response: any) => {
@@ -131,12 +145,16 @@ export class PersonalDetailsComponent implements OnInit {
       (user: User | null) => {
         this.user = user;
         if (user) {
+<<<<<<< HEAD
           const formattedDate = user.age ? new Date(user.age).toISOString().substring(0, 10) : '';
           console.log(formattedDate);
           const inputDateElement = document.getElementById('age') as HTMLInputElement;
        if(inputDateElement){
         inputDateElement.value = formattedDate;
        }
+=======
+          console.log(user.username);
+>>>>>>> d271da6f09e7ed8f283c3da9264ad9720656433e
         } else {
           console.log('No se encontró ningún usuario.');
         }

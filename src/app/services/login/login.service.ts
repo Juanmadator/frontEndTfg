@@ -18,20 +18,30 @@ export class LoginServiceAuth {
   }
 
 
+<<<<<<< HEAD
   login(username: string, password: string, customMessage?: string): Observable<any> {
+=======
+  login(username: string, password: string,customMessage?: string): Observable<any> {
+>>>>>>> d271da6f09e7ed8f283c3da9264ad9720656433e
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const body = { username: username, password: password };
     return this.http.post("http://localhost:8080/auth/login", body, { headers }).pipe(
       tap((response: any) => {
         if (response.token != null) {
+<<<<<<< HEAD
           console.log(body.username);
+=======
+>>>>>>> d271da6f09e7ed8f283c3da9264ad9720656433e
           sessionStorage.setItem("token", response.token);
           this.inicioCorrecto(customMessage ? customMessage : 'Has iniciado sesión');
           this.getUserIdByUsername(body.username).subscribe(
             (userId: number) => {
+<<<<<<< HEAD
               if (sessionStorage.getItem("userId")) {
                 sessionStorage.removeItem("userId")
               }
+=======
+>>>>>>> d271da6f09e7ed8f283c3da9264ad9720656433e
               sessionStorage.setItem('userId', userId.toString());
               this.router.navigate(['/home']);
             },
@@ -53,7 +63,11 @@ export class LoginServiceAuth {
   }
 
 
+<<<<<<< HEAD
   inicioCorrecto(message: string): void {
+=======
+  inicioCorrecto(message:string):void{
+>>>>>>> d271da6f09e7ed8f283c3da9264ad9720656433e
     const Toast = Swal.mixin({
       toast: true,
       position: "top-end",

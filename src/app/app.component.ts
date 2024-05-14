@@ -29,7 +29,11 @@ export class AppComponent implements OnInit {
 
     setTimeout(()=>{
       this.isLoading=false;
+<<<<<<< HEAD
     },800)
+=======
+    },500)
+>>>>>>> d271da6f09e7ed8f283c3da9264ad9720656433e
   }
 
   isLoginPage(): boolean {

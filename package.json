@@ -6,8 +6,12 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
+<<<<<<< HEAD
     "test": "ng test",
     "postinstall": "npm install"
+=======
+    "test": "ng test"
+>>>>>>> d271da6f09e7ed8f283c3da9264ad9720656433e
   },
   "private": true,
   "dependencies": {

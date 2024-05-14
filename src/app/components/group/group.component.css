@@ -1,5 +1,9 @@
 body{
+<<<<<<< HEAD
   padding-top: 100px;
+=======
+  padding-top: 50px;
+>>>>>>> d271da6f09e7ed8f283c3da9264ad9720656433e
 }
 
 .contenedor {
@@ -234,6 +238,7 @@ form{
 
 
 
+<<<<<<< HEAD
 @media (max-width:1200){
 
   body{
@@ -245,6 +250,15 @@ form{
   }
   .messages,.contenedor,.formulario{
     width: 75%;
+=======
+@media (max-width:855px){
+  .contenido{
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .messages,.contenedor,.formulario{
+    width: 80%;
+>>>>>>> d271da6f09e7ed8f283c3da9264ad9720656433e
   }
 }
 
@@ -264,6 +278,7 @@ form{
   }
 }
 
+<<<<<<< HEAD
 .other-navbar{
   z-index: 100;
   width: 290px;
@@ -271,10 +286,15 @@ form{
 @media(min-width:601px){
   .other-navbar{
     position: fixed;
+=======
+@media(min-width:601px){
+  .other-navbar{
+>>>>>>> d271da6f09e7ed8f283c3da9264ad9720656433e
     display: block;
   }
 }
 
+<<<<<<< HEAD
 @media (min-width:1201px){
 .other-navbar{
   margin-left: 100px;
@@ -291,6 +311,8 @@ form{
   }
 }
 
+=======
+>>>>>>> d271da6f09e7ed8f283c3da9264ad9720656433e
 
 .header{
   width: 100%;
@@ -303,6 +325,7 @@ form{
   height: 75px;
   border-radius: 50%;
 }
+<<<<<<< HEAD
 
 
 @media (max-width:600px) {
@@ -324,3 +347,5 @@ form{
     left: 0;
   }
 }
+=======
+>>>>>>> d271da6f09e7ed8f283c3da9264ad9720656433e
