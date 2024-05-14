@@ -1,0 +1,74 @@
+<main class="contenedor rounded-1 ">
+
+  <div class="formulario  p-5 ">
+    <h1 class="text-center username-title text-black">PERFIL</h1>
+    <form (submit)="onSubmit($event)" #form="ngForm">
+         <div class="imagen">
+          <img *ngIf="user.profilepicture" [src]="'http://localhost:8080/profile-images/' + user.profilepicture" alt="Profile Picture"   (click)="openFileInput($event)">
+          <img *ngIf="!user.profilepicture" src="assets/images/anonimo.png" alt="Anónimo"   (click)="openFileInput($event)">
+         </div>
+
+      <div class="d-flex">
+        <input id="file-input" type="file" name="imagen" accept="image/*" style="display: none;" (change)="onFileInputChange($event)">
+      </div>
+   <div class="name-lastname">
+    <div class="name">
+      <span> Nombre:</span> <input type="text"  placeholder="Name" [(ngModel)]="user.name" name="name" class="rounded-1 " required>
+    </div>
+   <div class="lastname">
+    <span> Apellidos:</span> <input type="text"   placeholder="LastName" [(ngModel)]="user.lastname" name="lastname" class="rounded-1"
+    required>
+   </div>
+  </div>
+
+
+  <div class="d-flex justify-content-between">
+    <span>  Nombre de usuario: </span><input type="text" placeholder="Username" [(ngModel)]="user.username" name="username" class="rounded-1 "
+    required>
+  </div>
+
+    <div class="edad-email">
+     <div class="edad">
+      <span>Edad:</span>
+      @if(user.age<16){
+        <span class="red">Debes tener al menos 16 años</span>
+      } <input type="date" id="age" placeholder="Age" [(ngModel)]="user.age" name="age"
+        class="rounded-1" min="16" >
+     </div>
+
+       <div class="email w-100">
+        <span>Email:</span> <input type="text" disabled="" placeholder="Email" [(ngModel)]="user.email" name="email" class="rounded-1 " required>
+       </div>
+    </div>
+
+
+      <div class="d-flex justify-content-between">
+        <select name="gender" id="gender" [(ngModel)]="user.gender">
+          <option value="Select gender" [selected]="true" disabled>Select a gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
+
+
+        <select [(ngModel)]="selectedCountry" name="country" (change)="handleCountryChange($event)">
+          <option *ngIf="countries.length === 0" [ngValue]="'Cargando...'">Cargando...</option>
+          <option *ngFor="let country of countries" [ngValue]="country.name.common">
+            {{ country.name.common }}
+          </option>
+        </select>
+      </div>
+
+     <div class="botones">
+      <input type="submit" class="rounded-1 cerrar-sesion" value="Guardar"/>
+
+      <button type="button" class="cerrar-sesion" (click)="closeSession()">Cerrar sesión</button>
+     </div>
+    </form>
+
+  </div>
+
+  <div class="publicaciones">CONTENEDOR DE PUBLICACIONES</div>
+
+
+</main>

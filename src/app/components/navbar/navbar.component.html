@@ -1,0 +1,99 @@
+<main>
+  <div class="contenedor">
+    <div class="left">
+      <a class="profile">
+
+        <div class="profile-photo">
+          @if(user.verified && user.profilepicture){
+          <a href="/profile">
+            <img [src]="'http://localhost:8080/profile-images/'+user.profilepicture" alt="Profile Picture">
+          </a>
+          }
+          @else if(user.verified && !user.profilepicture){
+          <a href="/profile">
+            <img src="assets/images/anonimo.png" alt="Anónimo">
+          </a>
+          }
+          @else {
+          <a href="/login"> <img src="assets/images/anonimo.png" alt="Anónimo"></a>
+          }
+        </div>
+
+        <div class="handle">
+          @if(user.name && user.lastname){
+          <h5>{{user.name}}</h5>
+          }@else {
+          <h5>Anonimo</h5>
+          }
+
+          <p class="text-muted">
+
+            @if(user.username){
+            &#64;{{user.username}}
+            }@else {
+            &#64;Anonimo
+            }
+
+          </p>
+        </div>
+      </a>
+
+      <div class="sidebar">
+        <a class="menu-item" [routerLink]="['/home']" [ngClass]="{'active': isHomeRoute}" (click)="changeActiveItem($event.target)">
+          <span><i class="uil uil-home "></i></span>
+          <h3>Home</h3>
+        </a>
+        <a class="menu-item" (click)="changeActiveItem($event.target)">
+          <span><i class="uil uil-compass"></i></span>
+          <h3>Explora</h3>
+        </a>
+
+       @if(user!=null&&user.coach){
+        <a class="menu-item"  [routerLink]="['/groups']"  [ngClass]="{'active': isGroups}" (click)="changeActiveItem($event.target)">
+          <span><i class="fas fa-users"></i>
+          </span>
+          <h3>Grupos</h3>
+        </a>
+       }
+        <div class="contenedor-sidebar">
+          <a [routerLink]="['/fav']"  [ngClass]="{'gray-background': !user.verified,'active': isFavRoute}" class="menu-item"
+            (click)="user.verified && changeActiveItem($event.target)"
+            [style.pointer-events]="user.verified ? 'auto' : 'none'">
+            <span><i class="uil uil-bookmark"></i></span>
+            <h3>Favoritos</h3>
+          </a>
+          <a [ngClass]="{'gray-background': !user.verified}" class="menu-item"
+            (click)="user.verified && changeActiveItem($event.target)"
+            [style.pointer-events]="user.verified ? 'auto' : 'none'">
+            <span><i class="uil uil-home"></i></span>
+            <h3>Crea tu rutina</h3>
+          </a>
+          <a [routerLink]="['/profile']" [ngClass]="{'gray-background': !user.verified,'active': isProfile}" class="menu-item"
+            (click)="user.verified && changeActiveItem($event.target)"
+            [style.pointer-events]="user.verified ? 'auto' : 'none'">
+            <span><i class="uil uil-user"></i>
+
+            </span>
+            <h3>Perfil</h3>
+          </a>
+
+        </div>
+
+
+        <a class="menu-item" (click)="changeActiveItem($event.target)">
+          <span><i class="uil uil-setting"></i></span>
+          <h3>Ajustes</h3>
+        </a>
+
+      </div>
+
+      @if(user.verified){
+      <label for="create-post" class="btn btn-primary" (click)="closeSession()">Cerrar Sesión</label>
+      }@else {
+      <a href="/login"> <label for="create-post" class="btn btn-primary">¡Inicia sesion!</label></a>
+      }
+
+    </div>
+
+  </div>
+</main>
