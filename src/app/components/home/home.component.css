@@ -1,0 +1,744 @@
+/*MAIN*/
+
+main {
+  margin-top: 100px;
+  position: relative;
+}
+
+main .container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 24vw auto 24vw;
+  column-gap: 0.5rem;
+  position: relative;
+}
+
+/*LEFT*/
+
+main .container .left {
+  height: max-content;
+  position: sticky;
+  top: var(--sticky-top-left);
+}
+
+main .container .left .profile {
+  padding: var(--card-padding);
+  background: var(--color-white);
+  border-radius: var(--card-border-radius);
+  display: flex;
+  align-items: center;
+  column-gap: 1rem;
+  width: 100%;
+}
+
+.left .sidebar {
+  margin-top: 1rem;
+  background: var(--color-white);
+  border-radius: var(--card-border-radius);
+}
+
+.left .sidebar .menu-item {
+  display: flex;
+  align-items: center;
+  height: 4rem;
+  cursor: pointer;
+  transition: all 300ms ease;
+  position: relative;
+}
+
+.left .sidebar .menu-item:hover {
+  background: var(--color-light);
+}
+
+.left .sidebar i {
+  font-size: 1.4rem;
+  color: var(--color-gray);
+  margin-left: 2rem;
+  position: relative;
+}
+
+.left .sidebar i .notification-count {
+  background: var(--color-danger);
+  color: white;
+  font-size: 0.7rem;
+  width: fit-content;
+  border-radius: 0.8rem;
+  padding: 0.1rem 0.4rem;
+  position: absolute;
+  top: -0.2rem;
+  right: -0.3rem;
+}
+
+.left .sidebar h3 {
+  margin-left: 1.5rem;
+  font-size: 1rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+.left .sidebar .active i,
+.left .sidebar .active h3 {
+  color: var(--color-primary);
+}
+
+.left .sidebar .active::before {
+  content: "";
+  display: block;
+  width: 0.5rem;
+  height: 100%;
+  position: absolute;
+  background: var(--color-primary);
+}
+
+.left .sidebar .menu-item:first-child.active {
+  border-top-left-radius: var(--card-border-radius);
+  overflow: hidden;
+}
+
+.left .sidebar .menu-item:last-child.active {
+  border-bottom-left-radius: var(--card-border-radius);
+  overflow: hidden;
+}
+
+.left .btn {
+  margin-top: 1rem;
+  width: 100%;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.left .notifications-popup {
+  position: absolute;
+  top: 0;
+  left: 110%;
+  width: 30rem;
+  background: var(--color-white);
+  border-radius: var(--card-border-radius);
+  padding: var(--card-padding);
+  box-shadow: 0 0 2rem hsl(var(--color-primary), 75%, 60%, 25%);
+  z-index: 8;
+  display: none;
+}
+
+.left .notifications-popup::before {
+  content: "";
+  width: 1.2rem;
+  height: 1.2rem;
+  display: block;
+  background: var(--color-white);
+  position: absolute;
+  left: -0.6rem;
+  transform: rotate(45deg);
+}
+
+.left .notifications-popup > div {
+  display: flex;
+  align-items: start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.left .notifations-popup small {
+  display: block;
+}
+
+.middle .stories {
+  display: flex;
+  justify-content: space-between;
+  height: 12rem;
+  gap: 0.5rem;
+}
+
+.middle .stories .story {
+  padding: var(--card-padding);
+  border-radius: var(--card-border-radius);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  font-size: 0.75rem;
+  background: red;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.middle .stories .story::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 5rem;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.75));
+  position: absolute;
+  bottom: 0;
+}
+
+.middle .stories .story .name {
+  z-index: 2;
+}
+
+
+.middle .story .profile-photo {
+  width: 50px;
+  height: 50px;
+  align-self: start;
+  border: 3px solid var(--color-primary);
+  display: block;
+}
+
+.middle .create-post {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.1rem;
+  background: var(--color-white);
+  padding: 0.4rem var(--card-padding);
+  border-radius: var(--card-border-radius);
+}
+
+.middle .create-post input[type="text"] {
+  transition: 0.3s all ease;
+  justify-self: start;
+  width: 100%;
+  padding-left: 1rem;
+  background: transparent;
+  color: var(--color-dark);
+  margin-right: 1rem;
+}
+
+/*------------FEEDS------------*/
+
+.feeds {
+  padding-bottom: 50px;
+  overflow-y: auto; /* Agrega esta línea */
+}
+.middle .feeds .feed {
+  background: var(--color-white);
+  border-radius: var(--card-border-radius);
+  padding: var(--card-padding);
+  margin: 1rem 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.middle .feed .head {
+  display: flex;
+  justify-content: space-between;
+}
+
+.head img{
+  border-radius: 50%;
+}
+
+.all-messages img{
+  width: 50px;
+  height: 50px;
+}
+
+.middle .feed .user {
+  display: flex;
+  gap: 1rem;
+}
+
+.middle .feed .photo {
+  border-radius: var(--card-border-radius);
+  overflow: hidden;
+  margin: 0.7rem 0;
+ height: fit-content;
+}
+
+.middle .feed i {
+  font-size: 20px;
+}
+
+.middle .feed .action-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.4rem;
+  margin: 0.6rem;
+}
+
+.middle .liked-by {
+  display: flex;
+}
+
+.middle .liked-by span {
+  width: 1.4rem;
+  height: 1.4rem;
+  display: block;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--color-white);
+  margin-left: -0.6rem;
+}
+
+.middle .liked-by span:first-child {
+  margin: 0;
+}
+
+.middle .liked-by p {
+  margin-left: 1rem;
+}
+
+/*_---RIGHT----*/
+
+main .container .right {
+  height: max-content;
+  position: sticky;
+  top: var(--sticky-top-right);
+  bottom: 0;
+  margin-right: -1.4rem;
+}
+
+
+.all-messages{
+  height: 200px;
+  overflow-y:scroll ;
+}
+
+.right .messages {
+  height: 28rem;
+  overflow: hidden;
+  background: var(--color-white);
+  border-radius: var(--card-border-radius);
+  padding: var(--card-padding);
+}
+
+.right .messages .heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.right .messages i {
+  font-size: 1.4rem;
+}
+
+.right .messages .search-bar {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.search-bar {
+  background: var(--color-light);
+  border-radius: var(--border-radius);
+  padding: var(--search-padding);
+}
+
+.search-bar input[type="search"] {
+  background: transparent;
+  width: 30vw;
+  margin-left: 1rem;
+  font-size: 0.9rem;
+  color: var(--color-dark);
+}
+
+.right .messages .category {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.right .messages .category h6 {
+  width: 100%;
+  text-align: center;
+  border-bottom: 4px solid var(--color-light);
+  padding: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.right .messages .category .active {
+  border-color: var(--color-dark);
+}
+
+.right .messages .message-requests {
+  color: var(--color-primary);
+}
+
+.right .messages .message {
+  margin-bottom: 1rem;
+  align-items: start;
+}
+
+.right .messages .message:last-child {
+  margin: 0;
+}
+
+.message{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 5%;
+}
+
+
+
+.message-body{
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  align-items: center;
+}
+
+@media screen and (max-width: 1200px) {
+  .container {
+    width: 100%;
+  }
+
+  main .container {
+    grid-template-columns: 6rem auto 30vw;
+  }
+
+  .left {
+    width: 5rem;
+    z-index: 5;
+  }
+
+  main .container .left .profile {
+    display: none;
+  }
+
+  .sidebar h3 {
+    display: none;
+  }
+
+  .left .btn {
+    display: none;
+  }
+}
+
+
+@media screen and (max-width: 992px) {
+  nav .search-bar {
+    display: none;
+  }
+
+  main .container{
+    grid-template-columns: 0 auto 2rem;
+  }
+  main .container .left{
+    grid-column: 1/4;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+  }
+
+  .left .notifications-popup::before{
+    display: absolute;
+    top: 1.3rem;
+    left: calc(20rem - 0.6rem);
+    display: block;
+  }
+
+  main .container .middle{
+    grid-column: 1/3;
+  }
+
+  main .container .right{
+    display: none;
+  }
+}
+
+
+
+
+@media screen and (min-width:1400px){
+  main .container {
+    grid-template-columns: 20vw auto 20vw;
+  }
+}
+
+@media screen and (min-width:1600px){
+  main .container {
+    grid-template-columns: 18vw auto 20vw;
+  }
+}
+
+@media screen and (min-width:1800px){
+  main .container {
+    grid-template-columns: 15vw auto 20vw;
+  }
+}
+
+
+
+.visible {
+  display: flex; /* O el estilo deseado para mostrar el chat */
+}
+
+.hidden {
+  display: none;
+}
+
+input[type="file"]{
+  width: 50px;
+}
+
+.file-label{
+  padding: 20px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  transition: 0.3s all ease;
+}
+.file-label:hover{
+  background-color: var(--color-secondary);
+}
+
+
+
+/*MODAL PARA LOS POSTS*/
+
+
+.modal-content {
+  text-align: center;
+}
+
+.modal-posts.hidden {
+  display: none;
+}
+
+
+.modal {
+
+  display: none; /* Ocultar el modal por defecto */
+  position: fixed;
+  z-index:1;
+  overflow: hidden;
+  outline: 0;
+
+}
+
+.preview{
+  align-self: center;
+  margin: 10px;
+  width: 20px;
+  height: 20px;
+  color: var(--color-primary);
+  transition: 0.3s all ease;
+  border-radius: 50%;
+  background-color: white;
+
+}
+
+.preview:hover{
+  color: black;
+}
+
+input[type="text"]:focus {
+  transform: scale(1.1); /* Escala el input al 110% del tamaño original */
+  transition: transform 0.3s ease; /* Agrega una transición suave */
+}
+
+
+.modal-dialog {
+  position: relative;
+  width: auto;
+  margin: 10px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.modal-image{
+  width: 200px;
+  height: 200px;
+  border: 1px solid gainsboro;
+  border-radius: 10px;
+}
+
+.modal-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 0.3rem;
+  outline: 0;
+}
+
+.modal-header {
+  padding: 15px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.modal-title {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.modal-body {
+  position: relative;
+  flex: 1 1 auto;
+  padding: 15px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 15px;
+  border-top: 1px solid #e9ecef;
+}
+
+.btn-secondary {
+  color: #fff;
+  background-color: var(--color-primary);
+  border-color: var(--color-secondary);
+}
+
+.close {
+  float: right;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  opacity: .5;
+}
+
+.close:hover {
+  color: #000;
+  text-decoration: none;
+  opacity: .75;
+}
+
+.close:focus {
+  outline: 0;
+  box-shadow: none;
+}
+
+.modal.fade .modal-dialog {
+  transition: transform 0.3s ease-out;
+}
+
+.modal.show {
+  display: block; /* Mostrar el modal cuando tenga la clase "show" */
+}
+
+@media (max-width: 768px) {
+  .modal{
+    width:80%;
+  }
+}
+
+@media (max-width:767px){
+  main .container{
+    gap: 0;
+    display: block;
+  }
+}
+
+
+.messages.verified,
+.heading-messages.verified,
+.category.verified {
+  background-color: #333;
+  color: #fff;
+}
+
+
+
+/*CENTRAR CONTENIDO EN EL MOVIL*/
+
+.main-container{
+  display: grid;
+}
+
+.navbar{
+  width: 100%;
+  display: block;
+}
+
+@media(max-width:600px){
+  .main-container .container {
+    display: block;
+  }
+
+  .navbar{
+    width: 100%;
+    display: none;
+  }
+}
+
+.spinner{
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* Estilos para la ventana modal */
+.modal-message {
+  position: fixed;
+  z-index: 1000; /* Z-index de 50 */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+}
+
+/* Contenido de la ventana modal */
+.modal-contenido {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Botón para cerrar la ventana modal */
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+
+.close-modal{
+  padding: 10px 20px;
+  border-radius: 12px;
+  transition: 0.3s all ease;
+  background-color: white;
+  font-weight: 700;
+  color: red;
+}
+
+.close-modal:hover{
+  background-color: #e9ecef;
+}
+
+
+ .interaction-buttons span i {
+    font-size: 100px; /* Tamaño deseado para los iconos */
+  }
+
+  .liked-heart{
+    font-weight: bold;
+    color: red;
+  }
+
+
+  .contenido-post p{
+    font-size: 16px;
+  }
+
+
+.navbar{
+  margin-top: -5px;
+}
+

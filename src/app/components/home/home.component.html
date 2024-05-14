@@ -1,0 +1,179 @@
+<!--MAIN-->
+
+<main>
+  <div class="main-container">
+    <div class="container custom-container">
+      <!--LEFT SIDE -->
+      <div class="navbar">
+        <app-navbar />
+      </div>
+      <!--END OF LEFT-->
+      <div class="middle">
+        <!--END OF STORIES-->
+        <form class="create-post" (submit)="onSubmit()" method="post">
+
+          <div class="publicacion d-flex">
+            <label for="file-input" class="file-label">
+              <i class="fas fa-upload"></i>
+            </label>
+            <input id="file-input" type="file" accept="image/*, video/*" (change)="onFileSelected($event)"
+              style="display: none;">
+            <input type="text" placeholder="Want to do a publish?" [(ngModel)]="postContent" name="postContent"
+              autocomplete="off">
+            <button (focus)="showPostPreview()" (blur)="hidePostPreview()" class="preview">
+              <i class="fas fa-eye"></i></button>
+          </div>
+
+          <!--EN CASO DE QUE SE DEBA HACER LOGIN-->
+          <div class="modal-message" #modal *ngIf="showMessageToUser">
+            <div class="modal-contenido">
+              <p>Debes iniciar sesión para hacer un post.</p>
+            </div>
+          </div>
+
+          @if(user!=null){
+          <input type="submit" value="Post" (click)="showMessage()" class="btn btn-primary">
+          }@else {
+          <input type="submit" value="Post" disabled class="btn btn-primary">
+          }
+
+        </form>
+
+        <!-- Ventana modal -->
+        <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display': showModal ? 'block' : 'none'}">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Vista previa del post</h5>
+
+              </div>
+              <div class="modal-body text-center">
+                <p>{{ postContent }}</p>
+                <img *ngIf="selectedFile" [src]="modalImage" alt="Selected Image" class="modal-image">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollUpDistance]="2" [infiniteScrollThrottle]="1000"
+          (scrolled)="onScroll()" class="feeds mb-5">
+          <div class="feed" *ngFor="let post of posts">
+            <div class="head">
+              <div class="user">
+                <div class="profile-photo">
+                  @if(post.userData?.profilepicture!=null && post.userData?.profilepicture!=undefined){
+                  <img [src]="'http://localhost:8080/profile-images/'+post.userData?.profilepicture" alt="User photo">
+
+                  }@else {
+                  <img src="assets/images/anonimo.png" alt="User photo">
+                  }
+                </div>
+                <div class="info">
+                  <h3>{{ post.userData?.username }}</h3>
+                  <!-- Mostrar otros detalles del usuario si es necesario -->
+                </div>
+              </div>
+              <span class="edit">
+                <i class="uil uil-ellipsis-h"></i>
+              </span>
+            </div>
+
+            @if(post.imageUrl){
+
+            @if(post.loading){
+            <div class="spinner">
+              <!-- Aquí coloca tu spinner de carga -->
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+            }@else {
+            <div class="photo">
+              <img [src]="'http://localhost:8080/images/'+post.imageUrl" [id]="'post-image-' + post.id" alt="User photo"
+                class="post-image" loading="eager">
+            </div>
+            }
+
+
+            }
+            <div class="contenido-post">
+              <p>{{post.content}}</p>
+            </div>
+
+            <div class="action-button">
+              <div class="interaction-buttons">
+               @if(user!=null){
+                <span (click)="like(post.id)">
+                  <i class="fa-solid fa-heart fs-2 pe-1"
+                     [ngClass]="post.isFavourite ? 'liked-heart' : ''"></i>
+                </span>
+               }@else {
+                <i class="fa-solid fa-heart fs-2 pe-1"></i>
+               }
+              </div>
+              <div class="comments text-muted">
+                Ver comentarios
+              </div>
+            </div>
+
+
+
+
+
+          </div>
+          <!-- <div (scrolled)="onScroll()">Scroll aquí para cargar más posts</div> -->
+        </div>
+
+      </div>
+
+
+      <div class="right">
+
+        <div class="messages">
+          <div class="heading-messages">
+            <div class="heading">
+              <h4>Grupos </h4><i class="uil uil-edit"></i>
+            </div>
+
+            <div class="search-bar">
+              <i class="uil uil-search"></i>
+              <input type="search" placeholder="Search messages" id="message-search" (keyup)="filterMessages()">
+            </div>
+          </div>
+
+          <div class="category">
+            <h6 class="active">Unirte</h6>
+            <h6>Tus grupos</h6>
+          </div>
+          <div class="all-messages">
+            @if(groups!=null && groups!=undefined){
+            <div class="message" *ngFor="let grupo of groups">
+              <div class="profile-photo">
+                <img [src]="'http://localhost:8080/images/'+grupo.profileImage" alt="Imagen usuario">
+              </div>
+              <div class="message-body">
+                <div>
+                  <h5>{{grupo.name}}</h5>
+                  <small class="text-muted"> &#64;{{grupo.coachUsername}}</small>
+                </div>
+
+                <div class="boton"><button class="btn btn-primary">Unirte</button></div>
+              </div>
+            </div>
+            }@else {
+            <p>No se han encontrado grupos</p>
+            }
+          </div>
+
+        </div>
+
+      </div>
+
+      <!--FIN DE LA DERECHA-->
+
+    </div>
+  </div>
+</main>

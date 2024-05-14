@@ -1,0 +1,42 @@
+<body>
+
+  <div class="caja">
+    <main class="container rounded-1 ">
+
+      <div class="formulario bg-white  p-5 ">
+        <h1 class="text-center text-black">Iniciar Sesión</h1>
+        <form method="post" (submit)="logUser($event,username.value,password.value)" >
+          <input type="text" placeholder="Username" #username name="username" class="rounded-1 w-100" autocomplete="off" [(ngModel)]="user.username">
+          <small>{{errorUsuario}}</small>
+          <input type="password" placeholder="Contraseña" autocomplete="current-password" #password name="password" class="rounded-1" [(ngModel)]="user.password">
+          <small>{{errorPassword}}</small>
+          <div class="recordar-usuario">
+            <label class="checkbox-container">
+                <input type="checkbox" name="remember" id="remember" [(ngModel)]="rememberCredentials">
+                <span class="checkmark"></span>
+            </label>
+            <p>Recordar credenciales</p>
+        </div>
+
+          <input type="submit" class="rounded-1">
+        </form>
+      </div>
+
+      <div class="contenedor-right d-grid align-content-center  order-xl-2 ">
+        <h1 class="text-center fs-3 ">Bienvenido a la web</h1>
+        <span class="text-center mb-2">¿Aun no tienes una cuenta?</span>
+        <button class="d-grid w-50 mx-auto p-2 rounded-1 register"><a href="/register"><span>Registrarse</span></a></button>
+      </div>
+
+
+    </main>
+    <div class="volver"><a href="/home"><i class="fas fa-home"></i>
+    </a></div>
+  </div>
+
+  <div class="mensaje" *ngIf="showMessage">Se ha enviado un email de verificación</div>
+
+</body>
+
+
+

@@ -1,0 +1,49 @@
+
+footer{
+  background-color: var(--color-secondary);
+  padding-top: 15px;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  z-index: 1000000000;
+  font-size: 14px;
+}
+
+.scroll-to-top-btn {
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  bottom: 60px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  background-color: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 9999;
+}
+
+@media (max-width: 813px) {
+  .footer {
+    font-size: 10px; /* Tamaño de fuente más pequeño */
+  }
+  .scroll-to-top-btn{
+    bottom: 100px;
+  }
+}
+
+
+
+.scroll-to-top-btn:hover {
+  background-color: var(--color-secondary);
+}
+
+
+@media(max-width:600px){
+ footer{
+  display: none;
+ }
+}

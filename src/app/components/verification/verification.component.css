@@ -1,0 +1,13 @@
+.container {
+  background-color: #f0f0f0;
+  text-align: center;
+  padding-top: 50px;
+}
+
+.title {
+  color: #388e3c;
+}
+
+.message {
+  color: #757575;
+}

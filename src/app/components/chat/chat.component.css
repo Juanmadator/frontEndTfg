@@ -1,0 +1,7 @@
+/* chat.component.css */
+.chat-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Ajusta la altura según tu preferencia */
+}
