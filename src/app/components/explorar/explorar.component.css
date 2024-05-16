@@ -234,7 +234,6 @@ article:has(:hover, :focus) {
   margin: 0 auto;
   gap: 10px;
   justify-content: center;
-  margin-top: 100px;
   padding-bottom: 100px;
   max-width: fit-content;
 }
@@ -290,15 +289,17 @@ button{
 
 .other-navbar{
   z-index: 10;
-width: 250px;
+width: 300px;
 padding-top: 95px;
 margin-left: 50px;
 }
 
 
 .caja{
+  width: 95%;
   display: grid;
   grid-template-columns: 1fr;
+  margin: 0 auto;
 }
 
 .articles {
@@ -327,11 +328,18 @@ article{
     margin-top: -80px;
 }
 
-@media(max-width:1399px){
+@media(max-width:1650px){
   .botones-guia{
     margin-top: -10px;
   }
 }
+
+@media(min-width:1651px){
+  .botones-guia{
+    margin-top: -10px;
+  }
+}
+
 
 .boton-guia{
   padding: 10px 15px;
@@ -382,12 +390,16 @@ color: white;
     margin-left: 60px;
   }
 
+  .other-navbar{
+    margin-left: 150px;
+  }
+
 }
 
 @media (min-width:1400px){
   .articles{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr ;
     margin-right: 25px;
   }
 
@@ -397,7 +409,7 @@ color: white;
 @media (min-width:1650px){
   .articles{
     display: grid;
-    grid-template-columns: repeat(4,1fr);
+    grid-template-columns: repeat(3,1fr);
     margin-left: 0;
     margin-right:8%;
   }
@@ -409,7 +421,9 @@ color: white;
 
 @media (min-width:1800px) {
   .articles{
-    margin-right:20%;
+    grid-template-columns: repeat(4,1fr);
+    margin-right:10%;
+
   }
 }
 
@@ -435,4 +449,18 @@ input{
 .titulo{
 text-align: center;
   padding-top: 100px;
+}
+
+
+@media(max-width:600px){
+  .articles{
+    margin-top: 100px;
+  }
+}
+
+
+@media(min-width:993px){
+  .articles{
+    margin-top: 100px;
+  }
 }
