@@ -1,196 +1,109 @@
 <main>
-  <div class="container">
+  <div class="contenedor">
     <div class="left">
       <a class="profile">
 
         <div class="profile-photo">
-          <img src="assets/images/profile-1.jpg" alt="user profile">
+          @if(user.verified && user.profilepicture){
+          <a href="/profile">
+            <img [src]="'http://localhost:8080/profile-images/'+user.profilepicture" alt="Profile Picture">
+          </a>
+          }
+          @else if(user.verified && !user.profilepicture){
+          <a href="/profile">
+            <img src="assets/images/anonimo.png" alt="Anónimo">
+          </a>
+          }
+          @else {
+          <a href="/login"> <img src="assets/images/anonimo.png" alt="Anónimo"></a>
+          }
         </div>
 
         <div class="handle">
-          <h5>Juanma</h5>
+          @if(user.name && user.lastname){
+           <div>
+            <h5>{{user.name}}</h5>@if(user.coach){
+              <small><i>Entrenador</i></small> <i class="fa-solid fa-dumbbell"></i>
+                 }
+           </div>
+
+          }@else {
+          <h5>Anonimo</h5>
+          }
+
           <p class="text-muted">
-            &#64;juanma
+
+            @if(user.username){
+            &#64;{{user.username}}
+            }@else {
+            &#64;Anonimo
+            }
+
           </p>
         </div>
       </a>
 
       <div class="sidebar">
-        <a class="menu-item active" (click)="changeActiveItem($event.target)">
+        <a class="menu-item" [routerLink]="['/home']" [ngClass]="{'active': isHomeRoute}"
+          (click)="changeActiveItem($event.target)">
           <span><i class="uil uil-home "></i></span>
           <h3>Home</h3>
         </a>
-        <a class="menu-item" (click)="changeActiveItem($event.target)">
+        <a class="menu-item" [routerLink]="['/explorar']" [ngClass]="{'active': isExplorar}"
+          (click)="changeActiveItem($event.target)">
           <span><i class="uil uil-compass"></i></span>
           <h3>Explora</h3>
         </a>
 
-        <a class="menu-item" id="notifications" (click)="changeActiveItem($event.target)">
-          <span><i class="uil uil-bell"><small class="notification-count">9+</small></i></span>
-          <h3>Notificaciones</h3>
-
-          <div class="notifications-popup">
-            <div>
-              <div class="profile-photo">
-                <img src="assets/images/profile-2.jpg" alt="">
-              </div>
-
-              <div class="notification-body">
-                <b>Juan</b> es ahora tu seguidor
-                <small class="text-muted">1 DAY AGO</small>
-              </div>
-            </div>
-
-            <div>
-              <div class="profile-photo">
-                <img src="assets/images/profile-3.jpg" alt="">
-              </div>
-
-              <div class="notification-body">
-                <b>Juan</b> es ahora tu seguidor
-                <small class="text-muted">1 DAY AGO</small>
-              </div>
-            </div>
-
-            <div>
-              <div class="profile-photo">
-                <img src="assets/images/profile-4.jpg" alt="">
-              </div>
-
-              <div class="notification-body">
-                <b>Juan</b> es ahora tu seguidor
-                <small class="text-muted">1 DAY AGO</small>
-              </div>
-            </div>
-
-            <div>
-              <div class="profile-photo">
-                <img src="assets/images/profile-5.jpg" alt="">
-              </div>
-
-              <div class="notification-body">
-                <b>Juan</b> es ahora tu seguidor
-                <small class="text-muted">1 DAY AGO</small>
-              </div>
-            </div>
-
-            <div>
-              <div class="profile-photo">
-                <img src="assets/images/profile-6.jpg" alt="">
-              </div>
-
-              <div class="notification-body">
-                <b>Juan</b> es ahora tu seguidor
-                <small class="text-muted">1 DAY AGO</small>
-              </div>
-            </div>
-
-            <div>
-              <div class="profile-photo">
-                <img src="assets/images/profile-7.jpg" alt="">
-              </div>
-
-              <div class="notification-body">
-                <b>Juan</b> es ahora tu seguidor
-                <small class="text-muted">1 DAY AGO</small>
-              </div>
-            </div>
-          </div>
-
+        @if(user!=null){
+        <a class="menu-item" [routerLink]="['/groups']"
+          [ngClass]="{'gray-background': !user.verified,'active': isGroups}"
+          [style.pointer-events]="user.verified ? 'auto' : 'none'" (click)="changeActiveItem($event.target)">
+          <span><i class="fas fa-users"></i>
+          </span>
+          <h3>Grupos</h3>
         </a>
+        }
+        <div class="contenedor-sidebar">
+          <a [routerLink]="['/fav']" [ngClass]="{'gray-background': !user.verified,'active': isFavRoute}"
+            class="menu-item" (click)="user.verified && changeActiveItem($event.target)"
+            [style.pointer-events]="user.verified ? 'auto' : 'none'">
+            <span><i class="uil uil-bookmark"></i></span>
+            <h3>Favoritos</h3>
+          </a>
+          <a [ngClass]="{'gray-background': !user.verified}" class="menu-item"
+            (click)="user.verified && changeActiveItem($event.target)"
+            [style.pointer-events]="user.verified ? 'auto' : 'none'">
+            <span><i class="uil uil-home"></i></span>
+            <h3>Crea tu rutina</h3>
+          </a>
+          <a [routerLink]="['/profile']" [ngClass]="{'gray-background': !user.verified,'active': isProfile}"
+            class="menu-item" (click)="user.verified && changeActiveItem($event.target)"
+            [style.pointer-events]="user.verified ? 'auto' : 'none'">
+            <span><i class="uil uil-user"></i>
+
+            </span>
+            <h3>Perfil</h3>
+          </a>
+
+        </div>
+
 
         <a class="menu-item" (click)="changeActiveItem($event.target)">
-          <span><i class="uil uil-bookmark"></i></span>
-          <h3>Favoritos</h3>
+          <span><i class="fa-solid fa-circle-info"></i>
+          </span>
+          <h3>Sobre nosotros</h3>
         </a>
-        <a class="menu-item" (click)="changeActiveItem($event.target)">
-          <span><i class="uil uil-home"></i></span>
-          <h3>Crea tu rutina</h3>
-        </a>
-        <a class="menu-item" id="messages-notifications"(click)="changeActiveItem($event.target)">
-          <span><i class="uil uil-chart-line"> <small class="notification-count">6</small></i></span>
-          <h3>Mensajes</h3>
-        </a>
-
-        <a class="menu-item" (click)="changeActiveItem($event.target)" (click)="mostrarConfig()">
-          <span><i class="uil uil-palette"></i></span>
-          <h3>Temas</h3>
-        </a>
-        <a class="menu-item" (click)="changeActiveItem($event.target)">
-          <span><i class="uil uil-setting"></i></span>
-          <h3>Ajustes</h3>
-        </a>
-
 
       </div>
 
-      <label for="create-post" class="btn btn-primary">Create post</label>
+      @if(user.verified){
+      <label for="create-post" class="btn btn-primary" (click)="closeSession()">Cerrar Sesión</label>
+      }@else {
+      <a href="/login"> <label for="create-post" class="btn btn-primary">¡Inicia sesion!</label></a>
+      }
 
     </div>
 
   </div>
 </main>
-
-
-
-
-
-<div class="customize-theme">
-  <div class="card">
-    <h2>Customiza la vista de la web</h2>
-    <p class="text-muted">Gestiona el color</p>
-
-    <div class="font-size">
-      <h4>Font-size</h4>
-      <div>
-        <h6>Aa</h6>
-        <div class="choose-size">
-          <span class="font-size-1 active"></span>
-          <span class="font-size-2"></span>
-          <span class="font-size-3"></span>
-          <span class="font-size-4"></span>
-          <span class="font-size-5"></span>
-        </div>
-        <h3>Aa</h3>
-      </div>
-    </div>
-
-    <div class="color">
-      <h4>Color</h4>
-        <div class="choose-color">
-          <span class="color-1 active"></span>
-          <span class="color-2"></span>
-          <span class="color-3"></span>
-          <span class="color-4"></span>
-          <span class="color-5"></span>
-        </div>
-    </div>
-
-
-
-
-    <div class="background">
-      <h4>Background</h4>
-      <div class="choose-bg">
-        <div class="bg-1">
-          <span></span>
-          <h5 for="bg-1">Light</h5>
-        </div>
-
-        <div class="bg-2">
-          <span></span>
-          <h5 for="bg-2">Dim</h5>
-        </div>
-
-
-        <div class="bg-3">
-          <span></span>
-          <h5 for="bg-3">Lights Out</h5>
-        </div>
-      </div>
-    </div>
-
-
-  </div>
-</div>
-

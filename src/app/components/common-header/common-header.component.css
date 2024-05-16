@@ -8,9 +8,13 @@
   padding: 0.7rem 0;
   position: fixed;
   top: 0;
-  z-index: 10;
+  z-index: 100;
 }
 
+.create a{
+  text-transform: none;
+  color: white;
+}
 .navbar .container {
   display: flex;
   align-items: center;
@@ -56,3 +60,122 @@
   }
 
 }
+
+
+.icon{
+  cursor: pointer;
+}
+
+
+
+.other-navbar {
+  z-index: -1;
+  opacity: 1;
+  transform: translateY(50px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.other-navbar {
+  position: fixed; /* Posiciona el other-navbar sobre el navbar principal */
+  top: -50px; /* Ajusta la posición en la parte superior del navbar principal */
+  left: 0; /* Ajusta la posición en el lado izquierdo del navbar principal */
+  width: 100%; /* Asegura que el other-navbar ocupe todo el ancho del navbar principal */
+  z-index: 2;
+  z-index: 100000;
+}
+
+.menu-toggle{
+  display: block;
+}
+@media(max-width:600px){
+
+  .profile-photo{
+    display: none;
+  }
+  .menu-toggle{
+    display: block;
+  }
+
+
+  .navbar[_ngcontent-ng-c825889317] .create[_ngcontent-ng-c825889317] {
+    display: flex;
+    align-items: center;
+    gap: 0;
+}
+  .icon{
+    font-size: 20px;
+  }
+  .navbar{
+   display: flex;
+   justify-content: center;
+  }
+  }
+
+
+
+
+
+
+  @media (max-width: 768px) {
+    .menu-toggle.active + app-navbar .left {
+      display: block;
+    }
+  }
+
+
+  .display-none{
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease,visibility 0.5s ease, transform 0.5s ease;
+  }
+
+  .menu-toggle {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 5px 10px 15px;
+    margin-right: 5px;
+    border-radius: 30px;
+    font-size: 18px;
+    color: #333;
+    transition: all 0.3s;
+    text-align: center; /* Centra todo el contenido */
+  }
+
+  .menu-toggle span{
+    display:block;
+  }
+
+  .menu-toggle.active .icon {
+    transform: rotate(45deg);
+  }
+
+  .menu-toggle.active .text {
+    opacity: 0;
+  }
+
+  .menu-toggle .icon {
+    margin-right: 10px;
+    transition: transform 0.3s;
+  }
+
+  .menu-toggle .text {
+    opacity: 1;
+    transition: opacity 0.3s;
+  }
+
+  .menu-toggle:hover {
+    background-color: #f0f0f0;
+  }
+
+
+
+  @media (min-width:601px){
+    .menu-toggle{
+      display: none;
+    }
+  }
+

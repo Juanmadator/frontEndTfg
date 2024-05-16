@@ -1,22 +1,63 @@
-  <nav class="navbar">
-    <div class="container">
-      <h2 class="log">
-        fitnessApp
-      </h2>
+<nav class="navbar">
+  <div class="container">
+    <h2 class="log">
+      <div class="text-decoration-none icon" (click)="scrollToTop()">Fit-Track</div>
+    </h2>
 
-      <div class="search-bar ">
-        <i class="uil uil-search"></i>
-        <input type="search" placeholder="Search for users">
-      </div>
-
-      <div class="create">
+    <div class="create">
+      @if(user.verified && user.coach){
+        <a href="/create/group">
+      <label class="btn btn-primary" for="create-post">
+       <i class="fas fa-plus"></i>
+      </label>
+    </a>
+      }
+      @else if(user.verified && !user.coach){
+        <a href="/create/rutine">
         <label class="btn btn-primary" for="create-post">
-          Create
+         <i class="fas fa-plus"></i>
         </label>
+      </a>
+        }
 
-        <div class="profile-photo">
-          <img src="assets/images/profile-1.jpg" alt="Imagen de usuario">
-        </div>
+      @else {
+      <a href="/register">
+        <label class="btn btn-primary" for="create-post">
+          Registarse
+        </label>
+      </a>
+      }
+
+      <div class="profile-photo">
+        @if(user.profilepicture){
+        <a href="/profile">
+          <img [src]="'http://localhost:8080/profile-images/'+user.profilepicture" alt="Profile Picture" title={{user.username}}>
+        </a>
+        }
+         @else if(user.verified && !user.profilepicture){
+        <a href="/profile">
+          <img src="assets/images/anonimo.png" alt="Anónimo" title={{user.username}}>
+        </a>
+        }
+        @else {
+        <a href="/login"> <img src="assets/images/anonimo.png" alt="Anónimo" title="Inicia sesión"></a>
+        }
       </div>
+
+
+      <!-- Solo muestra el botón y el navbar en pantallas con una resolución menor o igual a 600px -->
+
+
+
+
     </div>
-  </nav>
+  </div>
+  <button class="menu-toggle" (click)="toggleMenu()" [class.active]="showNavbar">
+    <span class="icon">&#9776;</span>
+  </button>
+
+</nav>
+
+  <div class="other-navbar" [ngClass]="{ 'display-none': showOtherNavbar }">
+    <app-navbar *ngIf="isSmallScreen && showNavbar" [showNavbar]="showNavbar"></app-navbar>
+  </div>

@@ -1,0 +1,48 @@
+<div class="contenido">
+  <div class="other-navbar">
+    <app-navbar></app-navbar>
+  </div>
+
+  <div class="creacion-grupo">
+    <h1>Crea tu grupo</h1>
+
+    <div *ngIf="paso === 1">
+      <h3>Paso 1: Título y descripción</h3>
+      <form class="paso-1">
+        <mat-form-field>
+          <mat-label>Título del grupo</mat-label>
+          <input matInput [(ngModel)]="tituloGrupo"  (keyup)="check()"  name="tituloGrupo" required>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Descripción del grupo</mat-label>
+          <textarea matInput [(ngModel)]="descripcionGrupo"   (keyup)="check()" name="descripcionGrupo" required></textarea>
+        </mat-form-field>
+      </form>
+      <div class="botones">
+        <!-- Botón para avanzar al siguiente paso -->
+        <button  (click)="avanzarPaso()" class="siguiente" [disabled]="!comprobados">Siguiente</button>
+      </div>
+    </div>
+
+    <div *ngIf="paso === 2">
+      <h3>Paso 2: Foto de perfil</h3>
+      <form>
+        <div *ngIf="imagenSeleccionada" class="imagen">
+          <img [src]="imagenSeleccionada" alt="Imagen seleccionada">
+        </div>
+        <input type="file" #fileInput (change)="onFileSelected($event)">
+        <br>
+        <div *ngIf="!selectedFile">
+          <span><small>*Es obligatorio seleccionar una imagen*</small></span>
+        </div>
+      </form>
+      <div class="botones">
+        <button (click)="retrocederPaso()" class="anterior">Anterior</button>
+        <button (click)="crearGrupo()" class="siguiente" [disabled]="!imagenSeleccionada">Crear Grupo</button>
+      </div>
+    </div>
+
+
+  </div>
+
+</div>
