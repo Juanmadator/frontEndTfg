@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { UserService } from '../../services/user/user.service';
 import { User } from '../../services/user/User';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { CommonModule } from '@angular/common';
 
@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
   standalone:true,
   selector: 'app-common-header',
   templateUrl: './common-header.component.html',
-  imports:[NavbarComponent,CommonModule],
+  imports:[NavbarComponent,CommonModule,RouterLink],
   styleUrls: ['./common-header.component.css']
 })
 export class CommonHeaderComponent implements OnInit{
@@ -23,7 +23,7 @@ export class CommonHeaderComponent implements OnInit{
       this.getUserData();
     }
 
-    
+
   }
   offcanvasNavbar: boolean = false;
 
