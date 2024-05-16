@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { User } from '../../services/user/User';
 import { RegisterService } from '../../services/register/register.service';
 import { UserService } from '../../services/user/user.service';
@@ -11,7 +11,7 @@ import { SpinnerComponent } from '../spinner/spinner.component';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FormsModule, CommonModule, ReactiveFormsModule,SpinnerComponent],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule,SpinnerComponent,RouterLink],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })

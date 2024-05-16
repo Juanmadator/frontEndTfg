@@ -1,33 +1,33 @@
-.container{
+.contenedor {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: grid;
-
+  width: 80%;
+  max-width: 1400px;
 }
-
-
 
 /* @media screen and (min-width:550px) {
 
 } */
 
-form{
+form {
   margin: 0 auto;
   width: 80%;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
 }
 
-form input , #gender  {
+form input,
+#gender {
   color: white;
   padding: 20px;
   background-color: var(--color-primary);
 }
 
-form input::placeholder{
+form input::placeholder {
   font-weight: 500;
   color: white;
 }
@@ -40,87 +40,141 @@ form input[type="submit"] {
 
 } */
 
-.formulario{
+.formulario {
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   display: grid;
   align-content: center;
   z-index: 40;
+  background-color: white;
 }
 
-
-.contenedor-right{
+.contenedor-right {
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-  background: linear-gradient(to bottom,white,var(--color-secondary) 40%,var(--color-primary) 100%);
+  background: linear-gradient(
+    to bottom,
+    white,
+    var(--color-secondary) 40%,
+    var(--color-primary) 100%
+  );
   text-align: justify;
   padding: 40px;
 }
 
-.register{
-transition: 0.3s all ease;
+.register {
+  transition: 0.3s all ease;
 }
 
-.register a{
+.register a {
   text-decoration: none;
 }
 
-.register:hover{
-background: var(--color-primary);
-color: white;
+.register:hover {
+  background: var(--color-primary);
+  color: white;
 }
 
-@media  screen and (min-width:968px) {
-  .container{
+@media screen and (min-width: 968px) {
+  .contenedor {
     grid-template-columns: 1fr 1fr;
   }
 
-  .formulario{
+  .formulario {
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
     border-top-right-radius: 0px;
   }
 
-  .contenedor-right{
+  .contenedor-right {
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
     border-bottom-left-radius: 0px;
   }
+}
+
+form select {
+  color: white;
+  padding: 20px;
+  background-color: var(--color-primary);
+  border: none; /* Eliminar el borde predeterminado */
+  border-radius: 3px;
+  appearance: none; /* Eliminar la apariencia predeterminada */
+}
+
+/* Estilos para las opciones */
+form select option {
+  color: white;
+  background-color: var(--color-primary);
+  padding: 20px;
+}
+
+/* Estilos para el texto de las opciones */
+form select option::before {
+  color: white;
+}
+
+/* Estilos adicionales para el hover de las opciones */
+form select option:hover {
+  background-color: var(--color-secondary);
+}
+
+.selectPais {
+  color: white;
+}
+
+small {
+  color: rgb(255, 0, 0);
+}
+
+.fin{
+  display: grid;
+}
+
+@media (max-width: 967px) {
+  .fin{
+    margin-top: -20px;
+  }
+}
+@media (max-width: 700px) {
+  .contenedor {
+    width: 100%;
+  }
+  form {
+    width: 100%;
+  }
+  .formulario{
+    background-color: white;
+width: 90%;
+margin: 0 auto;
   }
 
+}
 
-  form select {
-    color: white;
-    padding: 20px;
-    background-color: var(--color-primary);
-    border: none; /* Eliminar el borde predeterminado */
-    border-radius: 3px;
-    appearance: none; /* Eliminar la apariencia predeterminada */
-  }
+@media (max-width:967px) {
+  .fin {
+    display: none;
+      }
+}
+.edad-username{
+  color: black;
+}
 
-  /* Estilos para las opciones */
-  form select option {
-    color: white;
-    background-color: var(--color-primary);
-    padding: 20px;
-  }
+.coach {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+}
 
-  /* Estilos para el texto de las opciones */
-  form select option::before {
-    color: white;
-  }
-
-  /* Estilos adicionales para el hover de las opciones */
-  form select option:hover {
-    background-color: var(--color-secondary);
-  }
+.cuenta{
+  color: rgb(49, 49, 226);
+  text-decoration: none;
+}
 
 
-  .selectPais{
-    color: white;
-  }
-
-  small{
-    color: rgb(255, 0, 0);
-  }
-
+nav {
+  background-color: white; /* Color de fondo del nav */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra: offsetX offsetY blurRadius color */
+}

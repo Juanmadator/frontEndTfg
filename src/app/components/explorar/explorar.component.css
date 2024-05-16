@@ -179,6 +179,8 @@ figure {
   padding: 0;
   aspect-ratio: 16/9;
   overflow: hidden;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
 }
 article img {
   max-width: 100%;
@@ -327,10 +329,10 @@ article{
 
 .boton-guia{
   padding: 10px 15px;
-  border: 2px solid lightgrey;
   border-radius: 50%;
   transition: 0.3s all ease;
-  background-color: transparent;
+  background-color: var(--color-primary);
+color: white;
 }
 
 .boton-guia:hover{
