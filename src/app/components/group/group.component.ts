@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { GroupMessage } from '../../services/groups/GroupMessage';
 import { GroupsService } from '../../services/groups/groups.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -14,7 +14,7 @@ import { User } from '../../services/user/User';
 @Component({
   selector: 'app-group',
   standalone: true,
-  imports: [NavbarComponent, CommonModule,InfiniteScrollModule],
+  imports: [NavbarComponent, CommonModule,InfiniteScrollModule,RouterLink],
   templateUrl: './group.component.html',
   styleUrl: './group.component.css'
 })

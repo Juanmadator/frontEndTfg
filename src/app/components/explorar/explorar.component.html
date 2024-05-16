@@ -34,7 +34,7 @@
               <button *ngIf="!grupo.perteneceUsuario" (click)="unirte(grupo.id)" id="unirte">Unirte</button>
             </div>
           }@else{
-            <a href="" class="read-more">
+            <a [routerLink]="['']" class="read-more">
               Ver más <span class="sr-only">about this is some title</span>
               <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd"
@@ -43,7 +43,7 @@
               </svg>
             </a>
             <div class="boton-login">
-              <button  id="login"><a href="/login">Inicia sesión</a></button>
+              <button  id="login"><a [routerLink]="['/login']">Inicia sesión</a></button>
             </div>
           }
           </div>

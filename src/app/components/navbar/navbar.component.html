@@ -5,17 +5,17 @@
 
         <div class="profile-photo">
           @if(user.verified && user.profilepicture){
-          <a href="/profile">
+          <a  [routerLink]="['/profile']">
             <img [src]="'http://localhost:8080/profile-images/'+user.profilepicture" alt="Profile Picture">
           </a>
           }
           @else if(user.verified && !user.profilepicture){
-          <a href="/profile">
+          <a  [routerLink]="['/profile']">
             <img src="assets/images/anonimo.png" alt="Anónimo">
           </a>
           }
           @else {
-          <a href="/login"> <img src="assets/images/anonimo.png" alt="Anónimo"></a>
+          <a  [routerLink]="['/login']"> <img src="assets/images/anonimo.png" alt="Anónimo"></a>
           }
         </div>
 
@@ -100,7 +100,7 @@
       @if(user.verified){
       <label for="create-post" class="btn btn-primary" (click)="closeSession()">Cerrar Sesión</label>
       }@else {
-      <a href="/login"> <label for="create-post" class="btn btn-primary">¡Inicia sesion!</label></a>
+      <a  [routerLink]="['/login']"> <label for="create-post" class="btn btn-primary">¡Inicia sesion!</label></a>
       }
 
     </div>

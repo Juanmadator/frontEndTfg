@@ -32,7 +32,7 @@
           <p>{{ message.message }}
             <ng-container *ngIf="message.fileUrl && message.fileUrl.endsWith('.pdf')">
               <!-- Mostrar un icono con un enlace al PDF -->
-              <a [href]="'http://localhost:8080/images/'+message.fileUrl" target="_blank">
+              <a  [routerLink]="['http://localhost:8080/images/'+message.fileUrl]" target="_blank"  >
                <br> <span>Ver PDF  <i class="fa-regular fa-file-pdf"></i>
                 </span>
               </a>

@@ -6,14 +6,14 @@
 
     <div class="create">
       @if(user.verified && user.coach){
-        <a href="/create/group">
+        <a  [routerLink]="['/create/group']">
       <label class="btn btn-primary" for="create-post">
        <i class="fas fa-plus"></i>
       </label>
     </a>
       }
       @else if(user.verified && !user.coach){
-        <a href="/create/rutine">
+        <a [routerLink]="['/create/rutine']">
         <label class="btn btn-primary" for="create-post">
          <i class="fas fa-plus"></i>
         </label>
@@ -21,7 +21,7 @@
         }
 
       @else {
-      <a href="/register">
+      <a [routerLink]="['/register']">
         <label class="btn btn-primary" for="create-post">
           Registarse
         </label>
@@ -30,12 +30,12 @@
 
       <div class="profile-photo">
         @if(user.profilepicture){
-        <a href="/profile">
+        <a [routerLink]="['/profile']">
           <img [src]="'http://localhost:8080/profile-images/'+user.profilepicture" alt="Profile Picture" title={{user.username}}>
         </a>
         }
          @else if(user.verified && !user.profilepicture){
-        <a href="/profile">
+        <a [routerLink]="['/profile']">
           <img src="assets/images/anonimo.png" alt="Anónimo" title={{user.username}}>
         </a>
         }
