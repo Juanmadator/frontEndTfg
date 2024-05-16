@@ -155,6 +155,10 @@ margin: 0 auto;
   .fin {
     display: none;
       }
+
+      .formulario{
+        margin-top: 20px;
+      }
 }
 .edad-username{
   color: black;
@@ -175,6 +179,10 @@ margin: 0 auto;
 
 
 nav {
+  top: 0;
+  width: 100%;
+  position: fixed;
+  z-index: 200;
   background-color: white; /* Color de fondo del nav */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra: offsetX offsetY blurRadius color */
 }

@@ -321,10 +321,16 @@ article{
   display: flex;
   justify-content: center;
   gap: 20px;
-  align-items: end;
-  padding: 0;
-  margin: 0;
     padding-bottom: 60px;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: -80px;
+}
+
+@media(max-width:1399px){
+  .botones-guia{
+    margin-top: -10px;
+  }
 }
 
 .boton-guia{
