@@ -8,11 +8,12 @@ import Swiper from 'swiper';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { UserService } from '../../services/user/user.service';
 import { User } from '../../services/user/User';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-explorar',
   standalone: true,
-  imports: [RouterLink, CommonModule, NavbarComponent,],
+  imports: [RouterLink, CommonModule, NavbarComponent,FormsModule],
   templateUrl: './explorar.component.html',
   styleUrl: './explorar.component.css',
   animations: [
@@ -29,29 +30,34 @@ import { User } from '../../services/user/User';
 })
 export class ExplorarComponent implements OnInit {
   groups: Group[] = [];
-  currentPage = 0;
+  filteredGroups: Group[] = [];
+  paginatedGroups: Group[] = [];
+  currentPage = 1;
   pageSize = 4;
   totalPages = 0;
-  animateGroups = false;
+  pages: number[] = [];
+  userGroups: Group[] = [];
+  user: User | null = null;
+  searchText: string = '';
+  coachNameSearchText: string = '';
 
-  userGroups:Group[]=[];
-  public user: any = {};
-  constructor(private groupService: GroupsService,private userService:UserService,private cdr: ChangeDetectorRef) { }
-
-
+  constructor(
+    private groupService: GroupsService,
+    private userService: UserService,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
     this.getUserData();
-
-   setTimeout(()=>{
-    this.loadGroups();
-   },200)
   }
 
   getUserData(): void {
     this.userService.getUser().subscribe(
       (user: User | null) => {
         this.user = user;
+        if (this.user) {
+          this.loadGroups();
+        }
       },
       (error: any) => {
         console.error('Error al obtener datos del usuario:', error);
@@ -59,62 +65,95 @@ export class ExplorarComponent implements OnInit {
     );
   }
 
+  loadGroups(): void {
+    this.groupService.getGroups().subscribe(
+      (groups: Group[]) => {
+        this.groups = groups;
+        this.filterGroups(); // Llama a filterGroups() después de cargar los grupos
+        this.totalPages = this.calculateTotalPages();
+        this.updatePaginatedGroups();
+        this.checkMemberships();
+      },
+      (error: any) => {
+        console.error('Error al cargar grupos:', error);
+      }
+    );
+  }
+
+  calculateTotalPages(): number {
+    return Math.ceil(this.filteredGroups.length / this.pageSize);
+  }
+
+  filterGroups(): void {
+    this.filteredGroups = this.groups.filter(group => {
+      return group.name.toLowerCase().includes(this.searchText.toLowerCase());
+    });
+    this.totalPages = this.calculateTotalPages(); // Actualiza el número total de páginas
+    this.currentPage = 1; // Restablece la página actual a la primera página después de aplicar el filtro
+    this.updatePaginatedGroups(); // Actualiza los grupos paginados después de aplicar el filtro
+  }
+
+
+  updatePaginatedGroups(): void {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    const endIndex = Math.min(startIndex + this.pageSize, this.filteredGroups.length);
+    this.paginatedGroups = this.filteredGroups.slice(startIndex, endIndex);
+    this.updatePagesArray();
+  }
+
+  updatePagesArray(): void {
+    this.pages = [];
+    for (let i = 1; i <= this.totalPages; i++) {
+      this.pages.push(i);
+    }
+  }
+
+  changePage(page: number): void {
+    this.currentPage = page;
+    this.updatePaginatedGroups();
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePaginatedGroups();
+    }
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePaginatedGroups();
+    }
+  }
+
   checkMemberships(): void {
     this.groups.forEach(group => {
-      this.groupService.checkUserMembership(group.id, this.user.id)
+      this.groupService.checkUserMembership(group.id, this.user!.id)
         .subscribe((response: boolean) => {
           if (response) {
             this.userGroups.push(group);
-            console.log("El usuario pertenece a "+group);
           }
         });
     });
   }
 
   isMember(group: Group): boolean {
-    // Verificar si el grupo está en la lista de grupos del usuario
     return this.userGroups.some(userGroup => userGroup.id === group.id);
   }
 
-
-    loadGroups(): void {
-      this.groupService.getGroups(this.currentPage, this.pageSize)
-        .subscribe((response: any) => {
-          console.log(response);
-          this.totalPages = Math.ceil(response.totalElements / this.pageSize);
-          this.groups = []; // Inicializamos this.groups como un array vacío
-          response.content.forEach((group: Group) => {
-            this.groups.push(group); // Agregamos el objeto Group al array this.groups
-            this.checkMemberships(); // Verificamos la pertenencia del usuario al grupo
-          });
-        });
-    }
-
-
-
-
-  before(){
-    if (this.currentPage > 0) { // Verificar que no estemos en la primera página
-      this.currentPage--; // Disminuir el número de página
-
-     console.log(this.currentPage);
-      this.loadGroups(); // Cargar los grupos para la página anterior
-    }
+  isCoachOfGroup(grupoId: number): boolean {
+    return this.user!.id === this.getCoachIdOfGroup(grupoId);
   }
 
-  next(){
-    if (this.currentPage < this.totalPages - 1) { // Verificar que no estemos en la última página
-      this.currentPage++; // Aumentar el número de página
-      console.log(this.currentPage);
-      this.loadGroups(); // Cargar los grupos para la página siguiente
-    }
+  getCoachIdOfGroup(grupoId: number): number | null {
+    const grupo = this.groups.find(grupo => grupo.id === grupoId);
+    return grupo ? grupo.coachId : null;
   }
-
 
   unirte(grupoId: number) {
     let id = sessionStorage.getItem("userId");
-    // Transformar el userId a un número usando parseInt()
-    const userIdNumber = parseInt(id || '0', 10); // El segundo parámetro
+    const userIdNumber = parseInt(id || '0', 10);
 
     const userGroup = {
       userId: userIdNumber,
@@ -129,12 +168,10 @@ export class ExplorarComponent implements OnInit {
     })
   }
 
-
   salirte(grupoId: number) {
     const userId = sessionStorage.getItem("userId");
     const userIdNumber = parseInt(userId || '0', 10);
 
-    // Comprobamos si el usuario está actualmente unido al grupo
     const usuarioUnido = this.userGroups.some(group => group.id === grupoId);
 
     if (!usuarioUnido) {
@@ -158,9 +195,5 @@ export class ExplorarComponent implements OnInit {
       console.error('Error al eliminar el usuario del grupo:', error);
     });
   }
-
-
-
-
 
 }

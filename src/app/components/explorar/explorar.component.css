@@ -167,7 +167,7 @@ article img {
   padding: 24px;
 }
 .article-body p {
-  height: 100px;
+  height: 50px;
   overflow: hidden;
 }
 article a {
@@ -212,6 +212,7 @@ article:has(:hover, :focus) {
   justify-content: center;
   padding-bottom: 100px;
   max-width: fit-content;
+  min-height: 422px;
 }
 
 .articles a {
@@ -289,6 +290,9 @@ margin-left: 50px;
   gap: 20px;
 }
 
+.titulo{
+  position: absolute;
+}
 article{
   width: 300px;
 }
@@ -445,3 +449,24 @@ text-align: center;
     margin-top: 100px;
   }
 }
+
+
+.description{
+  padding: 0;
+}
+
+.grupos{
+  margin-top: 120px;
+}
+
+.filtro {
+  width: 80%;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Añade una sombra con desplazamiento x=0, y=0, desenfoque 10px y color rgba(0, 0, 0, 0.1) */
+  margin: 0 auto;
+}
+
+
+
+

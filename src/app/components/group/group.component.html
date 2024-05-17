@@ -24,15 +24,13 @@
         </div>
       </div>
 
-      <div class="messages" infinite-scroll
-      [infiniteScrollDistance]="2" [infiniteScrollUpDistance]="2" [infiniteScrollThrottle]="1000"
-      (scrolled)="onScroll()">
+      <div class="messages" #messagesContainer>
       <div *ngFor="let message of groupMessages" class="message">
         <div class="contenido">
           <p>{{ message.message }}
             <ng-container *ngIf="message.fileUrl && message.fileUrl.endsWith('.pdf')">
               <!-- Mostrar un icono con un enlace al PDF -->
-              <a  [routerLink]="['http://localhost:8080/images/'+message.fileUrl]" target="_blank"  >
+              <a  [href]="'http://localhost:8080/images/'+message.fileUrl" target="_blank" >
                <br> <span>Ver PDF  <i class="fa-regular fa-file-pdf"></i>
                 </span>
               </a>
@@ -74,17 +72,17 @@
               <span class="tooltip">Add an image</span>
             </label>
            @if(user!=null && user.coach){
-            <input type="file" id="file" name="file" />
+            <input type="file" id="file"  name="file" #fileInput />
            }@else {
             <input type="file" disabled id="file" name="file" />
            }
           </div>
           @if(user!=null && user.coach){
-            <input  placeholder="Message..." type="text" id="messageInput" autocomplete="off" />
+            <input [(ngModel)]="message" [ngModelOptions]="{standalone: true}" placeholder="Message..." type="text" id="messageInput" autocomplete="off" />
           }@else {
             <input  placeholder="Message..." disabled type="text" id="messageInput" autocomplete="off" />
           }
-          <button id="sendButton">
+          <button id="sendButton" type="submit" (click)="sendMessage(message)">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 664 663">
               <path
                 fill="none"

@@ -111,52 +111,63 @@
                 <i class="fa-solid fa-heart fs-2 pe-1"></i>
                 }
               </div>
-              <div class="comments text-muted">
-                Ver comentarios
+              <button (click)="toggleModal()">Ver comentarios</button>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="right">
-        <div class="messages">
-          <div class="heading-messages">
-            <div class="heading">
-              <h4>Grupos</h4>
-            </div>
 
-            <div class="search-bar">
-              <i class="uil uil-search"></i>
-              <input type="search" placeholder="Search messages" id="message-search" (keyup)="filterMessages()">
-            </div>
-          </div>
-
-          <div class="category">
-            <h6 class="active">Unirte</h6>
-            <h6>Tus grupos</h6>
-          </div>
-          <div class="all-messages">
-            @if(groups!=null && groups!=undefined){
-            <div class="message" *ngFor="let grupo of groups">
-              <div class="profile-photo">
-                <img [src]="'http://localhost:8080/images/'+grupo.profileImage" alt="Imagen usuario">
+        <div class="right">
+          <div class="messages">
+            <div class="heading-messages">
+              <div class="heading">
+                <h4>Grupos</h4>
               </div>
-              <div class="message-body">
-                <div>
-                  <h5>{{grupo.name}}</h5>
-                  <small class="text-muted"> &#64;{{grupo.coachUsername}}</small>
+
+              <div class="search-bar">
+                <i class="uil uil-search"></i>
+                <input type="search" placeholder="Search messages" id="message-search" (keyup)="filterMessages()">
+              </div>
+            </div>
+
+            <div class="category">
+              <h6 class="active">Unirte</h6>
+              <h6>Tus grupos</h6>
+            </div>
+            <div class="all-messages">
+              @if(groups!=null && groups!=undefined){
+              <div class="message" *ngFor="let grupo of groups">
+                <div class="profile-photo">
+                  <img [src]="'http://localhost:8080/images/'+grupo.profileImage" alt="Imagen usuario">
                 </div>
+                <div class="message-body">
+                  <div>
+                    <h5>{{grupo.name}}</h5>
+                    <small class="text-muted"> &#64;{{grupo.coachUsername}}</small>
+                  </div>
 
-                <div class="boton"><button class="btn btn-primary" (click)="unirte(grupo.id)">Unirte</button></div>
+                  <div class="boton"><button class="btn btn-primary" (click)="unirte(grupo.id)">Unirte</button></div>
+                </div>
               </div>
+              }@else {
+              <p>No se han encontrado grupos</p>
+              }
             </div>
-            }@else {
-            <p>No se han encontrado grupos</p>
-            }
-          </div>
 
+          </div>
         </div>
       </div>
+
+    </div>
+
+</main>
+
+
+<div class="comments text-muted">
+  <div class="modal-background" *ngIf="showComments" (click)="toggleModal()">
+    <div class="modal-content" (click)="preventClose($event)">
+      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid, facere deserunt dolorum eos reiciendis temporibus tempora molestiae, animi tenetur suscipit architecto ad nam veritatis dignissimos perferendis vero rem, repudiandae quod. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Veritatis eligendi dolore est ut, consectetur, ex maxime modi similique dicta repellat nostrum id neque pariatur dignissimos commodi provident ad? Facere, velit. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corporis ad unde quidem non illo dignissimos sapiente velit veritatis, quo autem veniam voluptate voluptatem dolor voluptatibus. Ratione laborum aut provident necessitatibus.</p>
+      <button (click)="toggleModal()" class="close">X</button>
     </div>
   </div>
-</main>
+</div>

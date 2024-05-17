@@ -149,7 +149,7 @@ export class CreateGroupComponent implements OnInit {
           // Recargar la página
           window.location.reload();
         });
-      }, 1000);
+      }, 200);
     })
   }
 }

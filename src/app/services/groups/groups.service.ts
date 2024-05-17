@@ -55,7 +55,13 @@ export class GroupsService {
     return this.http.get(`http://localhost:8080/api/groups/group/${id}`)
   }
 
-  sendGroupMessage(groupId: number, senderId: number, message: string, file: File): Observable<any> {
+  sendGroupMessage(groupId: number, senderId: number, message: string, file?: File): Observable<any> {
+    const token = sessionStorage.getItem('token');
+    if (!token) {
+      return of(null)
+    }
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
     const formData: FormData = new FormData();
     formData.append('senderId', senderId.toString());
     formData.append('message', message);
@@ -63,21 +69,14 @@ export class GroupsService {
       formData.append('file', file, file.name);
     }
     const url = `${this.baseUrl}/${groupId}/send`;
-    return this.http.post(url, formData);
+    return this.http.post(url, formData,{headers:headers});
   }
 
   // Obtener todos los mensajes de un grupo
-  getGroupMessages(groupId: number, page: number = 0, size: number = 10): Observable<Page<GroupMessage>> {
+  getGroupMessages(groupId: number): Observable<GroupMessage[]> {
     const url = `${this.baseUrl}/group/${groupId}/messages`;
-    // Configurar los parámetros de paginación
-    const params = new HttpParams()
-      .set('page', page.toString())
-      .set('size', size.toString());
-    return this.http.get<Page<GroupMessage>>(url, { params });
+    return this.http.get<GroupMessage[]>(url);
   }
-
-
-
 
   joinGroup(userGroup: UserGroup): Observable<any> {
     const token = sessionStorage.getItem('token');
@@ -115,16 +114,11 @@ export class GroupsService {
     return this.http.get<boolean>(`${this.baseUrl}/group/${groupId}/user/${userId}/is-member`);
   }
 
-
-  getGroups(page: number, size: number): Observable<GroupResponse[]> {
-    // Configurar los parámetros de la consulta para la paginación
-    let params = new HttpParams()
-      .set('page', page.toString())
-      .set('size', size.toString());
-
-    // Realizar la solicitud GET al endpoint paginado
-    return this.http.get<GroupResponse[]>(`${this.baseUrl}/all/groups/paginated?page=${page}&size=${size}`);
+  getGroups(): Observable<any[]> {
+    // Realizar la solicitud GET al endpoint para obtener todos los grupos
+    return this.http.get<any[]>(`${this.baseUrl}/all/groups`);
   }
+
 
 
 

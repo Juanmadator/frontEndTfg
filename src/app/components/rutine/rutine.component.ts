@@ -26,7 +26,6 @@ import { RouterLink } from '@angular/router';
 })
 export class RutineComponent implements OnInit {
 
-
   public user: any = {};
   groups: Group[] = [];
 
@@ -54,6 +53,34 @@ export class RutineComponent implements OnInit {
       }
     );
   }
+
+  getGroupsByCoach(userId: number): void {
+    this.groupService.getGroupsByCoach(userId).subscribe(
+      (groups: Group[]) => {
+        console.log('Grupos obtenidos del usuario (coach):', groups);
+        // Guardamos los grupos del coach en una variable temporal
+        const coachGroups = groups;
+        // Ahora también obtenemos los grupos a los que pertenece el usuario (coach)
+        this.getGroupsByUser(userId, coachGroups);
+      },
+      (error: any) => {
+        console.error('Error al obtener los grupos del usuario (coach):', error);
+      }
+    );
+}
+
+getGroupsByUser(userId: number, coachGroups?: Group[]): void { // Haz que coachGroups sea opcional
+  this.groupService.getGroupsByNormalUser(userId).subscribe(
+    (userGroups: Group[]) => {
+      console.log('Grupos obtenidos del usuario:', userGroups);
+      const allGroups = coachGroups ? coachGroups.concat(userGroups) : userGroups; // Verifica si coachGroups existe antes de concatenar
+      this.groups = allGroups;
+    },
+    (error: any) => {
+      console.error('Error al obtener los grupos del usuario:', error);
+    }
+  );
+}
 
 
   createGroup(name: string, description: string, coachId: number, profileImage: File): void {
@@ -85,33 +112,6 @@ export class RutineComponent implements OnInit {
       );
   }
 
-  getGroupsByCoach(userId: number): void {
-    this.groupService.getGroupsByCoach(userId)
-      .subscribe(
-        (groups) => {
-          this.groups = groups;
-          console.log('Grupos obtenidos:', groups);
-          // Puedes manejar la lista de grupos como desees aquí
-        },
-        (error) => {
-          console.error('Error al obtener los grupos del usuario:', error);
-          // Puedes manejar el error como desees aquí
-        }
-      );
-  }
 
-  getGroupsByUser(userId: number): void {
-    this.groupService.getGroupsByNormalUser(userId)
-      .subscribe(
-        (groups) => {
-          this.groups = groups;
-          console.log('Grupos a los que pertenece el usuario:', groups);
-          // Puedes manejar la lista de grupos como desees aquí
-        },
-        (error) => {
-          console.error('Error al obtener los grupos del usuario:', error);
-          // Puedes manejar el error como desees aquí
-        }
-      );
-  }
+
 }

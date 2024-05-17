@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { User } from '../../services/user/User';
 import { UserService } from '../../services/user/user.service';
@@ -8,10 +8,11 @@ import { FormsModule } from '@angular/forms';
 import { Post } from '../../services/posts/Post';
 import { forkJoin } from 'rxjs';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { Router } from '@angular/router';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import imageCompression from 'browser-image-compression';
 import { GroupsService } from '../../services/groups/groups.service';
+import { MatDialog } from '@angular/material/dialog';
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -20,11 +21,11 @@ import { GroupsService } from '../../services/groups/groups.service';
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
-  constructor(private elementRef: ElementRef, private userService: UserService, private postsService: PostsService, private renderer: Renderer2,private groupService:GroupsService) { }
+  constructor(private elementRef: ElementRef, private dialog:MatDialog,private userService: UserService, private postsService: PostsService, private renderer: Renderer2,private groupService:GroupsService) { }
   public menuItems =
     document.querySelectorAll(".menu-item");
-  postContent: string = ''; // Variable para almacenar el contenido del post
-  selectedFile!: File | null; // Variable para almacenar el archivo seleccionado, si hay alguno
+  postContent: string = '';
+  selectedFile!: File | null;
   user: any = {};
   //array de posts
   posts: Post[] = [];
@@ -37,6 +38,9 @@ export class HomeComponent implements OnInit {
   loadingImages: boolean = true;
   showMessageToUser: boolean = false;
   groups: any[] = [];
+
+  showComments = false;
+
   //array de posts a los que le has dado me gusta
   favouritePosts: { postId: number, isFavourite: boolean }[] = [];
 
@@ -62,6 +66,16 @@ export class HomeComponent implements OnInit {
 
     this.loadGroups();
   }
+
+
+  toggleModal(): void {
+    this.showComments = !this.showComments;
+  }
+
+  preventClose(event: Event): void {
+    event.stopPropagation();
+  }
+
 
   loadGroups(): void {
     this.groupService.getAllGroups().subscribe(
@@ -397,6 +411,7 @@ export class HomeComponent implements OnInit {
     const post = this.favouritePosts.find(p => p.postId === postId);
     return post ? post.isFavourite : false;
   }
+
 
 
 }

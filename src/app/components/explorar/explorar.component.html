@@ -3,62 +3,65 @@
     <app-navbar></app-navbar>
   </div>
   <div class="grupos" [@newGroupsAnimation]>
+    <input type="text" placeholder="Busca un grupo..." class="filtro" [(ngModel)]="searchText" (input)="filterGroups()">
     <section class="articles">
-      @if(groups!=null){
-      <article *ngFor="let grupo of groups" class="swiper-slide">
-        <div class="article-wrapper">
-          <figure>
-            <img [src]="'http://localhost:8080/images/'+grupo.profileImage" alt="" />
-          </figure>
+        <article *ngFor="let grupo of paginatedGroups" class="swiper-slide">
+            <div class="article-wrapper">
+                <figure>
+                    <img [src]="'http://localhost:8080/images/'+grupo.profileImage" alt="" />
+                </figure>
 
-          <div class="article-body">
+                <div class="article-body">
+                    <h2>{{grupo.name}}</h2>
+                    <p class="description">
+                        {{grupo.description}}
+                    </p>
 
-            <h2>{{grupo.name}}</h2>
-            <p>
-              {{grupo.description}}
-            </p>
+                    <a [routerLink]="" class="read-more">
+                        <b> &#64;{{grupo.coachName}}</b> <span class="sr-only">about this is some title</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20"
+                            fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </a>
 
-            @if(user!=null){
-            <a [routerLink]="'/group/' + grupo.id" class="read-more">
-              Ver más <span class="sr-only">about this is some title</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd"
-                  d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-                  clip-rule="evenodd" />
-              </svg>
-            </a>
-            <div class="botones">
-              <button *ngIf="isMember(grupo)" (click)="salirte(grupo.id)" id="salirte">Salirte</button>
-              <button *ngIf="!isMember(grupo)" (click)="unirte(grupo.id)" id="unirte">Unirte</button>
+                    <div class="botones">
+                        <button *ngIf="user && isCoachOfGroup(grupo.id)"
+                            (click)="salirte(grupo.id)" disabled id="salirte">Tu grupo</button>
+
+                        <button *ngIf="user && isMember(grupo) && user.id !== getCoachIdOfGroup(grupo.id)"
+                            (click)="salirte(grupo.id)" id="salirte">Salirte</button>
+
+                        <button *ngIf="user && !isMember(grupo) && user.id !== getCoachIdOfGroup(grupo.id)"
+                            (click)="unirte(grupo.id)" id="unirte">Unirte</button>
+                    </div>
+                </div>
             </div>
-            }@else{
-            <a [routerLink]="['']" class="read-more">
-              Ver más <span class="sr-only">about this is some title</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd"
-                  d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-                  clip-rule="evenodd" />
-              </svg>
-            </a>
-            <div class="boton-login">
-              <button id="login"><a [routerLink]="['/login']">Inicia sesión</a></button>
-            </div>
-            }
-          </div>
-
-        </div>
-
-      </article>
-      }@else {
-      <h3 class="titulo">No se encontraron grupos</h3>
-      }
+        </article>
     </section>
-  </div>
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center text-center"> <!-- Agrega la clase 'text-center' aquí -->
+          <li class="page-item" [class.disabled]="currentPage === 1">
+              <a class="page-link" (click)="previousPage()" tabindex="-1">Anterior</a>
+          </li>
+          <li class="page-item" *ngFor="let page of pages" [class.active]="page === currentPage">
+              <a class="page-link" (click)="changePage(page)">{{ page }}</a>
+          </li>
+          <li class="page-item" [class.disabled]="currentPage === totalPages">
+              <a class="page-link" (click)="nextPage()">Siguiente</a>
+          </li>
+      </ul>
+  </nav>
+
 </div>
 
-<div class="botones-guia">
+</div>
+
+<!-- <div class="botones-guia">
   <button class="swiper-button-prev boton-guia" (click)="before()"><i class="fas fa-arrow-left"></i>
   </button>
   <button class="swiper-button-next boton-guia" (click)="next()"><i class="fas fa-arrow-right"></i>
   </button>
-</div>
+</div> -->

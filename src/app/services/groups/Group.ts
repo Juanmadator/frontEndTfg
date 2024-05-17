@@ -5,7 +5,7 @@ export interface Group {
   coachId: number;
   profileImage?: string;
   createdAt: Date;
-  coachUsername: string;
+  coachName: string;
   perteneceUsuario:boolean;
 
 }

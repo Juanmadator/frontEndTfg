@@ -61,10 +61,17 @@
 
         <div class="article-body">
 
-          <h2>{{tituloEjemplo}}</h2>
+        @if(tituloGrupo && descripcionGrupo){
+          <h2>{{tituloGrupo}}</h2>
           <p>
-            {{descripcionEjemplo}}
+            {{descripcionGrupo}}
           </p>
+        }@else {
+           <h2>{{tituloEjemplo}}</h2>
+        <p>
+          {{descripcionEjemplo}}
+        </p>
+      }
 
         </div>
 
