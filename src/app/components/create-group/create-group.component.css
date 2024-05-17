@@ -1,8 +1,9 @@
 .contenido{
   display: grid;
-  grid-template-columns: 1fr 2fr ;
+  grid-template-columns: 1fr 2fr 2fr;
   width: 80%;
   margin: 0 auto;
+  gap: 20px;
 }
 
 .other-navbar{
@@ -41,7 +42,7 @@ mat-form-field{
 }
 
 
-img{
+.preview{
   width: 200px; /* Define el ancho deseado */
   height: 200px;
   border-radius: 50%;
@@ -106,4 +107,99 @@ span small{
   color: rgb(23, 38, 49);
   display: block;
   margin-top: 50px;
+}
+
+
+article {
+  --img-scale: 1.001;
+  --title-color: black;
+  --link-icon-translate: -20px;
+  --link-icon-opacity: 0;
+  border-radius: 16px;
+  box-shadow: none;
+  background: #fff;
+  transition: 0.4s ease-in-out;
+  max-width: 500px;
+  cursor: default;
+}
+
+article a::after {
+  position: absolute;
+  inset-inline: 0;
+  cursor: pointer;
+  content: "";
+}
+
+article h2 {
+  margin: 0 0 18px;
+  font-size: 1.9rem;
+  letter-spacing: 0.06em;
+  color: var(--title-color);
+  transition: color 0.3s ease-out;
+}
+
+figure {
+  margin: 0;
+  padding: 0;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Agregar sombra en lugar de borde inferior */
+}
+
+
+article img {
+  max-width: 100%;
+  transform: scale(var(--img-scale));
+  transition: transform 0.4s ease-in-out;
+}
+
+.article-body {
+  padding: 24px;
+}
+
+.article-body p {
+  height: 100px;
+  overflow: hidden;
+}
+
+article a {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  color: #4e3c9e;
+}
+
+article a:focus {
+  outline: #4e3c9e dotted 1px;
+}
+
+article a .icon {
+  min-width: 24px;
+  width: 24px;
+  height: 24px;
+  margin-left: 5px;
+  transform: translateX(var(--link-icon-translate));
+  opacity: var(--link-icon-opacity);
+  transition: 0.3s;
+}
+
+article:has(:hover, :focus) {
+  --img-scale: 1.1;
+  --title-color: var(--color-primary);
+  --link-icon-translate: 0;
+  --link-icon-opacity: 1;
+  box-shadow: rgba(0, 0, 0, 0.16) 0 10px 36px 0, rgba(0, 0, 0, 0.06) 0 0 0 1px;
+}
+
+
+.grupo{
+  margin-top: 160px;
+}
+
+
+.info{
+ width: 80%;
+ margin: 0 auto;
 }

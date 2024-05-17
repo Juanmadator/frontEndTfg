@@ -33,15 +33,19 @@ export class ExplorarComponent implements OnInit {
   pageSize = 4;
   totalPages = 0;
   animateGroups = false;
+
+  userGroups:Group[]=[];
   public user: any = {};
   constructor(private groupService: GroupsService,private userService:UserService,private cdr: ChangeDetectorRef) { }
 
 
 
   ngOnInit(): void {
-    this.comprobarSiPertenece();
-    this.loadGroups();
     this.getUserData();
+
+   setTimeout(()=>{
+    this.loadGroups();
+   },200)
   }
 
   getUserData(): void {
@@ -55,32 +59,36 @@ export class ExplorarComponent implements OnInit {
     );
   }
 
-  comprobarSiPertenece(){
-    this.groups.forEach(grupo=>{
-      this.groupService.checkUserMembership(grupo.id,this.user.id).subscribe((response)=>{
-        if(response){
-            grupo.perteneceUsuario=true;
-            console.log(grupo);
-        }
-      })
-    })
-
-  }
-
-
-  loadGroups(): void {
-    this.groupService.getGroups(this.currentPage, this.pageSize)
-      .subscribe((response: any) => {
-        console.log(response);
-        this.totalPages = Math.ceil(response.totalElements / this.pageSize);
-        this.groups = []; // Inicializamos this.groups como un array vacío
-        response.content.forEach((group: Group) => {
-          this.groups.push(group); // Agregamos el objeto Group al array this.groups
+  checkMemberships(): void {
+    this.groups.forEach(group => {
+      this.groupService.checkUserMembership(group.id, this.user.id)
+        .subscribe((response: boolean) => {
+          if (response) {
+            this.userGroups.push(group);
+            console.log("El usuario pertenece a "+group);
+          }
         });
-      });
-
-      this.cdr.detectChanges();
+    });
   }
+
+  isMember(group: Group): boolean {
+    // Verificar si el grupo está en la lista de grupos del usuario
+    return this.userGroups.some(userGroup => userGroup.id === group.id);
+  }
+
+
+    loadGroups(): void {
+      this.groupService.getGroups(this.currentPage, this.pageSize)
+        .subscribe((response: any) => {
+          console.log(response);
+          this.totalPages = Math.ceil(response.totalElements / this.pageSize);
+          this.groups = []; // Inicializamos this.groups como un array vacío
+          response.content.forEach((group: Group) => {
+            this.groups.push(group); // Agregamos el objeto Group al array this.groups
+            this.checkMemberships(); // Verificamos la pertenencia del usuario al grupo
+          });
+        });
+    }
 
 
 
@@ -114,13 +122,45 @@ export class ExplorarComponent implements OnInit {
     };
 
     this.groupService.joinGroup(userGroup).subscribe(userGroup => {
-      console.log(userGroup);
+      const joinedGroup = this.groups.find(group => group.id === userGroup.groupId);
+      if (joinedGroup) {
+        this.userGroups.push(joinedGroup);
+      }
     })
   }
 
 
+  salirte(grupoId: number) {
+    const userId = sessionStorage.getItem("userId");
+    const userIdNumber = parseInt(userId || '0', 10);
 
-  salirte(grupoId:number) {
+    // Comprobamos si el usuario está actualmente unido al grupo
+    const usuarioUnido = this.userGroups.some(group => group.id === grupoId);
 
+    if (!usuarioUnido) {
+      console.log('El usuario no está unido al grupo');
+      return;
+    }
+
+    const userGroup = {
+      userId: userIdNumber,
+      groupId: grupoId
+    };
+
+    this.groupService.deleteUserGroup(userGroup).subscribe(() => {
+      console.log('El usuario se ha eliminado correctamente del grupo');
+      const index = this.userGroups.findIndex(group => group.id === grupoId);
+      if (index !== -1) {
+        this.userGroups.splice(index, 1);
+        this.userGroups = this.userGroups.filter(userGroup => userGroup.id !== grupoId);
+      }
+    }, (error) => {
+      console.error('Error al eliminar el usuario del grupo:', error);
+    });
   }
+
+
+
+
+
 }

@@ -12,6 +12,7 @@ import { GroupsService } from '../../services/groups/groups.service';
 import { User } from '../../services/user/User';
 import { UserService } from '../../services/user/user.service';
 import Swal from 'sweetalert2';
+import { RouterLink } from '@angular/router';
 
 export interface Value {
   name: string;
@@ -19,7 +20,7 @@ export interface Value {
 @Component({
   selector: 'app-create-group',
   standalone: true,
-  imports: [NavbarComponent, MatFormFieldModule, MatInputModule, MatIconModule, MatChipsModule, FormsModule, CommonModule],
+  imports: [NavbarComponent, MatFormFieldModule,RouterLink, MatInputModule, MatIconModule, MatChipsModule, FormsModule, CommonModule],
   templateUrl: './create-group.component.html',
   styleUrl: './create-group.component.css'
 })
@@ -28,6 +29,8 @@ export class CreateGroupComponent implements OnInit {
   constructor(private groupService: GroupsService, private userService: UserService) { };
   addOnBlur = true;
   paso = 1;
+  tituloEjemplo='Título 353'
+  descripcionEjemplo='En este grupo obtendrás información limitada y única, donde daré consejos sobre las rutinas y recetas que estén de moda en Fit-Track'
   tituloGrupo: string = '';
   descripcionGrupo: string = '';
   imagen!: File;
@@ -110,7 +113,7 @@ export class CreateGroupComponent implements OnInit {
   }
 
   check() {
-    if (this.tituloGrupo && this.descripcionGrupo) {
+    if (this.tituloGrupo && this.tituloGrupo.length<=10&& this.descripcionGrupo ) {
       this.comprobados = true;
     }else{
       this.comprobados=false;

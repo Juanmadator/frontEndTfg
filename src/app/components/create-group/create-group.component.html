@@ -8,19 +8,24 @@
 
     <div *ngIf="paso === 1">
       <h3>Paso 1: Título y descripción</h3>
+     <div class="info">
+      <span>Para crear el grupo debes incluir un título de máximo 10 caracteres, una descripción sobre el mismo y una
+        imagen de perfil para el grupo, ¡Deberás tratar de llamar la atención de los usuarios!</span>
+     </div>
       <form class="paso-1">
         <mat-form-field>
           <mat-label>Título del grupo</mat-label>
-          <input matInput [(ngModel)]="tituloGrupo"  (keyup)="check()"  name="tituloGrupo" required>
+          <input matInput [(ngModel)]="tituloGrupo" (keyup)="check()" name="tituloGrupo" required>
         </mat-form-field>
         <mat-form-field>
           <mat-label>Descripción del grupo</mat-label>
-          <textarea matInput [(ngModel)]="descripcionGrupo"   (keyup)="check()" name="descripcionGrupo" required></textarea>
+          <textarea matInput [(ngModel)]="descripcionGrupo" (keyup)="check()" name="descripcionGrupo"
+            required></textarea>
         </mat-form-field>
       </form>
       <div class="botones">
         <!-- Botón para avanzar al siguiente paso -->
-        <button  (click)="avanzarPaso()" class="siguiente" [disabled]="!comprobados">Siguiente</button>
+        <button (click)="avanzarPaso()" class="siguiente" [disabled]="!comprobados">Siguiente</button>
       </div>
     </div>
 
@@ -28,7 +33,7 @@
       <h3>Paso 2: Foto de perfil</h3>
       <form>
         <div *ngIf="imagenSeleccionada" class="imagen">
-          <img [src]="imagenSeleccionada" alt="Imagen seleccionada">
+          <img [src]="imagenSeleccionada" alt="Imagen seleccionada" class="preview">
         </div>
         <input type="file" #fileInput (change)="onFileSelected($event)">
         <br>
@@ -43,6 +48,28 @@
     </div>
 
 
+  </div>
+
+  <div class="grupo">
+    <h3>Preview del grupo</h3>
+
+    <article>
+      <div class="article-wrapper">
+        <figure>
+          <img [src]="imagenSeleccionada" alt="" />
+        </figure>
+
+        <div class="article-body">
+
+          <h2>{{tituloEjemplo}}</h2>
+          <p>
+            {{descripcionEjemplo}}
+          </p>
+
+        </div>
+
+      </div>
+    </article>
   </div>
 
 </div>

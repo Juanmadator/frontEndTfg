@@ -4,7 +4,7 @@
   </div>
   <div class="grupos" [@newGroupsAnimation]>
     <section class="articles">
-     @if(groups!=null){
+      @if(groups!=null){
       <article *ngFor="let grupo of groups" class="swiper-slide">
         <div class="article-wrapper">
           <figure>
@@ -19,19 +19,19 @@
             </p>
 
             @if(user!=null){
-              <a [routerLink]="'/group/' + grupo.id" class="read-more">
-                Ver más <span class="sr-only">about this is some title</span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd"
-                    d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-                    clip-rule="evenodd" />
-                </svg>
-              </a>
+            <a [routerLink]="'/group/' + grupo.id" class="read-more">
+              Ver más <span class="sr-only">about this is some title</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                  clip-rule="evenodd" />
+              </svg>
+            </a>
             <div class="botones">
-              <button *ngIf="grupo.perteneceUsuario" (click)="salirte(grupo.id)" id="eliminar">Eliminar</button>
-              <button *ngIf="!grupo.perteneceUsuario" (click)="unirte(grupo.id)" id="unirte">Unirte</button>
+              <button *ngIf="isMember(grupo)" (click)="salirte(grupo.id)" id="salirte">Salirte</button>
+              <button *ngIf="!isMember(grupo)" (click)="unirte(grupo.id)" id="unirte">Unirte</button>
             </div>
-          }@else{
+            }@else{
             <a [routerLink]="['']" class="read-more">
               Ver más <span class="sr-only">about this is some title</span>
               <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20" fill="currentColor">
@@ -41,17 +41,17 @@
               </svg>
             </a>
             <div class="boton-login">
-              <button  id="login"><a [routerLink]="['/login']">Inicia sesión</a></button>
+              <button id="login"><a [routerLink]="['/login']">Inicia sesión</a></button>
             </div>
-          }
+            }
           </div>
 
         </div>
 
       </article>
-     }@else {
+      }@else {
       <h3 class="titulo">No se encontraron grupos</h3>
-     }
+      }
     </section>
   </div>
 </div>

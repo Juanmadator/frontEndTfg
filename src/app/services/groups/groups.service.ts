@@ -80,7 +80,6 @@ export class GroupsService {
 
 
   joinGroup(userGroup: UserGroup): Observable<any> {
-
     const token = sessionStorage.getItem('token');
     if (!token) {
       return of(null)
@@ -89,6 +88,17 @@ export class GroupsService {
 
     return this.http.post<any>(`${this.baseUrl}/join`, userGroup,{headers:headers});
   }
+
+  deleteUserGroup(userGroup: UserGroup): Observable<any> {
+    const token = sessionStorage.getItem('token');
+    if (!token) {
+      return of(null);
+    }
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const url = `${this.baseUrl}/userGroup/${userGroup.userId}/${userGroup.groupId}`;
+    return this.http.delete(url, { headers: headers });
+  }
+
 
   // Contar miembros de un grupo
   getUsersCountInGroup(groupId: number): Observable<number> {
