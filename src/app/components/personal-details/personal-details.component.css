@@ -8,18 +8,15 @@
   background-color: #fff;
 }
 .contenedor {
+  width: 80%;
   display: grid;
-  justify-content: space-between;
+  grid-template-columns: 1fr;
   align-items: center;
   height: fit-content;
+  margin: 0 auto;
   margin-top: 20px;
 }
-@media (min-width: 800px) {
-  .contenedor {
-    margin-top: 40px;
-    margin-left: 30px;
-  }
-}
+
 .formulario {
   margin-top: 55px;
   width: 50%;
@@ -28,7 +25,6 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  margin-left: 600px;
 }
 @media (max-width: 800px) {
   .contenedor {
@@ -41,6 +37,12 @@
     margin-left: 0;
   }
 }
+
+@media(min-width:993px){
+  .contenedor{
+    grid-template-columns: 1fr 5fr;
+  }
+}
 @media (min-width: 801px) and (max-width: 1200px) {
   .container {
     display: grid;
@@ -49,7 +51,6 @@
   .formulario {
     width: 90%;
     margin-left: 0;
-    margin-right: 40px;
   }
 }
 .botones,
@@ -134,59 +135,42 @@ input[type="submit"]:hover {
 .publicaciones {
   background-color: beige;
 }
-.other-navbar {
-  margin-top: 50px;
-  width: 300px;
-  position: fixed;
-  margin-left: 310px;
-}
-@media (min-width: 842px) {
-  .formulario {
-    margin-left: 10%;
-  }
-}
-@media (min-width: 993px) {
-  .other-navbar {
-    margin-left: 30px;
-  }
-  .formulario {
-    margin-left: 20%;
-  }
-}
+
 @media (min-width: 1201px) {
   .formulario {
-    width: 60%;
-    margin-left: 400px;
+    width: 100%;
+    margin-left: 100px;
   }
 }
-@media (max-width: 600px) {
-  .other-navbar {
-    display: none;
-  }
-}
-@media (min-width: 1440px) {
-  .other-navbar {
-    margin-left: 50px;
-  }
-}
+
 @media (min-width: 1800px) {
-  .other-navbar {
-    width: 287px;
-    margin-left: 300px;
-    left: 0;
-    margin-top: 60px;
-  }
   .formulario {
-    width: 50%;
-    margin-left: 600px;
     margin-top: 60px;
   }
 }
 
+@media (min-width: 1350px) {
+  .formulario {
+    width: 60%;
+  }
+}
 
 @media (max-width:700px){
   .formulario{
     width: 90%;
     margin: 70px;
   }
+}
+
+@media(min-width:1201px){
+  .other-navbar {
+    width: 287px;
+  }
+}
+
+@media(max-width:600px){
+
+.other-navbar{
+display: none;
+}
 }

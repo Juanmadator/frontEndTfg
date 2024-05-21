@@ -9,8 +9,10 @@
   margin: 0 auto;
   margin-top: 55px;
 }
-.other-navbar{
-  width: 287px;
+@media(min-width:1201px){
+  .other-navbar {
+    width: 287px;
+  }
 }
 .favoritos-container {
   margin-top: -10px;

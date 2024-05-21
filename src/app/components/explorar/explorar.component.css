@@ -269,19 +269,19 @@ button{
   z-index: 50;
 }
 
-.other-navbar{
-  z-index: 10;
-width: 300px;
-padding-top: 95px;
-margin-left: 50px;
+@media(min-width:1201px){
+  .other-navbar {
+    width: 287px;
+  }
 }
 
 
 .caja{
-  width: 95%;
+  width: 80%;
   display: grid;
   grid-template-columns: 1fr;
   margin: 0 auto;
+  margin-top: 100px;
 }
 
 .articles {
@@ -300,7 +300,11 @@ article{
 
 
 .grupos{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: 100%;
+  align-items: center;
 }
 
 .botones-guia{
@@ -375,9 +379,6 @@ color: white;
     margin-left: 60px;
   }
 
-  .other-navbar{
-    margin-left: 150px;
-  }
 
 }
 
@@ -456,7 +457,7 @@ text-align: center;
 }
 
 .grupos{
-  margin-top: 120px;
+ margin-top: 20px;
 }
 
 .filtro {

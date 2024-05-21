@@ -3,6 +3,7 @@
     <app-navbar></app-navbar>
   </div>
 
+<div class="creacion-div">
   <div class="creacion-grupo">
     <h1> {{ 'CREATE_GROUP' | translate }}</h1>
 
@@ -47,10 +48,11 @@
       </div>
     </div>
 
-
   </div>
+  <div class="scroll" (click)="scrollToGrupo()" [title]="'BAJAR'|translate"><i class="fa-solid fa-arrow-down"></i></div>
 
-  <div class="grupo">
+
+  <div class="grupo" #grupoElement>
     <h3>Preview del grupo</h3>
 
     <article>
@@ -78,5 +80,6 @@
       </div>
     </article>
   </div>
+</div>
 
 </div>

@@ -101,9 +101,9 @@
       </div>
 
       @if(user.verified){
-      <label for="create-post" class="btn btn-primary" (click)="closeSession()">Cerrar Sesión</label>
+      <label for="create-post" class="btn btn-primary" (click)="closeSession()">{{"CLOSE_SESSION"|translate}}</label>
       }@else {
-      <a [routerLink]="['/login']"> <label for="create-post" class="btn btn-primary">¡Inicia sesion!</label></a>
+      <a [routerLink]="['/login']"> <label for="create-post" class="btn btn-primary">{{"SIGN_IN"|translate}}</label></a>
       }
 
     </div>

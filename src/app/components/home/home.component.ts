@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
   loadingImages: boolean = true;
   showMessageToUser: boolean = false;
   groups: any[] = [];
-
+  showConfirmation = false;
   showComments = false;
   private originalBodyOverflow: string | null = null;
   //array de posts a los que le has dado me gusta
@@ -221,25 +221,17 @@ export class HomeComponent implements OnInit {
         this.postContent = ''; // Limpiar el contenido del post
         this.selectedFile = null;
 
-        // Aquí podrías actualizar la lista de posts o mostrar un mensaje de éxito
-        if (!this.hasMorePosts) {
-          this.showAllPostsModal = false; // Ocultar el modal si no hay más posts por cargar
-        }
-
-        // Recargar los posts para mostrar el nuevo post
-        this.getPosts();
-        location.reload();
-
+        // Agregar el nuevo post directamente a la lista existente
+        const newPost: Post = response; // Asegúrate de que response sea el nuevo post devuelto por el servidor
+        this.posts.unshift(newPost); // Agrega el nuevo post al principio de la lista
       },
       (error: any) => {
-        this.posts = [];
-        this.getPosts();
-        this.postContent = ''; // Limpiar el contenido del post
-        this.selectedFile = null;
-        return null;
+        // Manejar errores
       }
     );
   }
+
+
 
 
   startImageLoadingTimer(): void {
@@ -426,6 +418,34 @@ export class HomeComponent implements OnInit {
     const post = this.favouritePosts.find(p => p.postId === postId);
     return post ? post.isFavourite : false;
   }
+
+  showDeleteConfirmation(postId: number) {
+    // Establecer la variable showConfirmation de la publicación específica en true
+    const index = this.posts.findIndex(post => post.id === postId);
+    if (index !== -1) {
+      this.posts[index].showConfirmation = true;
+    }
+  }
+
+  hideDeleteConfirmation(postId: number) {
+    // Establecer la variable showConfirmation de la publicación específica en false
+    const index = this.posts.findIndex(post => post.id === postId);
+    if (index !== -1) {
+      this.posts[index].showConfirmation = false;
+    }
+  }
+
+
+  deletePost(postId: number, userId: number) {
+    this.postsService.deletePost(postId, userId).subscribe(() => {
+      // Eliminar el post de la lista local de posts
+      const index = this.posts.findIndex(post => post.id === postId);
+      if (index !== -1) {
+        this.posts.splice(index, 1);
+      }
+    });
+  }
+
 
 
 }

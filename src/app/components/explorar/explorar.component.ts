@@ -15,8 +15,6 @@ import { TranslateModule } from '@ngx-translate/core';
   imports: [RouterLink, CommonModule, NavbarComponent,FormsModule,TranslateModule ],
   templateUrl: './explorar.component.html',
   styleUrl: './explorar.component.css',
-  animations: [
-  ],
 })
 export class ExplorarComponent implements OnInit {
   groups: Group[] = [];
@@ -75,6 +73,7 @@ export class ExplorarComponent implements OnInit {
   }
 
   filterGroups(): void {
+   if(this.groups){
     this.filteredGroups = this.groups.filter(group => {
       const searchTextLowerCase = this.searchText.toLowerCase();
       const coachNameSearchTextLowerCase = this.searchText.toLowerCase();
@@ -87,6 +86,7 @@ export class ExplorarComponent implements OnInit {
     this.totalPages = this.calculateTotalPages(); // Actualiza el número total de páginas
     this.currentPage = 1; // Restablece la página actual a la primera página después de aplicar el filtro
     this.updatePaginatedGroups(); // Actualiza los grupos paginados después de aplicar el filtro
+   }
   }
 
 
@@ -125,6 +125,7 @@ export class ExplorarComponent implements OnInit {
   }
 
   checkMemberships(): void {
+   if(this.groups){
     this.groups.forEach(group => {
       this.groupService.checkUserMembership(group.id, this.user!.id)
         .subscribe((response: boolean) => {
@@ -133,6 +134,7 @@ export class ExplorarComponent implements OnInit {
           }
         });
     });
+   }
   }
 
   isMember(group: Group): boolean {

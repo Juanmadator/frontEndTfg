@@ -1,9 +1,9 @@
 {
   "REGISTER": "Register",
-  "DESIGNED": "Designed by",
+  "DESIGNED": "Designed by ",
   "COPYRIGHT": "All rights reserved",
   "CREATE_GROUP": "Create your group",
-  "PREVIUS_POST": "All rights reserved",
+  "PREVIUS_POST": "Previous post",
   "SIGN_IN_POST": "You must sign in to make a post",
   "CLOSE": "Close",
   "SHOW_COMMENTS": "Show comments",
@@ -12,18 +12,18 @@
   "YOUR_GROUPS": "Your groups",
   "NOT_FOUND_GROUPS": "No groups found",
   "NO_FAVS": "You don't have any posts in your favorites list yet",
-  "SELECT_SPORT": "Select an exercise",
+  "SELECT_SPORT": "Customize your exercises",
   "IMAGES": {
-  "ABDOMEN": "Abdomen",
-  "ESPALDA": "Back",
-  "BICEPS": "Biceps",
-  "BICICLETA": "Bicycle",
-  "PECHO": "Chest",
-  "PIERNAS": "Legs",
-  "CORRER": "Running",
-  "HOMBROS": "Shoulders",
-  "TRICEPS": "Triceps",
-  "CAMINAR": "Walking"
+    "ABDOMEN": "Abdomen",
+    "ESPALDA": "Back",
+    "BICEPS": "Biceps",
+    "BICICLETA": "Bike",
+    "PECHO": "Chest",
+    "PIERNAS": "Legs",
+    "CORRER": "Run",
+    "HOMBROS": "Shoulders",
+    "TRICEPS": "Triceps",
+    "CAMINAR": "Walk"
   },
   "NEXT": "Next",
   "BEFORE": "Previous",
@@ -32,8 +32,21 @@
   "NAVBAR_GRUPOS": "Groups",
   "NAVBAR_FAVS": "Favorites",
   "NAVBAR_RUTINE": "Routine",
-  "NAVBAR_ABOUT":"About us",
+  "NAVBAR_ABOUT": "About us",
   "NAVBAR_PROFILE": "Profile",
   "NAVBAR_ESTANDAR": "Standard",
-  "NAVBAR_ENTRENADOR": "Coach"
-  }
+  "NAVBAR_ENTRENADOR": "Trainer",
+  "PROFILE_NAME": "Name",
+  "PROFILE_SURNAME": "Surname",
+  "PROFILE_USERNAME": "Username",
+  "PROFILE_GENDER": "Gender",
+  "PROFILE_AGE": "Age",
+  "PROFILE_COUNTRY": "Country",
+  "SAVE": "Save",
+  "CLOSE_SESSION": "Log out",
+  "SIGN_IN": "Sign in",
+  "PLACEHOLDERS": {
+    "WANT_TO_DO_A_PUBLISH": "Want to publish a post?"
+  },
+  "BAJAR":"Preview"
+}

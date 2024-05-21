@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
@@ -39,6 +39,7 @@ export class CreateGroupComponent implements OnInit {
   selectedFile: boolean = false;
   comprobados = false;
   public user: any = {};
+  @ViewChild('grupoElement') grupoElement!: ElementRef;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   fruits: Value[] = [{ name: 'Piernas' }, { name: 'Biceps' }, { name: 'Cuerpo completo' }];
 
@@ -46,6 +47,12 @@ export class CreateGroupComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserData();
+  }
+
+  scrollToGrupo() {
+    if (this.grupoElement) {
+      this.grupoElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 
   getUserData(): void {

@@ -18,8 +18,8 @@
             </label>
             <input id="file-input" type="file" accept="image/*, video/*" (change)="onFileSelected($event)"
               style="display: none;">
-            <input type="text" placeholder="Want to do a publish?" [(ngModel)]="postContent" name="postContent"
-              autocomplete="off">
+              <input type="text" [placeholder]="'PLACEHOLDERS.WANT_TO_DO_A_PUBLISH' | translate" [(ngModel)]="postContent" name="postContent" autocomplete="off">
+
             <button (focus)="showPostPreview()" (blur)="hidePostPreview()" class="preview">
               <i class="fas fa-eye"></i></button>
           </div>
@@ -74,9 +74,20 @@
                   <!-- Mostrar otros detalles del usuario si es necesario -->
                 </div>
               </div>
-              <span class="edit">
+             @if(user!=null && user.id===post.userId){
+            <div class="eliminacion">
+              <button class="edit"  (click)="showDeleteConfirmation(post.id)">
                 <i class="uil uil-ellipsis-h"></i>
-              </span>
+              </button>
+              <div class="delete-confirmation" *ngIf="post.showConfirmation">
+                <p>¿Quieres eliminar tu post?</p>
+                <div class="botones-de-confirmacion">
+                  <button (click)="deletePost(post.id, post.userId)"><i class="fa-solid fa-check"></i></button>
+                  <button (click)="hideDeleteConfirmation(post.id)"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+              </div>
+            </div>
+             }
             </div>
 
             @if(post.imageUrl){
@@ -104,7 +115,7 @@
             <div class="action-button">
               <div class="interaction-buttons">
                 @if(user!=null){
-                <span (click)="like(post.id)">
+                <span (click)="like(post.id)" >
                   <i class="fa-solid fa-heart fs-2 pe-1" [ngClass]="post.isFavourite ? 'liked-heart' : ''"></i>
                 </span>
                 }@else {

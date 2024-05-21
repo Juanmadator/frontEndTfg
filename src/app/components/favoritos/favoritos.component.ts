@@ -41,9 +41,7 @@ export class FavoritosComponent implements OnInit {
               // Agregar los nuevos posts al final de la lista existente
               this.posts = this.posts.concat(posts.map(post => ({ ...post, loading: false })));
               this.startImageLoadingTimer();
-            } else {
-              console.log('El usuario no tiene posts favoritos.');
-            }
+            } 
           }
           this.isLoading = false; // Se completa la carga de posts
         },

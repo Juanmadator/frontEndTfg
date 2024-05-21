@@ -29,7 +29,6 @@ export class CommonHeaderComponent implements OnInit{
   ngOnInit(): void {
     if(sessionStorage.getItem("userId")){
       this.getUserData();
-      console.log(this.user.coach);
     }
   }
 

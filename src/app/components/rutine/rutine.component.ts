@@ -57,7 +57,6 @@ export class RutineComponent implements OnInit {
   getGroupsByCoach(userId: number): void {
     this.groupService.getGroupsByCoach(userId).subscribe(
       (groups: Group[]) => {
-        console.log('Grupos obtenidos del usuario (coach):', groups);
         // Guardamos los grupos del coach en una variable temporal
         const coachGroups = groups;
         // Ahora también obtenemos los grupos a los que pertenece el usuario (coach)
@@ -72,7 +71,6 @@ export class RutineComponent implements OnInit {
 getGroupsByUser(userId: number, coachGroups?: Group[]): void { // Haz que coachGroups sea opcional
   this.groupService.getGroupsByNormalUser(userId).subscribe(
     (userGroups: Group[]) => {
-      console.log('Grupos obtenidos del usuario:', userGroups);
       const allGroups = coachGroups ? coachGroups.concat(userGroups) : userGroups; // Verifica si coachGroups existe antes de concatenar
       this.groups = allGroups;
     },

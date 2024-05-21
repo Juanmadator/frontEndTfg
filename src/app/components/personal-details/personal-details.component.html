@@ -1,9 +1,9 @@
-<div class="other-navbar">
-  <app-navbar></app-navbar>
-</div>
+
 
 <main class="contenedor rounded-1 ">
-
+  <div class="other-navbar">
+    <app-navbar></app-navbar>
+  </div>
   <div class="formulario   ">
     <h1 class="text-center username-title text-black">PERFIL</h1>
     <form (submit)="onSubmit($event)" #form="ngForm">
@@ -17,20 +17,20 @@
       </div>
    <div class="name-lastname">
     <div class="name">
-      <span> Nombre:</span> <input type="text"  placeholder="Name" [(ngModel)]="user.name" name="name" class="rounded-1 " required>
+      <span> {{"PROFILE_NAME"|translate}}:</span> <input type="text"  placeholder="Name" [(ngModel)]="user.name" name="name" class="rounded-1 " required>
     </div>
    <div class="lastname">
-    <span> Apellidos:</span> <input type="text"   placeholder="LastName" [(ngModel)]="user.lastname" name="lastname" class="rounded-1"
+    <span> {{"PROFILE_SURNAME"|translate}}:</span> <input type="text"   placeholder="LastName" [(ngModel)]="user.lastname" name="lastname" class="rounded-1"
     required>
    </div>
   </div>
 
 
   <div class="d-flex justify-content-between">
-    <span>  Nombre de usuario: </span><input type="text" placeholder="Username" [(ngModel)]="user.username" name="username" class="rounded-1 "
+    <span>  {{"PROFILE_USERNAME"|translate}}: </span><input type="text" placeholder="Username" [(ngModel)]="user.username" name="username" class="rounded-1 "
     required>
   </div>
-<b>Género:</b>
+<b>{{"PROFILE_GENDER"|translate}}:</b>
   <select name="gender" id="gender" [(ngModel)]="user.gender">
     <option value="Select gender" [selected]="true" disabled>Select a gender</option>
     <option value="Male">Male</option>
@@ -45,7 +45,7 @@
 
         <div class="edad-email">
           <div class="edad">
-           <span>Edad:</span>
+           <span>{{"PROFILE_AGE"|translate}}:</span>
            @if(user.age<16){
              <span class="red">Debes tener al menos 16 años</span>
            } <input type="date" id="age" placeholder="Age"  name="age"
@@ -57,19 +57,25 @@
             </div>
          </div>
 
-         <b>País:</b>
-        <select [(ngModel)]="selectedCountry" name="country" (change)="handleCountryChange($event)">
-          <option *ngIf="countries.length === 0" [ngValue]="'Cargando...'">Cargando...</option>
-          <option *ngFor="let country of countries" [ngValue]="country.name.common">
-            {{ country.name.common }}
-          </option>
+         <b>{{"PROFILE_COUNTRY"|translate}}:</b>
+         <select [(ngModel)]="selectedCountry" name="country" (change)="handleCountryChange($event)">
+          <option *ngIf="countries.length === 0" [value]="'Cargando...'">Cargando...</option>
+          <ng-container *ngFor="let country of countries">
+            <option [ngValue]="country.name.common" [selected]="selectedCountry === country.name.common || (user && user.country === country.name.common)">{{ country.name.common }}</option>
+          </ng-container>
         </select>
+
+
+
+
+
       </div>
 
      <div class="botones">
-      <input type="submit" class="rounded-1 cerrar-sesion" value="Guardar"/>
+      <input type="submit" class="rounded-1 cerrar-sesion" [value]="'SAVE' | translate" />
 
-      <button type="button" class="cerrar-sesion" (click)="closeSession()">Cerrar sesión</button>
+
+      <button type="button" class="cerrar-sesion" (click)="closeSession()">{{"CLOSE_SESSION"|translate}}</button>
      </div>
     </form>
 

@@ -12,7 +12,7 @@
   "YOUR_GROUPS":"Tus grupos",
   "NOT_FOUND_GROUPS":"No se han encontrado grupos",
   "NO_FAVS":"Aún no tienes publicaciones en tu lista de favoritos",
-  "SELECT_SPORT":"Selecciona un ejercicio",
+  "SELECT_SPORT":"Personaliza tus ejercicios",
     "IMAGES": {
       "ABDOMEN": "Abdomen",
       "ESPALDA": "Espalda",
@@ -35,6 +35,19 @@
     "NAVBAR_ABOUT":"Sobre nosotros",
     "NAVBAR_PROFILE":"Perfil",
     "NAVBAR_ESTANDAR":"Estándar",
-    "NAVBAR_ENTRENADOR":"Entrenador"
+    "NAVBAR_ENTRENADOR":"Entrenador",
+    "PROFILE_NAME":"Nombre",
+    "PROFILE_SURNAME":"Apellidos",
+    "PROFILE_USERNAME":"Usuario",
+    "PROFILE_GENDER":"Género",
+    "PROFILE_AGE":"Edad",
+    "PROFILE_COUNTRY":"Pais",
+    "SAVE":"Guardar",
+    "CLOSE_SESSION":"Cerrar sesión",
+    "SIGN_IN":"Inicia sesión",
+    "PLACEHOLDERS": {
+      "WANT_TO_DO_A_PUBLISH": "¿Quieres hacer una publicación?"
+    },
+    "BAJAR":"Vista previa"
 }
 

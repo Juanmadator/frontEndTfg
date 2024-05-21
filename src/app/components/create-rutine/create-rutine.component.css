@@ -4,9 +4,8 @@
   }
 }
 
-.other-navbar {
-  width: 287px;
-}
+
+
 
 .caja {
   display: grid;
@@ -38,7 +37,7 @@
   margin: 0 auto;
   box-shadow: 2px 5px 5px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
-  margin-bottom: 70px;
+  margin-bottom: 90px;
 }
 
 .imagenes {
@@ -52,7 +51,7 @@
   margin-top: 100px;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 768px) {
   .imagenes {
     grid-template-columns: repeat(3, 1fr);
   }

@@ -8,6 +8,7 @@
     loading:boolean;
     modalImage?: string;
     isFavourite:boolean;
+    showConfirmation:boolean;
   }
 
 

@@ -112,4 +112,15 @@ export class PostsService {
 
 
 
+  deletePost(postId: number, userId: number): Observable<any> {
+
+    const token = sessionStorage.getItem('token');
+    if (!token) {
+      return of(null)
+     }
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const url = `${this.likedByUser}/${postId}/${userId}`;
+    return this.http.delete<void>(url,{headers:headers});
+  }
+
 }

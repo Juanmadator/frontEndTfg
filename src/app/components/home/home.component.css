@@ -573,6 +573,9 @@ input[type="text"]:focus {
 .close-modal:hover {
   background-color: #e9ecef;
 }
+.interaction-buttons i{
+cursor: pointer;
+}
 .interaction-buttons span i {
   font-size: 100px;
 }
@@ -643,5 +646,33 @@ text-align: center;
   background-color: transparent;
 }
 
+.edit{
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.delete-confirmation{
+  position: absolute;
+ margin-top: -30px;
+ background-color:rgb(233, 122, 122);
+ padding: 10px;
+ font-size: 15px;
+width: 200px;
+border-radius: 20px;
+margin-left: -230px;
+z-index: 200;
+color: white;
+}
 
 
+.botones-de-confirmacion{
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  justify-content: center;
+}
+
+.botones-de-confirmacion button{
+  padding: 5px 10px;
+  border-radius: 5px;
+}

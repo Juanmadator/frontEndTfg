@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
   title = 'Fit-Track';
   constructor(private router: Router,private translate: TranslateService  ) {
 
-    this.translate.setDefaultLang('en');
+    this.translate.setDefaultLang('es');
 
     // Intentar usar el idioma del navegador si está soportado, manejando el caso de null
     const browserLang = this.translate.getBrowserLang();
