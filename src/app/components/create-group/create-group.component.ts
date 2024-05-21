@@ -13,6 +13,7 @@ import { User } from '../../services/user/User';
 import { UserService } from '../../services/user/user.service';
 import Swal from 'sweetalert2';
 import { RouterLink } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 export interface Value {
   name: string;
@@ -20,7 +21,7 @@ export interface Value {
 @Component({
   selector: 'app-create-group',
   standalone: true,
-  imports: [NavbarComponent, MatFormFieldModule,RouterLink, MatInputModule, MatIconModule, MatChipsModule, FormsModule, CommonModule],
+  imports: [NavbarComponent,TranslateModule,MatFormFieldModule,RouterLink, MatInputModule, MatIconModule, MatChipsModule, FormsModule, CommonModule],
   templateUrl: './create-group.component.html',
   styleUrl: './create-group.component.css'
 })

@@ -4,28 +4,18 @@ import { GroupsService } from '../../services/groups/groups.service';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../navbar/navbar.component';
-import Swiper from 'swiper';
-import { animate, style, transition, trigger } from '@angular/animations';
 import { UserService } from '../../services/user/user.service';
 import { User } from '../../services/user/User';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-explorar',
   standalone: true,
-  imports: [RouterLink, CommonModule, NavbarComponent,FormsModule],
+  imports: [RouterLink, CommonModule, NavbarComponent,FormsModule,TranslateModule ],
   templateUrl: './explorar.component.html',
   styleUrl: './explorar.component.css',
   animations: [
-    trigger('newGroupsAnimation', [
-      transition(':enter', [
-        style({ opacity: 0, transform: 'translateY(-50px)' }),
-        animate('500ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
-      ]),
-      transition(':leave', [
-        animate('500ms ease-out', style({ opacity: 0, transform: 'translateY(-50px)' }))
-      ])
-    ])
   ],
 })
 export class ExplorarComponent implements OnInit {
@@ -86,12 +76,19 @@ export class ExplorarComponent implements OnInit {
 
   filterGroups(): void {
     this.filteredGroups = this.groups.filter(group => {
-      return group.name.toLowerCase().includes(this.searchText.toLowerCase());
+      const searchTextLowerCase = this.searchText.toLowerCase();
+      const coachNameSearchTextLowerCase = this.searchText.toLowerCase();
+
+      // Comprueba si el nombre del grupo o el nombre del coach coinciden con el texto de búsqueda
+      return group.name.toLowerCase().includes(searchTextLowerCase) ||
+             group.coachName.toLowerCase().includes(coachNameSearchTextLowerCase);
     });
+
     this.totalPages = this.calculateTotalPages(); // Actualiza el número total de páginas
     this.currentPage = 1; // Restablece la página actual a la primera página después de aplicar el filtro
     this.updatePaginatedGroups(); // Actualiza los grupos paginados después de aplicar el filtro
   }
+
 
 
   updatePaginatedGroups(): void {

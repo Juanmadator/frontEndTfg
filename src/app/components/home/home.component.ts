@@ -12,11 +12,12 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 import imageCompression from 'browser-image-compression';
 import { GroupsService } from '../../services/groups/groups.service';
 import { MatDialog } from '@angular/material/dialog';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [NavbarComponent, CommonModule, FormsModule, InfiniteScrollModule, LazyLoadImageModule],
+  imports: [NavbarComponent, CommonModule, TranslateModule,FormsModule, InfiniteScrollModule, LazyLoadImageModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -40,7 +41,7 @@ export class HomeComponent implements OnInit {
   groups: any[] = [];
 
   showComments = false;
-
+  private originalBodyOverflow: string | null = null;
   //array de posts a los que le has dado me gusta
   favouritePosts: { postId: number, isFavourite: boolean }[] = [];
 
@@ -68,8 +69,28 @@ export class HomeComponent implements OnInit {
   }
 
 
-  toggleModal(): void {
+  toggleModal() {
     this.showComments = !this.showComments;
+    if (this.showComments) {
+      this.disableBodyScroll();
+    } else {
+      this.enableBodyScroll();
+    }
+  }
+
+  private disableBodyScroll() {
+    this.originalBodyOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+  }
+
+  private enableBodyScroll() {
+    document.body.style.overflow = this.originalBodyOverflow || '';
+    this.originalBodyOverflow = null;
+  }
+
+  ngOnDestroy() {
+    // Asegúrate de restaurar el scroll del cuerpo cuando el componente se destruya
+    this.enableBodyScroll();
   }
 
   preventClose(event: Event): void {
@@ -103,7 +124,6 @@ export class HomeComponent implements OnInit {
       }
     );
   }
-
 
 
 
@@ -402,16 +422,10 @@ export class HomeComponent implements OnInit {
     }
   }
 
-
-
-
-
-
   isFavourite(postId: number): boolean {
     const post = this.favouritePosts.find(p => p.postId === postId);
     return post ? post.isFavourite : false;
   }
-
 
 
 }

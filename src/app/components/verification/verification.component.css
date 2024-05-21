@@ -1,13 +1,13 @@
-.container {
+.token-invalid-container {
   background-color: #f0f0f0;
   text-align: center;
   padding-top: 50px;
 }
 
-.title {
-  color: #388e3c;
+.token-invalid-title {
+  color: #25b338;
 }
 
-.message {
+.token-invalid-text {
   color: #757575;
 }

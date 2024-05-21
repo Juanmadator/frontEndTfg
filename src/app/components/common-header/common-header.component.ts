@@ -5,25 +5,42 @@ import { User } from '../../services/user/User';
 import { Router, RouterLink } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { CommonModule } from '@angular/common';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { N } from '@angular/cdk/keycodes';
 
 @Component({
   standalone:true,
   selector: 'app-common-header',
   templateUrl: './common-header.component.html',
-  imports:[NavbarComponent,CommonModule,RouterLink],
+  imports:[NavbarComponent,CommonModule,RouterLink,TranslateModule],
   styleUrls: ['./common-header.component.css']
 })
 export class CommonHeaderComponent implements OnInit{
   showNavbar: boolean = false;
   showOtherNavbar:boolean=false;
   isSmallScreen = window.innerWidth <= 1200;
-  constructor(private userService:UserService,private router:Router) { }
+  constructor(private userService:UserService,private router:Router, private translate: TranslateService) {
+
+    this.translate.setDefaultLang('es');
+    // Intentar usar el idioma del navegador si está soportado, manejando el caso de null
+    const browserLang = this.translate.getBrowserLang();
+    this.translate.use(browserLang?.match(/en|es/) ? browserLang : 'en');
+  }
   ngOnInit(): void {
     if(sessionStorage.getItem("userId")){
       this.getUserData();
+      console.log(this.user.coach);
     }
+  }
 
+  switchLanguage(language: string) {
+    this.translate.use(language);
+  }
 
+  cambiarIdioma(){
+    const currentLang=this.translate.currentLang;
+    const newLang=currentLang==='en' ? 'es' : 'en';
+    this.translate.use(newLang);
   }
   offcanvasNavbar: boolean = false;
 
@@ -71,6 +88,9 @@ export class CommonHeaderComponent implements OnInit{
       this.showNavbar = false; // Oculta el navbar en pantallas grandes
     }
   }
+
+
+
 
 
 }

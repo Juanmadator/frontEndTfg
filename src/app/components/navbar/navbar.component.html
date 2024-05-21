@@ -24,9 +24,9 @@
           @if(user.name && user.lastname){
           <div>
             <h5>{{user.name}}</h5>@if(user.coach){
-            <small><i>Entrenador</i></small> <i class="fa-solid fa-dumbbell"></i>
+            <small><i>{{"NAVBAR_ENTRENADOR"|translate}}</i></small> <i class="fa-solid fa-dumbbell"></i>
             }@else {
-              <small><i>Estándar</i></small>
+              <small><i>{{"NAVBAR_ESTANDAR"|translate}}</i></small>
             }
           </div>
 
@@ -55,7 +55,7 @@
         <a class="menu-item" [routerLink]="['/explorar']" [ngClass]="{'active': isExplorar}"
           (click)="changeActiveItem($event.target)">
           <span><i class="uil uil-compass"></i></span>
-          <h3>Explora</h3>
+          <h3>{{"NAVBAR_EXPLORAR"|translate}}</h3>
         </a>
 
         @if(user!=null){
@@ -64,7 +64,7 @@
           [style.pointer-events]="user.verified ? 'auto' : 'none'" (click)="changeActiveItem($event.target)">
           <span><i class="fas fa-users"></i>
           </span>
-          <h3>Grupos</h3>
+          <h3>{{"NAVBAR_GRUPOS"|translate}}</h3>
         </a>
         }
         <div class="contenedor-sidebar">
@@ -72,13 +72,13 @@
             class="menu-item" (click)="user.verified && changeActiveItem($event.target)"
             [style.pointer-events]="user.verified ? 'auto' : 'none'">
             <span><i class="uil uil-bookmark"></i></span>
-            <h3>Favoritos</h3>
+            <h3>{{"NAVBAR_FAVS"|translate}}</h3>
           </a>
-          <a [ngClass]="{'gray-background': !user.verified}" class="menu-item"
+          <a [routerLink]="['/create/rutine']" [ngClass]="{'gray-background': !user.verified,'active': isCreateRutine}" class="menu-item"
             (click)="user.verified && changeActiveItem($event.target)"
             [style.pointer-events]="user.verified ? 'auto' : 'none'">
-            <span><i class="uil uil-home"></i></span>
-            <h3>Crea tu rutina</h3>
+            <span><i class="fa-solid fa-dumbbell"></i></span>
+            <h3>{{"NAVBAR_RUTINE"|translate}}</h3>
           </a>
           <a [routerLink]="['/profile']" [ngClass]="{'gray-background': !user.verified,'active': isProfile}"
             class="menu-item" (click)="user.verified && changeActiveItem($event.target)"
@@ -86,7 +86,7 @@
             <span><i class="uil uil-user"></i>
 
             </span>
-            <h3>Perfil</h3>
+            <h3>{{"NAVBAR_PROFILE"|translate}}</h3>
           </a>
 
         </div>
@@ -95,7 +95,7 @@
         <a class="menu-item" (click)="changeActiveItem($event.target)">
           <span><i class="fa-solid fa-circle-info"></i>
           </span>
-          <h3>Sobre nosotros</h3>
+          <h3>{{"NAVBAR_ABOUT"|translate}}</h3>
         </a>
 
       </div>

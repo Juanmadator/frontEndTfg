@@ -27,7 +27,7 @@
           <!--EN CASO DE QUE SE DEBA HACER LOGIN-->
           <div class="modal-message" #modal *ngIf="showMessageToUser">
             <div class="modal-contenido">
-              <p>Debes iniciar sesión para hacer un post.</p>
+              <p>{{'SIGN_IN_POST'|translate}}</p>
             </div>
           </div>
 
@@ -43,15 +43,15 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Vista previa del post</h5>
+                <h5 class="modal-title">{{'PREVIUS_POST'|translate}}</h5>
 
               </div>
               <div class="modal-body text-center">
                 <p>{{ postContent }}</p>
-                <img *ngIf="selectedFile" [src]="modalImage" alt="Selected Image" class="modal-image">
+                <img *ngIf="selectedFile" [srcset]="modalImage" alt="Selected Image" class="modal-image">
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{'CLOSE'|translate}}</button>
               </div>
             </div>
           </div>
@@ -64,7 +64,7 @@
               <div class="user">
                 <div class="profile-photo">
                   @if(post.userData?.profilepicture!=null && post.userData?.profilepicture!=undefined){
-                  <img [src]="'http://localhost:8080/profile-images/'+post.userData?.profilepicture" alt="User photo">
+                  <img [srcset]="'http://localhost:8080/profile-images/'+post.userData?.profilepicture" alt="User photo">
                   }@else {
                   <img src="assets/images/anonimo.png" alt="User photo">
                   }
@@ -90,7 +90,7 @@
             </div>
             }@else {
             <div class="photo">
-              <img [src]="'http://localhost:8080/images/'+post.imageUrl" [id]="'post-image-' + post.id" alt="User photo"
+              <img [srcset]="'http://localhost:8080/images/'+post.imageUrl" [id]="'post-image-' + post.id" alt="User photo"
                 class="post-image" loading="eager">
             </div>
             }
@@ -111,7 +111,7 @@
                 <i class="fa-solid fa-heart fs-2 pe-1"></i>
                 }
               </div>
-              <button (click)="toggleModal()">Ver comentarios</button>
+              <button (click)="toggleModal()" class="show-comments">{{'SHOW_COMMENTS'|translate}}</button>
               </div>
             </div>
           </div>
@@ -121,7 +121,7 @@
           <div class="messages">
             <div class="heading-messages">
               <div class="heading">
-                <h4>Grupos</h4>
+                <h4>{{'GROUPS'|translate}}</h4>
               </div>
 
               <div class="search-bar">
@@ -131,14 +131,13 @@
             </div>
 
             <div class="category">
-              <h6 class="active">Unirte</h6>
-              <h6>Tus grupos</h6>
+              <h6 class="active">{{'JOIN_GROUP'|translate}}</h6>
             </div>
             <div class="all-messages">
               @if(groups!=null && groups!=undefined){
               <div class="message" *ngFor="let grupo of groups">
                 <div class="profile-photo">
-                  <img [src]="'http://localhost:8080/images/'+grupo.profileImage" alt="Imagen usuario">
+                  <img [srcset]="'http://localhost:8080/images/'+grupo.profileImage" alt="Imagen usuario">
                 </div>
                 <div class="message-body">
                   <div>
@@ -146,11 +145,11 @@
                     <small class="text-muted"> &#64;{{grupo.coachUsername}}</small>
                   </div>
 
-                  <div class="boton"><button class="btn btn-primary" (click)="unirte(grupo.id)">Unirte</button></div>
+                  <div class="boton"><button class="btn btn-primary" (click)="unirte(grupo.id)">{{'JOIN_GROUP'|translate}}</button></div>
                 </div>
               </div>
               }@else {
-              <p>No se han encontrado grupos</p>
+              <p>{{'NOT_FOUND_GROUPS'|translate}}</p>
               }
             </div>
 

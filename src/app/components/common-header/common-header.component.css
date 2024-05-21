@@ -171,11 +171,20 @@
     background-color: #f0f0f0;
   }
 
-
-
   @media (min-width:601px){
     .menu-toggle{
       display: none;
     }
   }
 
+
+  .idioma{
+    font-size: 30px;
+    background-color: transparent;
+    transition: 0.3s all ease;
+    color: var(--color-primary);
+  }
+
+  .idioma:hover{
+    transform: scale(1.10);
+  }

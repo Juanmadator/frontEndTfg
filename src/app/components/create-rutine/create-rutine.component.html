@@ -1,0 +1,65 @@
+<div class="caja">
+<div class="other-navbar">
+  <app-navbar></app-navbar>
+</div>
+
+<div class="ejercicios">
+  <div class="titulo">
+    <div class="info"><i class="fa-solid fa-circle-info"></i></div>
+    <h2>{{ 'SELECT_SPORT' | translate }}</h2>
+  </div>
+  <div *ngIf="esPaginaActual(1)">
+    <div class="imagenes">
+      <div *ngFor="let imagen of imagenes; let i = index" class="imagen-item">
+        <img [src]="imagen" alt="Imagen de deporte" class="deporte" (click)="seleccionarImagen(i)" [class.seleccionada]="imagenSeleccionada === i">
+        <p class="text-center">{{ nombresImagenesTraducidas[i] }}</p>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div *ngIf="esPaginaActual(2)">
+    <div class="tiempo">
+      <div class="hour-options">
+        <div><h4>Selecciona las horas</h4></div>
+         <div class="horas">
+          <button class="hour-option" (click)="selectHour(0)">0</button>
+          <button class="hour-option" (click)="selectHour(1)">1</button>
+          <button class="hour-option" (click)="selectHour(2)">2</button>
+          <button class="hour-option" (click)="selectHour(3)">3</button>
+          <button class="hour-option" (click)="selectHour(4)">4</button>
+         </div>
+      </div>
+      <div class="minutes-options">
+        <div><h4>Selecciona los minutos</h4></div>
+        <div class="minutos">
+          <button class="minutes-option" (click)="selectMinutes(15)">15</button>
+          <button class="minutes-option" (click)="selectMinutes(25)">25</button>
+          <button class="minutes-option" (click)="selectMinutes(35)">35</button>
+          <button class="minutes-option" (click)="selectMinutes(45)">45</button>
+        </div>
+      </div>
+  </div>
+
+  <div class="imagen-deporte">
+    <img *ngIf="imagenSeleccionada !== null" [src]="imagenes[imagenSeleccionada]" alt="Imagen seleccionada" class="selected-image">
+    <h3 *ngIf="imagenSeleccionada !== null" class="ejercicio-texto">{{ nombresImagenes[imagenSeleccionada] |translate }}</h3>
+  </div>
+  </div>
+  <div class="imagen-deporte">
+    @if(imagenSeleccionada!=null){
+      <div class="botones">
+        <button class="next-step" *ngIf="esPaginaActual(2)" (click)="stepBefore()">{{"BEFORE"|translate}}</button>
+      <button class="next-step" (click)="nextStep()">{{"NEXT"|translate}}</button>
+
+      <button class="next-step"  *ngIf="esPaginaActual(3)" (click)="nextStep()">{{"CREATE"|translate}}</button>
+      </div>
+    }
+  </div>
+
+</div>
+
+
+
+</div>

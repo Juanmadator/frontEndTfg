@@ -1,0 +1,216 @@
+@media (max-width: 600px) {
+  .other-navbar {
+    display: none;
+  }
+}
+
+.other-navbar {
+  width: 287px;
+}
+
+.caja {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 98%;
+  margin: 0 auto;
+  margin-top: 100px;
+}
+
+@media (max-width: 992px) {
+  .caja {
+    display: grid;
+  }
+}
+
+@media (min-width: 993px) {
+  .caja {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    width: 80%;
+  }
+}
+
+.ejercicios {
+  background-color: var(--color-secondary);
+  border-radius: 20px;
+  padding: 30px;
+  width: 90%;
+  margin: 0 auto;
+  box-shadow: 2px 5px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  margin-bottom: 70px;
+}
+
+.imagenes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  place-items: center;
+  width: 100%;
+  gap: 20px;
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 100px;
+}
+
+@media (min-width: 992px) {
+  .imagenes {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1300px) {
+  .imagenes {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+.deporte {
+  width: 90px; /* Tamaño de la imagen */
+  height: 90px;
+  border-radius: 30%; /* Asegura que la imagen sea un círculo */
+  background-color: white;
+  padding: 15px;
+  transition: 0.3s all ease;
+}
+
+.deporte:hover {
+  transform: scale(1.1);
+}
+
+.seleccionada {
+  scale: 1.05;
+  z-index: 100;
+  margin-inline-start: 10px;
+  margin-inline-end: 10px;
+  border: 5px solid var(--color-primary);
+}
+
+.titulo {
+  text-align: center;
+  padding: 10px;
+  border-radius: 10px 15px;
+  background-color: var(--color-secondary);
+  width: fit-content;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: 0.3s all ease;
+  cursor: pointer;
+  margin-bottom: 30px;
+}
+
+.titulo:hover {
+  transform: scale(1.02);
+}
+
+.titulo h2 {
+  margin: 0;
+}
+
+.titulo .info {
+  margin-left: 10px;
+  font-size: 30px;
+}
+
+.imagen-item {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+}
+
+.imagen-deporte {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.selected-image {
+  text-align: center;
+  width: 210px;
+  height: 210px;
+  margin-top: 30px;
+}
+
+.next-step {
+  background-color: var(--color-primary);
+  padding: 10px 15px;
+  border-radius: 30px;
+  color: white;
+}
+
+.botones {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+}
+
+.ejercicio-texto {
+  color: black;
+}
+
+.tiempo {
+  display: flex;
+  align-items: center;
+}
+
+.colon {
+  margin: 0 10px; /* Espacio entre los botones y los dos puntos */
+}
+
+.hour-options,
+.minutes-options {
+  display: flex;
+}
+
+.hour-option,
+.minutes-option {
+  padding: 5px 10px;
+  margin-right: 5px; /* Espacio entre los botones */
+  background-color: var(--color-primary);
+  cursor: pointer;
+  border-radius: 5px;
+  color: white;
+  transition: 0.3s all ease;
+}
+
+.hour-option:hover,
+.minutes-option:hover {
+  background-color: #e0e0e0;
+  color: black;
+}
+
+.selected {
+  background-color: #4caf50; /* Color de fondo cuando está seleccionado */
+  color: white;
+}
+
+.tiempo {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.hour-options,
+.minutes-options {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+.horas,
+.minutos {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+button {
+  transition: 0.3s all ease;
+}
+
+button:hover {
+  background-color: var(--color-terciary);
+}

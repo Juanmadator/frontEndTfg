@@ -605,6 +605,9 @@ text-align: center;
   z-index: 3000;
 }
 
+.show-comments{
+  background-color: transparent;
+}
 .modal-background {
   position: fixed;
   top: 0;
@@ -639,3 +642,6 @@ text-align: center;
   color: red;
   background-color: transparent;
 }
+
+
+

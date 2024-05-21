@@ -6,10 +6,12 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NavbarComponent } from '../navbar/navbar.component';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { FixedMessageComponent } from '../../fixed-message/fixed-message.component';
+import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-favoritos',
   standalone: true,
-  imports: [CommonModule, InfiniteScrollModule,NavbarComponent],
+  imports: [CommonModule, InfiniteScrollModule,NavbarComponent,FixedMessageComponent,TranslateModule],
   templateUrl: './favoritos.component.html',
   styleUrl: './favoritos.component.css'
 })
@@ -24,8 +26,6 @@ export class FavoritosComponent implements OnInit {
   ngOnInit(): void {
     this.getPosts();
   }
-
-
 
   getPosts(): void {
     this.isLoading = true; // Se inicia la carga de posts

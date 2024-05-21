@@ -5,11 +5,12 @@ import { User } from '../../services/user/User';
 import { NgClass } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { NavbarService } from '../../services/navbar/navbar.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [NgClass, RouterLink],
+  imports: [NgClass, RouterLink,TranslateModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
@@ -17,7 +18,7 @@ export class NavbarComponent {
 
   @Input() showNavbar: boolean = false;
 
-  constructor(private http: HttpClient, private userService: UserService, private router: Router, public navbarService: NavbarService) { }
+  constructor(private http: HttpClient,private userService: UserService, private router: Router, public navbarService: NavbarService) { }
   public menuItems =
     document.querySelectorAll(".menu-item");
 
@@ -31,6 +32,7 @@ export class NavbarComponent {
   isProfile:boolean=false;
   isGroups:boolean=false;
   isExplorar:boolean=false;
+  isCreateRutine:boolean=false;
 
   setActiveItem(item: string) {
     this.navbarService.setActiveItem(item);
@@ -54,6 +56,7 @@ export class NavbarComponent {
     this.isProfile = this.router.url === '/profile';
     this.isGroups = this.router.url === '/groups' || this.isGroupUrl();
     this.isExplorar=this.router.url==='/explorar'
+    this.isCreateRutine=this.router.url==='/create/rutine';
   }
 
   private isGroupUrl(): boolean {

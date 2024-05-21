@@ -47,6 +47,11 @@ export const routes: Routes = [
     ,canActivate:[AuthenticationGuardComponent]
   },
   {
+    path: 'create/rutine',
+    loadComponent: () => import('./components/create-rutine/create-rutine.component').then(c => c.CreateRutineComponent)
+    ,canActivate:[AuthenticationGuardComponent]
+  },
+  {
     path: 'group/:id',
     loadComponent: () => import('./components/group/group.component').then(c => c.GroupComponent)
     ,canActivate:[AuthenticationGuardComponent]

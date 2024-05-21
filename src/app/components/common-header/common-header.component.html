@@ -23,7 +23,7 @@
       @else {
       <a [routerLink]="['/register']">
         <label class="btn btn-primary" for="create-post">
-          Registarse
+          {{ 'REGISTER' | translate }}
         </label>
       </a>
       }
@@ -44,7 +44,7 @@
         }
       </div>
 
-
+      <button (click)="cambiarIdioma()" class="idioma" title="Traducción ES-EN"><i class="fa-solid fa-earth-europe"></i></button>
       <!-- Solo muestra el botón y el navbar en pantallas con una resolución menor o igual a 600px -->
 
 

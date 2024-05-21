@@ -1,1 +1,95 @@
-.caja,.posts{display:grid}.favoritos-container{max-width:800px;margin:auto;padding:54px 20px 50px}.post{min-width:400px;background:#fff;padding:10px;border-radius:10px;margin:10px;z-index:100}img{border-radius:20px;padding:2px}.posts{width:100%}.caja{padding-top:50px}.navegacion{padding:100px;display:none;width:480px;left:130px;top:12px}@media (min-width:1000px){.posts{grid-template-columns:repeat(2,2fr)}.navegacion{display:block;position:fixed;margin-left:-70px}.caja{grid-template-columns:5fr}}@media (min-width:1201px){.posts{margin-left:150px}.favoritos-container h2{margin-left:200px}.navegacion{margin-left:-45px}}@media (min-width:1500px){.navegacion{margin-left:100px}}button{background:0 0}i{font-size:22px;color:red}@media (max-width:600px){.other-navbar{display:none}}@media (min-width:992px){.other-navbar{display:none}}
+.posts {
+  display: grid;
+}
+
+.caja{
+  width: 80%;
+  display: grid;
+  grid-template-columns: 1fr;
+  margin: 0 auto;
+  margin-top: 55px;
+}
+.other-navbar{
+  width: 287px;
+}
+.favoritos-container {
+  margin-top: -10px;
+}
+.post {
+  max-width: auto;
+  background: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 10px;
+  z-index: 100;
+}
+img {
+  border-radius: 20px;
+  padding: 2px;
+}
+.posts {
+  width: 90%;
+  z-index: -1;
+}
+.caja {
+  padding-top: 50px;
+}
+
+@media (max-width:600px){
+  .other-navbar{
+    display: none;
+  }
+
+}
+@media(min-width:992px){
+  .posts{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+   margin-left: 20px;
+   justify-content: center;
+  }
+
+
+}
+.titulo{
+  width: 88%;
+  background-color: var(--color-primary);
+  color: white;
+  padding: 15px;
+  margin-top: 10px;
+  border-radius: 10px;
+  margin: 0 auto;
+  z-index: 150;
+}
+@media(min-width:993px){
+  .caja{
+    grid-template-columns: 1fr 3fr;
+  }
+  .titulo{
+    width: 60%;
+    margin: 0 auto;
+  }
+}
+.edit{
+  background-color: transparent;
+  transition: 0.3s all ease;
+  font-size: 25px;
+}
+
+.edit:hover{
+  transform: scale(1.1);
+}
+
+
+@media (min-width:1500px){
+  .posts{
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+
+@media(max-width:992px){
+  .posts{
+    margin-left: 20px;
+  }
+}
