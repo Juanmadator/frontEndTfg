@@ -46,8 +46,13 @@
     "CLOSE_SESSION":"Cerrar sesión",
     "SIGN_IN":"Inicia sesión",
     "PLACEHOLDERS": {
-      "WANT_TO_DO_A_PUBLISH": "¿Quieres hacer una publicación?"
+      "WANT_TO_DO_A_PUBLISH": "¿Quieres hacer una publicación?",
+      "GROUPS": "Buscar grupo",
+      "WRITE_COMMENT":"¡Manda un comentario!"
     },
-    "BAJAR":"Vista previa"
+    "BAJAR":"Vista previa",
+    "MALE":"Hombre",
+    "FEMALE":"Mujer",
+    "OTHER":"Otro"
 }
 

@@ -112,7 +112,18 @@
   }
 
 
+.profile-photo img{
+  margin: 0;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}
 
+.profile-photo{
+  transition: 0.3s all ease;
+}
+
+.profile-photo:hover{
+  transform: scale(1.1);
+}
 
 
 

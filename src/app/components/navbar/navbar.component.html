@@ -24,7 +24,7 @@
           @if(user.name && user.lastname){
           <div>
             <h5>{{user.name}}</h5>@if(user.coach){
-            <small><i>{{"NAVBAR_ENTRENADOR"|translate}}</i></small> <i class="fa-solid fa-dumbbell"></i>
+            <small class="d-flex align-content-center g-2"><i class="mt-1">{{"NAVBAR_ENTRENADOR"|translate}}</i> </small>
             }@else {
               <small><i>{{"NAVBAR_ESTANDAR"|translate}}</i></small>
             }

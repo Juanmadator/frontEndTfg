@@ -3,7 +3,7 @@
   "DESIGNED": "Designed by ",
   "COPYRIGHT": "All rights reserved",
   "CREATE_GROUP": "Create your group",
-  "PREVIUS_POST": "Previous post",
+  "PREVIUS_POST": "All rights reserved",
   "SIGN_IN_POST": "You must sign in to make a post",
   "CLOSE": "Close",
   "SHOW_COMMENTS": "Show comments",
@@ -17,13 +17,13 @@
     "ABDOMEN": "Abdomen",
     "ESPALDA": "Back",
     "BICEPS": "Biceps",
-    "BICICLETA": "Bike",
+    "BICICLETA": "Bicycle",
     "PECHO": "Chest",
     "PIERNAS": "Legs",
-    "CORRER": "Run",
+    "CORRER": "Running",
     "HOMBROS": "Shoulders",
     "TRICEPS": "Triceps",
-    "CAMINAR": "Walk"
+    "CAMINAR": "Walking"
   },
   "NEXT": "Next",
   "BEFORE": "Previous",
@@ -43,10 +43,15 @@
   "PROFILE_AGE": "Age",
   "PROFILE_COUNTRY": "Country",
   "SAVE": "Save",
-  "CLOSE_SESSION": "Log out",
+  "CLOSE_SESSION": "Sign out",
   "SIGN_IN": "Sign in",
   "PLACEHOLDERS": {
-    "WANT_TO_DO_A_PUBLISH": "Want to publish a post?"
+    "WANT_TO_DO_A_PUBLISH": "Want to make a post?",
+    "GROUPS": "Search group",
+    "WRITE_COMMENT": "Send a comment!"
   },
-  "BAJAR":"Preview"
+  "BAJAR": "Preview",
+  "MALE": "Male",
+  "FEMALE": "Female",
+  "OTHER": "Other"
 }

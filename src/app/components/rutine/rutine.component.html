@@ -1,5 +1,7 @@
 <div class="fondo">
-
+  <div class="other-navbar">
+    <app-navbar></app-navbar>
+  </div>
   <section class="articles">
     <article *ngFor="let grupo of groups">
       <a [routerLink]="'/group/' + grupo.id">
@@ -26,8 +28,4 @@
     </a>
     </article>
   </section>
-  <div class="other-navbar">
-    <app-navbar></app-navbar>
-  </div>
-
 </div>

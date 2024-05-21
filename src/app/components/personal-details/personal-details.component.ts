@@ -27,11 +27,10 @@ export class PersonalDetailsComponent implements OnInit {
   email!: string;
   password!: string;
   age!: string;
-  gender: string = "";
   country!: string;
   selectedCountry: string = "Cargando...";
   linkIsActive: boolean = false;
-  public user: any = {};
+  user: any = { gender: undefined };
 
   selectedFile: File | null = null;
 

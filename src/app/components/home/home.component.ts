@@ -13,6 +13,7 @@ import imageCompression from 'browser-image-compression';
 import { GroupsService } from '../../services/groups/groups.service';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
+import { Comment } from '../../services/posts/Comment';
 
 @Component({
   selector: 'app-home',
@@ -42,9 +43,10 @@ export class HomeComponent implements OnInit {
   showConfirmation = false;
   showComments = false;
   private originalBodyOverflow: string | null = null;
+  postId!:number;
   //array de posts a los que le has dado me gusta
   favouritePosts: { postId: number, isFavourite: boolean }[] = [];
-
+  comments: Comment[] = [];
   @ViewChild('messages') messages!: ElementRef<HTMLDivElement>;
   @ViewChild('messageSearch') messageSearch?: ElementRef<HTMLInputElement>;
 
@@ -69,14 +71,26 @@ export class HomeComponent implements OnInit {
   }
 
 
-  toggleModal() {
+  toggleModal(postId: number) {
+    this.postId = postId; // Guarda el ID del post en una propiedad del componente
     this.showComments = !this.showComments;
     if (this.showComments) {
       this.disableBodyScroll();
+      // Aquí puedes cargar los comentarios del post usando el ID
+      this.loadComments(postId);
     } else {
       this.enableBodyScroll();
     }
   }
+
+  loadComments(postId: number) {
+   this.postsService.getComments(postId).subscribe(
+    (response)=>{
+      this.comments=response;
+   })
+  }
+
+
 
   private disableBodyScroll() {
     this.originalBodyOverflow = document.body.style.overflow;
@@ -373,46 +387,57 @@ export class HomeComponent implements OnInit {
   }
 
   //me gusta de los posts
-
   like(postId: number): void {
-    // Verifica si el post ya ha sido marcado como favorito
-    const index = this.favouritePosts.findIndex(post => post.postId === postId);
-    if (index !== -1) {
-      // Si ya ha sido marcado como favorito, elimínalo de la lista de favoritos
-      this.favouritePosts.splice(index, 1);
+    const postToUpdate = this.posts.find(post => post.id === postId);
+    if (!postToUpdate) return;
 
-      // Realiza la solicitud para eliminar el favorito
-      this.postsService.addFavourite( postId, this.user.id ).subscribe(
-        () => {
-          // Actualiza el estado isFavourite del post
-          const postToUpdate = this.posts.find(post => post.id === postId);
-          if (postToUpdate) {
-            postToUpdate.isFavourite = false;
-          }
-        },
-        error => {
-          console.error('Failed to remove favourite:', error);
-        }
-      );
-    } else {
-      // Si no ha sido marcado como favorito, agrégalo a la lista de favoritos
+    // Actualiza el estado del post inmediatamente
+    postToUpdate.isFavourite = !postToUpdate.isFavourite;
+
+    if (postToUpdate.isFavourite) {
+      // Si el post se marcó como favorito, agrégalo a la lista de favoritos
       this.favouritePosts.push({ postId: postId, isFavourite: true });
 
       // Realiza la solicitud para agregar el favorito
-      this.postsService.addFavourite( postId,  this.user.id ).subscribe(
+      this.postsService.addFavourite(postId, this.user.id).subscribe(
         () => {
-          // Actualiza el estado isFavourite del post
-          const postToUpdate = this.posts.find(post => post.id === postId);
-          if (postToUpdate) {
-            postToUpdate.isFavourite = true;
-          }
+          // Confirmar que el post ha sido añadido a favoritos
         },
         error => {
           console.error('Failed to add favourite:', error);
+          // Revertir el estado en caso de error
+          postToUpdate.isFavourite = false;
+          // Eliminar el post de la lista de favoritos
+          this.removePostFromFavourites(postId);
+        }
+      );
+    } else {
+      // Si el post se desmarcó como favorito, elimínalo de la lista de favoritos
+      this.removePostFromFavourites(postId);
+
+      // Realiza la solicitud para eliminar el favorito
+      this.postsService.addFavourite(postId, this.user.id).subscribe(
+        () => {
+          // Confirmar que el post ha sido eliminado de favoritos
+        },
+        error => {
+          console.error('Failed to remove favourite:', error);
+          // Revertir el estado en caso de error
+          postToUpdate.isFavourite = true;
+          // Agregar el post a la lista de favoritos nuevamente
+          this.favouritePosts.push({ postId: postId, isFavourite: true });
         }
       );
     }
   }
+
+  removePostFromFavourites(postId: number): void {
+    const index = this.favouritePosts.findIndex(post => post.postId === postId);
+    if (index !== -1) {
+      this.favouritePosts.splice(index, 1);
+    }
+  }
+
 
   isFavourite(postId: number): boolean {
     const post = this.favouritePosts.find(p => p.postId === postId);

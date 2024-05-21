@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, map, of, throwError } from 'rxjs';
 import { environment } from '../../environments/environments';
 import { Post } from './Post';
+import { Comment } from './Comment';
 
 @Injectable({
   providedIn: 'root'
@@ -110,6 +111,11 @@ export class PostsService {
       return this.http.delete(`${this.apiCheck}favourites/${userId}/${postId}`,{headers:headers});
   }
 
+
+  getComments(postId:number):Observable<Comment[]>{
+    const url = `${this.likedByUser}/comments/${postId}`;
+    return this.http.get<Comment[]>(url);
+  }
 
 
   deletePost(postId: number, userId: number): Observable<any> {

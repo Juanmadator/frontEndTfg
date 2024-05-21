@@ -4,7 +4,6 @@
 }
 .campo,
 .contenedor,
-.fondo,
 img {
   width: 100%;
 }
@@ -41,14 +40,23 @@ article {
 .campo {
   margin-top: 20px;
 }
-.fondo {
-  display: grid;
-  grid-template-columns: 1fr;
-  align-items: center;
-  background-color: #f0f0f0;
+.fondo{
   width: 80%;
   margin: 0 auto;
-  margin-top: -35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.fondo {
+  background-color: #f0f0f0;
+  margin-top: 100px;
+}
+
+
+@media(min-width:993px){
+  .fondo{
+    grid-template-columns: 1fr 5fr;
+  }
 }
 .create-group {
   text-align: center;
@@ -69,10 +77,14 @@ article {
 .campo {
   margin-bottom: 20px;
 }
+.articles{
+  align-items: center;
+  min-width: 400px;
+}
 .articles,
 .card {
   display: grid;
-  width: 300px;
+  max-width: 300px;
 }
 button.mat-button {
   background-color: #007bff;
@@ -222,7 +234,7 @@ article {
   box-shadow: none;
   background: #fff;
   transition: 0.4s ease-in-out;
-  max-width: 500px;
+  max-width: 450px;
 }
 article a::after {
   position: absolute;
@@ -334,17 +346,13 @@ body {
 .articles {
   grid-column: 2;
   gap: 24px;
-  margin: 10px;
   padding-bottom: 70px;
-  padding-top: 50px;
-  max-width: 300px;
 }
 
 
 @media (max-width: 859px) {
   .articles {
     max-width: 500px;
-    width: 500px;
   }
   .article {
     max-width: none;
@@ -360,7 +368,6 @@ body {
   .articles {
     width: 100%;
     grid-template-columns: repeat(2, 2fr);
-    max-width: 600px;
   }
 
 }
@@ -373,7 +380,6 @@ body {
 @media (min-width: 1325px) {
   .articles {
     grid-template-columns: repeat(3, 2fr);
-    max-width: 900px;
     margin-left: 300px;
   }
 

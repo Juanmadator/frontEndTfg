@@ -115,15 +115,32 @@
             <div class="action-button">
               <div class="interaction-buttons">
                 @if(user!=null){
-                <span (click)="like(post.id)" >
-                  <i class="fa-solid fa-heart fs-2 pe-1" [ngClass]="post.isFavourite ? 'liked-heart' : ''"></i>
-                </span>
+                  <span (click)="like(post.id)">
+                    <i class="fa-solid fa-heart fs-2 pe-1" [ngClass]="post.isFavourite ? 'liked-heart' : ''"></i>
+                  </span>
+
+
                 }@else {
                 <i class="fa-solid fa-heart fs-2 pe-1"></i>
                 }
               </div>
-              <button (click)="toggleModal()" class="show-comments">{{'SHOW_COMMENTS'|translate}}</button>
+              <button (click)="toggleModal(post.id)" class="show-comments">{{'SHOW_COMMENTS'|translate}}</button>
               </div>
+              <div class="comments text-muted">
+                <div class="modal-background" *ngIf="showComments" (click)="toggleModal(post.id)">
+                  <div class="modal-content" (click)="preventClose($event)">
+                    <div *ngFor="let comment of comments" class="comment">
+                      <p>{{ comment.content }}</p>
+                    </div>
+
+                    <div class="mandar-comentario">
+                      <input type="text" [placeholder]="'PLACEHOLDERS.WRITE_COMMENT' |translate">
+                    </div>
+                    <button (click)="toggleModal(post.id)" class="cerrar" [title]="'CLOSE'|translate" ><i class="fa-solid fa-xmark"></i></button>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -137,7 +154,7 @@
 
               <div class="search-bar">
                 <i class="uil uil-search"></i>
-                <input type="search" placeholder="Search messages" id="message-search" (keyup)="filterMessages()">
+                <input type="search" [placeholder]="'PLACEHOLDERS.GROUPS' |translate" id="message-search" (keyup)="filterMessages()">
               </div>
             </div>
 
@@ -173,11 +190,4 @@
 </main>
 
 
-<div class="comments text-muted">
-  <div class="modal-background" *ngIf="showComments" (click)="toggleModal()">
-    <div class="modal-content" (click)="preventClose($event)">
-      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid, facere deserunt dolorum eos reiciendis temporibus tempora molestiae, animi tenetur suscipit architecto ad nam veritatis dignissimos perferendis vero rem, repudiandae quod. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Veritatis eligendi dolore est ut, consectetur, ex maxime modi similique dicta repellat nostrum id neque pariatur dignissimos commodi provident ad? Facere, velit. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corporis ad unde quidem non illo dignissimos sapiente velit veritatis, quo autem veniam voluptate voluptatem dolor voluptatibus. Ratione laborum aut provident necessitatibus.</p>
-      <button (click)="toggleModal()" class="close">X</button>
-    </div>
-  </div>
-</div>
+

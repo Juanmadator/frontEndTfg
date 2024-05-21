@@ -335,7 +335,7 @@ main .contenedor .right {
   gap: 20px;
   align-items: center;
 }
-.contenedor{
+.contenedor {
   width: 80%;
 }
 @media screen and (max-width: 1200px) {
@@ -441,19 +441,9 @@ input[type="text"]:focus {
 .modal-image {
   width: 200px;
   height: 200px;
-  border: 1px solid #dcdcdc;
   border-radius: 10px;
 }
-.modal-content {
-  text-align: center;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 0.3rem;
-  outline: 0;
-}
+
 .modal-header {
   padding: 15px;
   border-bottom: 1px solid #e9ecef;
@@ -573,8 +563,8 @@ input[type="text"]:focus {
 .close-modal:hover {
   background-color: #e9ecef;
 }
-.interaction-buttons i{
-cursor: pointer;
+.interaction-buttons i {
+  cursor: pointer;
 }
 .interaction-buttons span i {
   font-size: 100px;
@@ -585,9 +575,8 @@ cursor: pointer;
   margin-left: 5px;
 }
 
-
- .photo{
-text-align: center;
+.photo {
+  text-align: center;
 }
 
 .photo img {
@@ -596,19 +585,16 @@ text-align: center;
   border-radius: 5px;
 }
 
-
-.publicacion
-{
+.publicacion {
   width: 100%;
 }
 
-
-.comments{
+.comments {
   background-color: transparent;
   z-index: 3000;
 }
 
-.show-comments{
+.show-comments {
   background-color: transparent;
 }
 .modal-background {
@@ -622,7 +608,6 @@ text-align: center;
   justify-content: center;
   align-items: center;
   z-index: 500;
-
 }
 
 .modal-content {
@@ -631,48 +616,95 @@ text-align: center;
   border-radius: 5px;
   width: 80%;
   margin: 0 auto;
+  height: 600px;
+  overflow-y: scroll;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
-@media(min-width:992px){
-  .modal-content{
+
+
+.modal-content::-webkit-scrollbar {
+  width: 0; /* Oculta el scrollbar de WebKit (Chrome, Safari, etc.) */
+}
+
+/* Opcional: oculta el scrollbar en Firefox */
+.modal-content {
+  scrollbar-width: none;
+}
+
+/* Opcional: oculta el scrollbar en IE/Edge */
+.modal-content {
+  -ms-overflow-style: none;
+}
+
+@media (min-width: 992px) {
+  .modal-content {
     width: 50%;
   }
 }
 
-.close{
+.cerrar {
+  position: absolute;
+  margin-top: 0;
+  margin-left: 85%;
   z-index: 100000;
   width: 50px;
   color: red;
   background-color: transparent;
 }
 
-.edit{
+@media (min-width: 1300px) {
+  .cerrar {
+    margin-left: 90%;
+  }
+}
+
+.edit {
   background-color: transparent;
   cursor: pointer;
 }
 
-.delete-confirmation{
+.delete-confirmation {
   position: absolute;
- margin-top: -30px;
- background-color:rgb(233, 122, 122);
- padding: 10px;
- font-size: 15px;
-width: 200px;
-border-radius: 20px;
-margin-left: -230px;
-z-index: 200;
-color: white;
+  margin-top: -30px;
+  background-color: rgb(233, 122, 122);
+  padding: 10px;
+  font-size: 15px;
+  width: 200px;
+  border-radius: 20px;
+  margin-left: -230px;
+  z-index: 200;
+  color: white;
 }
 
-
-.botones-de-confirmacion{
+.botones-de-confirmacion {
   display: flex;
   gap: 20px;
   width: 100%;
   justify-content: center;
 }
 
-.botones-de-confirmacion button{
+.botones-de-confirmacion button {
   padding: 5px 10px;
   border-radius: 5px;
+}
+
+
+.modal-content .mandar-comentario{
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  padding: 20px 10px;
+  margin-bottom: 0;
+  width: 100%;
+  background-color: var(--color-secondary);
+  bottom: 0;
+  left: 0;
+  border-radius: 0;
+}
+
+.mandar-comentario input{
+  width: 80%;
+  background-color: transparent;
 }
