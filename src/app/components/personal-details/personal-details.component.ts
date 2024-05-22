@@ -9,16 +9,17 @@ import { LoginServiceAuth } from '../../services/login/login.service';
 import { DateFormatPipePipe } from '../../Date/date-format-pipe.pipe';
 import CryptoJS from 'crypto-js';
 import { NavbarComponent } from '../navbar/navbar.component';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-personal-details',
   standalone: true,
-  imports: [FormsModule, CommonModule, DateFormatPipePipe,NavbarComponent,TranslateModule],
+  imports: [FormsModule, CommonModule, DateFormatPipePipe, NavbarComponent, TranslateModule],
   templateUrl: './personal-details.component.html',
   styleUrl: './personal-details.component.css'
 })
 export class PersonalDetailsComponent implements OnInit {
-  constructor(private http: HttpClient, private userService: UserService, private router: Router, private authService: LoginServiceAuth) { }
+  constructor(private http: HttpClient, private translate: TranslateService, private userService: UserService, private router: Router, private authService: LoginServiceAuth) { }
   @ViewChild('selectPais') selectPais!: ElementRef<HTMLSelectElement>;
   countries: any[] = [];
   name!: string;
@@ -31,6 +32,7 @@ export class PersonalDetailsComponent implements OnInit {
   selectedCountry: string = "Cargando...";
   linkIsActive: boolean = false;
   user: any = { gender: undefined };
+  profilePictureUrl: string | ArrayBuffer | null = 'assets/images/anonimo.png';
 
   selectedFile: File | null = null;
 
@@ -38,7 +40,10 @@ export class PersonalDetailsComponent implements OnInit {
     if (sessionStorage.getItem("userId")) {
       this.getUserData();
     }
+    this.cargarPaises();
+  }
 
+  cargarPaises() {
     this.userService.getCountries().subscribe(
       data => {
         this.countries = data.sort((a, b) => a.name.common.localeCompare(b.name.common));
@@ -51,12 +56,14 @@ export class PersonalDetailsComponent implements OnInit {
           // Si this.user.country no está definido o no es un valor válido, seleccionar el primer país en la lista
           this.selectedCountry = this.countries.length > 0 ? this.countries[0].name.common : '';
         }
-      },
-      error => {
-        console.log('Error fetching countries:', error);
+      },(error)=>{
+        
       }
+
     );
   }
+
+
   normalizeString(value: string): string {
     return value.trim().toLowerCase();
   }
@@ -73,6 +80,19 @@ export class PersonalDetailsComponent implements OnInit {
     this.updateUser();
   }
 
+ onFileInputChange(event: any): void {
+  const file = event.target.files[0];
+  if (file) {
+    this.selectedFile = file;
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.profilePictureUrl = e.target.result; // Actualiza la URL de la imagen del perfil
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+
   updateUser(): void {
     const userIdString = sessionStorage.getItem('userId');
     if (userIdString) {
@@ -80,41 +100,60 @@ export class PersonalDetailsComponent implements OnInit {
       this.user.country = this.selectedCountry;
 
       const inputDateElement = document.getElementById('age') as HTMLInputElement;
-        const localDate = new Date(inputDateElement.value);
-        this.user.age = localDate.toISOString();
+      const localDate = new Date(inputDateElement.value);
+      this.user.age = localDate.toISOString();
 
-      this.userService.updateUser(userId, this.user, this.selectedFile).subscribe(
-        (response: any) => {
-          this.user = response;
-          const encryptedPassword = sessionStorage.getItem('encryptedPassword');
-          if (encryptedPassword) {
-            const decryptedPassword = CryptoJS.AES.decrypt(encryptedPassword, 'your-secret-key').toString(CryptoJS.enc.Utf8);
-            sessionStorage.removeItem('token');
-            this.authService.login(this.user.username, decryptedPassword, 'Cambios efectuados correctamente').subscribe(
-              () => {
-                location.reload();
-              },
-              (error: any) => {
-                console.error('Error al iniciar sesión después de actualizar el usuario:', error);
-              }
-            );
+      if (this.user.gender) {
+        this.userService.updateUser(userId, this.user, this.selectedFile).subscribe(
+          (response: any) => {
+            this.user = response;
+            const encryptedPassword = sessionStorage.getItem('encryptedPassword');
+            if (encryptedPassword) {
+              const decryptedPassword = CryptoJS.AES.decrypt(encryptedPassword, 'your-secret-key').toString(CryptoJS.enc.Utf8);
+              sessionStorage.removeItem('token');
+              this.authService.login(this.user.username, decryptedPassword, 'Cambios efectuados correctamente').subscribe(
+                () => {
+
+                },
+                (error: any) => {
+                  console.error('Error al iniciar sesión después de actualizar el usuario:', error);
+                }
+              );
+            }
+          },
+          (error: any) => {
+            console.error('Error al actualizar el usuario:', error);
           }
-        },
-        (error: any) => {
-          console.error('Error al actualizar el usuario:', error);
-        }
-      );
+        );
+      } else {
+        this.translate.get('FILL_FIELDS').subscribe((translatedText: string) => {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "bottom",
+            showConfirmButton: false,
+            timer: 1300,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            }
+          });
+          Toast.fire({
+            icon: "error",
+            title: `${translatedText}`
+          });
+        });
+      }
     }
   }
-
 
   openFileInput(event: any) {
     document.getElementById('file-input')?.click();
   }
 
-  onFileInputChange(event: any) {
-    this.onFileSelected(event);
-  }
+
+
+
 
 
   handleCountryChange(event: Event): void {
@@ -128,6 +167,9 @@ export class PersonalDetailsComponent implements OnInit {
       (user: User | null) => {
         if (user) {
           this.user = user;
+          this.profilePictureUrl = this.user.profilepicture
+            ? `http://localhost:8080/profile-images/${this.user.profilepicture}`
+            : 'assets/images/anonimo.png';
           // Verifica si la fecha de nacimiento existe en el usuario
           if (this.user.age) {
             // Parsea la fecha de nacimiento a objeto Date

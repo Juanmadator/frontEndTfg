@@ -3,17 +3,18 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-create-rutine',
   standalone: true,
-  imports: [NavbarComponent, TranslateModule, CommonModule],
+  imports: [NavbarComponent, TranslateModule, CommonModule,FormsModule],
   templateUrl: './create-rutine.component.html',
   styleUrl: './create-rutine.component.css'
 })
 export class CreateRutineComponent implements OnInit, OnDestroy {
-  imagenSeleccionada: number | null = null;
-  
+  imagenSeleccionada!: number ;
+
   imagenes: string[] = [
     'assets/images/1.png', 'assets/images/2.png', 'assets/images/3.png', 'assets/images/4.png',
     'assets/images/5.png', 'assets/images/6.png', 'assets/images/7.png', 'assets/images/8.png',
@@ -28,6 +29,8 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
   selectedHour: number | null = null;
   selectedMinutes: number | null = null;
   nombresImagenesTraducidas: string[] = [];
+  selectedIntensity = '';
+  personalNotes = '';
   private langChangeSubscription!: Subscription;
   constructor(private translate: TranslateService) {
   }
@@ -37,6 +40,10 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
     this.langChangeSubscription = this.translate.onLangChange.subscribe(() => {
       this.updateTranslations();
     });
+  }
+
+  selectIntensity(intensity: string): void {
+    this.selectedIntensity = intensity;
   }
 
   ngOnDestroy(): void {
@@ -49,6 +56,7 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
     if (this.currentPage < 3) {
       this.currentPage++;
     }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   // Método para retroceder a la página anterior
@@ -57,10 +65,7 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
       this.currentPage--;
     }
   }
-
   // En tu archivo de componente TypeScript
-
-
 
   selectHour(hour: number): void {
     this.selectedHour = hour;
@@ -87,6 +92,11 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
     this.translate.get(this.nombresImagenes).subscribe(translations => {
       this.nombresImagenesTraducidas = this.nombresImagenes.map(key => translations[key]);
     });
+  }
+
+  crearRutina(): void {
+    // Lógica para crear la rutina
+    console.log('Rutina creada con éxito');
   }
 
   seleccionarImagen(index: number) {

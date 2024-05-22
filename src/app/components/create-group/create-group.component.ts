@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
+import {  MatFormFieldModule } from '@angular/material/form-field';
 import { MatChipEditedEvent, MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { COMMA, ENTER, F } from '@angular/cdk/keycodes';
@@ -13,7 +13,7 @@ import { User } from '../../services/user/User';
 import { UserService } from '../../services/user/user.service';
 import Swal from 'sweetalert2';
 import { RouterLink } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import {  TranslateModule, TranslateService } from '@ngx-translate/core';
 
 export interface Value {
   name: string;
@@ -21,13 +21,13 @@ export interface Value {
 @Component({
   selector: 'app-create-group',
   standalone: true,
-  imports: [NavbarComponent,TranslateModule,MatFormFieldModule,RouterLink, MatInputModule, MatIconModule, MatChipsModule, FormsModule, CommonModule],
+  imports: [NavbarComponent,TranslateModule,MatFormFieldModule,TranslateModule,RouterLink, MatInputModule, MatIconModule, MatChipsModule, FormsModule, CommonModule],
   templateUrl: './create-group.component.html',
   styleUrl: './create-group.component.css'
 })
 export class CreateGroupComponent implements OnInit {
 
-  constructor(private groupService: GroupsService, private userService: UserService) { };
+  constructor(private groupService: GroupsService, private userService: UserService,private translate: TranslateService) { };
   addOnBlur = true;
   paso = 1;
   tituloEjemplo='Título 353'
@@ -133,30 +133,28 @@ export class CreateGroupComponent implements OnInit {
   }
 
   crearGrupo(): void {
-    // Aquí puedes implementar la lógica para crear el grupo con los datos recopilados
-    console.log('Grupo creado con éxito:', {
-      titulo: this.tituloGrupo,
-      descripcion: this.descripcionGrupo,
-      fotoPerfil: 'ruta_de_la_foto', // Agrega la ruta de la foto de perfil seleccionada
-      palabrasClave: this.fruits
-    });
-
     this.groupService.createGroup(this.tituloGrupo, this.descripcionGrupo, this.user.id, this.imagen).subscribe((response: any) => {
-
       setTimeout(() => {
-        // Mostrar Sweet Alert de éxito
-        Swal.fire({
-          icon: 'success',
-          title: '¡Grupo creado!',
-          text: 'El grupo se ha creado con éxito.',
-          position: 'top',
-          showConfirmButton: false,
-          timer: 2500, // Tiempo en milisegundos que durará el mensaje
-          timerProgressBar: true, // Barra de progreso del temporizador
-        }).then(() => {
-          // Recargar la página
-          window.location.reload();
+
+        this.translate.get('ADD_GROUP').subscribe((translatedText: string) => {
+          Swal.fire({
+            icon: 'success',
+            title: '',
+            text: translatedText,
+            position: 'top',
+            showConfirmButton: false,
+            timer: 2500, // Tiempo en milisegundos que durará el mensaje
+            timerProgressBar: true, // Barra de progreso del temporizador
+          }).then(() => {
+            // Recargar la página
+            window.location.reload();
+          });
+
         });
+
+
+        // Mostrar Sweet Alert de éxito
+
       }, 200);
     })
   }

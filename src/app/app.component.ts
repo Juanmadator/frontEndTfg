@@ -33,7 +33,6 @@ export class AppComponent implements OnInit {
   constructor(private router: Router,private translate: TranslateService  ) {
 
     this.translate.setDefaultLang('es');
-
     // Intentar usar el idioma del navegador si está soportado, manejando el caso de null
     const browserLang = this.translate.getBrowserLang();
     this.translate.use(browserLang?.match(/en|es/) ? browserLang : 'en');

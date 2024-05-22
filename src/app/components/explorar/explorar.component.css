@@ -466,6 +466,7 @@ text-align: center;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Añade una sombra con desplazamiento x=0, y=0, desenfoque 10px y color rgba(0, 0, 0, 0.1) */
   margin: 0 auto;
+  margin-bottom: 40px;
 }
 
 

@@ -1,5 +1,5 @@
 export interface GroupMessage{
-  id: number;
+  id?: number;
   groupId:number;
   message?: string;
   dateSent: Date;

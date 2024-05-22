@@ -24,7 +24,6 @@ export class LoginServiceAuth {
     return this.http.post("http://localhost:8080/auth/login", body, { headers }).pipe(
       tap((response: any) => {
         if (response.token != null) {
-          console.log(body.username);
           sessionStorage.setItem("token", response.token);
           this.inicioCorrecto(customMessage ? customMessage : 'Has iniciado sesión');
           this.getUserIdByUsername(body.username).subscribe(
@@ -34,10 +33,8 @@ export class LoginServiceAuth {
               }
               sessionStorage.setItem('userId', userId.toString());
               this.router.navigate(['/home']);
-            },
-            error => {
-              console.error('Error obteniendo el ID del usuario:', error);
             }
+
           );
         }
         if (response.error != null) {

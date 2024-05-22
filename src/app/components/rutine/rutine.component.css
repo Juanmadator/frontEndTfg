@@ -84,7 +84,6 @@ article {
 .articles,
 .card {
   display: grid;
-  max-width: 300px;
 }
 button.mat-button {
   background-color: #007bff;
@@ -350,14 +349,7 @@ body {
 }
 
 
-@media (max-width: 859px) {
-  .articles {
-    max-width: 500px;
-  }
-  .article {
-    max-width: none;
-  }
-}
+
 @media (min-width: 725px) {
   .articles {
     left: 0;
@@ -377,14 +369,6 @@ body {
     margin-left: 50px;
   }
 }
-@media (min-width: 1325px) {
-  .articles {
-    grid-template-columns: repeat(3, 2fr);
-    margin-left: 300px;
-  }
-
-}
-
 
 .articles a {
   display: block;
@@ -401,4 +385,9 @@ body {
   .other-navbar{
     display: none;
   }
+}
+
+
+.article{
+  max-width: 100px;
 }

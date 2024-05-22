@@ -225,7 +225,13 @@ main .contenedor .left .profile {
 }
 .middle .feed .user {
   display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 1rem;
+}
+
+.pop-up  {
+  z-index: 5000  !important;  /* Puedes ajustar este valor según tus necesidades */
 }
 .middle .feed .photo {
   overflow: hidden;
@@ -645,6 +651,8 @@ input[type="text"]:focus {
 }
 
 .cerrar {
+  display: flex;
+  justify-content: center;
   position: absolute;
   margin-top: 0;
   margin-left: 85%;
@@ -652,6 +660,19 @@ input[type="text"]:focus {
   width: 50px;
   color: red;
   background-color: transparent;
+  align-items: center;
+}
+.cerrar i{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  padding-top: 10px;
+  transition: 0.3s all ease;
+}
+
+.cerrar:hover i{
+  background-color: red;
+  color: white;
 }
 
 @media (min-width: 1300px) {
@@ -707,4 +728,36 @@ input[type="text"]:focus {
 .mandar-comentario input{
   width: 80%;
   background-color: transparent;
+}
+
+.comment{
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content:flex-start;
+  margin: 0 auto;
+  gap: 10px;
+}
+
+.comment p{
+  padding: 10px;
+  border-radius: 5px;
+  background-color: var(--color-light);
+  font-size: 18px;
+  margin-bottom: 10px;
+  width: 300px;
+  overflow-y: scroll;
+  max-height: 100px;
+}
+
+
+.comment img{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+
+.primero{
+  font-weight: bold;
 }

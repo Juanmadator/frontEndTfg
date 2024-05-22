@@ -12,8 +12,9 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 import imageCompression from 'browser-image-compression';
 import { GroupsService } from '../../services/groups/groups.service';
 import { MatDialog } from '@angular/material/dialog';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Comment } from '../../services/posts/Comment';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-home',
@@ -23,7 +24,7 @@ import { Comment } from '../../services/posts/Comment';
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
-  constructor(private elementRef: ElementRef, private dialog:MatDialog,private userService: UserService, private postsService: PostsService, private renderer: Renderer2,private groupService:GroupsService) { }
+  constructor(private elementRef: ElementRef,private translate: TranslateService, private dialog:MatDialog,private userService: UserService, private postsService: PostsService, private renderer: Renderer2,private groupService:GroupsService) { }
   public menuItems =
     document.querySelectorAll(".menu-item");
   postContent: string = '';
@@ -44,6 +45,7 @@ export class HomeComponent implements OnInit {
   showComments = false;
   private originalBodyOverflow: string | null = null;
   postId!:number;
+
   //array de posts a los que le has dado me gusta
   favouritePosts: { postId: number, isFavourite: boolean }[] = [];
   comments: Comment[] = [];
@@ -82,12 +84,45 @@ export class HomeComponent implements OnInit {
       this.enableBodyScroll();
     }
   }
-
   loadComments(postId: number) {
-   this.postsService.getComments(postId).subscribe(
-    (response)=>{
-      this.comments=response;
-   })
+    this.postsService.getComments(postId).subscribe(
+      (response) => {
+        this.comments = response;
+        this.getUserByComment(); // Llama a getUserByComment después de cargar los comentarios
+      },
+      (error) => {
+        console.error('Error al cargar los comentarios:', error);
+      }
+    );
+    console.log(this.comments);
+  }
+
+  getUserByComment(): void {
+    // Obtener los usuarios correspondientes a cada comentario
+    const userRequests = this.comments.map(comment =>
+      this.userService.getUserById(comment.userId)
+    );
+
+    // Combinar las solicitudes de usuario en un solo observable
+    forkJoin(userRequests).subscribe(
+      (users: (User)[]) => {
+        // Verificar si se obtuvieron todos los usuarios correctamente
+        if (users.every(user => user !== null)) {
+          // Asignar cada usuario a su comentario correspondiente
+          this.comments.forEach((comment, index) => {
+            // Verificar si el usuario no es nulo antes de asignar la imagen de perfil
+            if (users[index]) {
+              comment.userData = users[index];
+            }
+          });
+        } else {
+          console.error('Al menos uno de los usuarios es nulo.');
+        }
+      },
+      (error: any) => {
+        console.error('Error al obtener usuarios de comentarios:', error);
+      }
+    );
   }
 
 
@@ -138,9 +173,6 @@ export class HomeComponent implements OnInit {
       }
     );
   }
-
-
-
 
   showPostPreview() {
     this.showModal = true;
@@ -322,33 +354,24 @@ export class HomeComponent implements OnInit {
   }
 
   getUserByPost(): void {
-    const userIdString = localStorage.getItem('userId');
-    if (userIdString) {
-      const userRequests = this.posts.map(post =>
-        this.userService.getUser()
-      );
+    const userRequests = this.posts.map(post =>
+      this.userService.getUserById(post.userId)
+    );
 
-      forkJoin(userRequests).subscribe(
-        (users: (User | null)[]) => {
-          if (users.every(user => user !== null)) {
-            this.posts = this.posts.reverse();
-            this.posts.forEach((post, index) => {
-              post.userData = users[index]!;
-              console.log(post.userData.profilepicture);
-              // Asignar la URL de la imagen de perfil del usuario a la publicación
-              post.userData.profilepicture = users[index]!.profilepicture;
-              this.posts[index] = post;
-            });
-          } else {
-            console.error('Al menos uno de los usuarios es nulo.');
-          }
-        },
-        (error: any) => {
-          console.error('Error al obtener usuarios de publicaciones:', error);
+    forkJoin(userRequests).subscribe(
+      (users: (User | null)[]) => {
+        if (users.every(user => user !== null)) {
+          this.posts.forEach((post, index) => {
+            post.userData = users[index]!;
+          });
+        } else {
+          console.error('Al menos uno de los usuarios no existe');
         }
-      );
-
-    }
+      },
+      (error: any) => {
+        console.error('Error al obtener usuarios de publicaciones:', error);
+      }
+    );
   }
 
 
@@ -398,10 +421,29 @@ export class HomeComponent implements OnInit {
       // Si el post se marcó como favorito, agrégalo a la lista de favoritos
       this.favouritePosts.push({ postId: postId, isFavourite: true });
 
-      // Realiza la solicitud para agregar el favorito
       this.postsService.addFavourite(postId, this.user.id).subscribe(
         () => {
           // Confirmar que el post ha sido añadido a favoritos
+          this.translate.get('ADD_FAV').subscribe((translatedText: string) => {
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top",
+              showConfirmButton: false,
+              timer: 1300,
+              timerProgressBar: true,
+              customClass: {
+                popup: 'pop-up'
+              },
+              didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+              }
+            });
+            Toast.fire({
+              icon: "success",
+              title:`<i class="fa-regular fa-heart"></i>  ${translatedText}`
+            });
+          });
         },
         error => {
           console.error('Failed to add favourite:', error);
@@ -409,6 +451,7 @@ export class HomeComponent implements OnInit {
           postToUpdate.isFavourite = false;
           // Eliminar el post de la lista de favoritos
           this.removePostFromFavourites(postId);
+
         }
       );
     } else {
@@ -418,7 +461,26 @@ export class HomeComponent implements OnInit {
       // Realiza la solicitud para eliminar el favorito
       this.postsService.addFavourite(postId, this.user.id).subscribe(
         () => {
-          // Confirmar que el post ha sido eliminado de favoritos
+          this.translate.get('DELETE_FAV').subscribe((translatedText: string) => {
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top",
+              showConfirmButton: false,
+              timer: 1300,
+              timerProgressBar: true,
+              customClass:{
+                popup:'pop-up'
+              },
+              didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+              }
+            });
+            Toast.fire({
+              icon: "success",
+              title:`<i class="fa-solid fa-heart-crack"></i> ${translatedText}`
+            });
+          });
         },
         error => {
           console.error('Failed to remove favourite:', error);

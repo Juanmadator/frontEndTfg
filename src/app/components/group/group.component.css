@@ -1,4 +1,4 @@
-body{
+body {
   padding-top: 100px;
 }
 
@@ -8,18 +8,20 @@ body{
   width: 40%;
   margin: 0 auto;
   margin-top: 50px;
- border-top-left-radius: 20px;
- border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
   padding: 20px;
   color: white;
   font-size: 20px;
 }
 
-
 ::-webkit-scrollbar {
   background-color: var(--color-secondary); /* Color de fondo del scrollbar */
 }
 
+.principal {
+  padding-top: 100px;
+}
 
 .messages {
   display: flex;
@@ -29,7 +31,7 @@ body{
   background-color: var(--color-secondary);
   margin: 0 auto;
   padding: 10px;
- height: 450px;
+  height: 450px;
   overflow-y: scroll;
 }
 
@@ -38,10 +40,10 @@ body{
 }
 
 .messages::-webkit-scrollbar-thumb {
-  background-color:var(--color-primary); /* Color del thumb vertical */
+  background-color: var(--color-primary); /* Color del thumb vertical */
 }
 
-.formulario{
+.formulario {
   display: flex;
   justify-content: center;
   background-color: var(--color-secondary);
@@ -50,54 +52,45 @@ body{
 
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
+}
 
-  }
-
-
-
-.messages .imagen{
+.messages .imagen {
   display: grid;
   align-items: center;
   margin-left: 10px;
 }
 
-
-.messages img{
+.messages img {
   width: 200px;
   height: 200px;
   border-radius: 5px;
 }
 
-
-.other-navbar{
-  display: none;
-  width: 440px;
-  margin-left: 300px;
-  margin-top: 50px;
+.contenido {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 80%;
+  margin: 0 auto;
 }
 
-.contenido{
-  display: flex;
+.cajas {
   width: 100%;
 }
 
-.cajas{
-  width: 100%;
-}
-
-.contenido p{
+.contenido p {
   margin: 10px;
   border-radius: 8px;
   padding: 10px;
   background-color: #fff;
 }
 
-.contenido p{
-position: relative;
-max-width: 300px; /* Ajusta el ancho según sea necesario */
-padding: 15px;
-background-color: #f0f0f0; /* Color de fondo del bocadillo */
-border-radius: 10px; /* Bordes redondeados */
+.contenido p {
+  position: relative;
+  max-width: 300px; /* Ajusta el ancho según sea necesario */
+  padding: 15px;
+  background-color: #f0f0f0; /* Color de fondo del bocadillo */
+  border-radius: 10px; /* Bordes redondeados */
+  min-width: 300px;
 }
 .contenido p::before {
   content: "";
@@ -109,7 +102,6 @@ border-radius: 10px; /* Bordes redondeados */
   border-style: solid;
   border-color: transparent #f0f0f0 transparent transparent; /* Color del bocadillo y transparente en las demás direcciones */
 }
-
 
 .messageBox {
   width: 90%;
@@ -123,7 +115,6 @@ border-radius: 10px; /* Bordes redondeados */
   margin: 10px;
   margin: 0 auto;
   margin-bottom: 10px;
-
 }
 
 .fileUploadWrapper {
@@ -183,9 +174,9 @@ border-radius: 10px; /* Bordes redondeados */
   transition: all 0.3s;
 }
 
-form{
+form {
   width: 100%;
-  border-top:  var(--color-light) 3px solid;
+  border-top: var(--color-light) 3px solid;
 }
 #messageInput {
   width: 100%;
@@ -201,7 +192,6 @@ form{
 #messageInput:valid ~ #sendButton svg path {
   fill: var(--color-terciary);
   stroke: white;
-
 }
 
 #sendButton {
@@ -230,96 +220,82 @@ form{
   stroke: white;
 }
 
-
-
-
-@media (max-width:1200){
-
-  body{
+@media (max-width: 1200) {
+  body {
     padding-top: 50px;
   }
-  .contenido{
+  .contenido {
     display: flex;
     flex-direction: column;
   }
-  .messages,.contenedor,.formulario{
+  .messages,
+  .contenedor,
+  .formulario {
     width: 75%;
   }
 }
 
-
-@media (max-width:575px){
-  .contenido{
+@media (max-width: 575px) {
+  .contenido {
     display: grid;
     grid-template-columns: 1fr;
   }
-  .messages,.contenedor,.formulario{
+  .messages,
+  .contenedor,
+  .formulario {
     width: 80%;
     margin: 0 auto;
   }
 
-  .contenido{
+  .contenido {
     margin-top: 50px;
   }
 }
 
-.other-navbar{
-  z-index: 100;
-  width: 290px;
-}
-@media(min-width:601px){
-  .other-navbar{
-    position: fixed;
-    display: block;
+@media (min-width: 1201px) {
+  .cajas {
+    margin-left: 100px;
   }
 }
 
-@media (min-width:1201px){
-.other-navbar{
-  margin-left: 100px;
-}
-
-.cajas{
-  margin-left: 100px;
-}
-}
-
-@media(min-width:992px){
-  .other-navbar{
-    margin-left: 30px;
-  }
-}
-
-
-.header{
+.header {
   width: 100%;
   display: flex;
   justify-content: space-around;
 }
 
-#icono-grupo{
+#icono-grupo {
   width: 75px;
   height: 75px;
   border-radius: 50%;
 }
 
+@media (min-width: 1201px) {
+  .other-navbar {
+    width: 287px;
+  }
+}
 
-@media (max-width:600px) {
-  .other-navbar{
+@media (max-width: 600px) {
+  .other-navbar {
     display: none;
   }
 }
 
-@media (min-width:1440px) {
- .other-navbar{
-  margin-left:50px;
- }
+@media (min-width: 993px) {
+  .contenido {
+    grid-template-columns: 1fr 5fr;
+  }
+
+  .contenedor,
+  .messages,
+  .formulario {
+    width: 80%;
+  }
 }
 
-@media (min-width:1800px){
-  .other-navbar{
-    width: 287px;
-    margin-left: 300px;
-    left: 0;
+@media (max-width: 575px) {
+  .principal {
+    margin-top: 100px;
   }
 }

@@ -9,6 +9,8 @@
   "SHOW_COMMENTS":"Ver comentarios",
   "GROUPS":"Grupos",
   "JOIN_GROUP":"Unirte",
+  "EXIT_GROUP":"Salirte",
+  "YOUR_GROUP":"Tu grupo",
   "YOUR_GROUPS":"Tus grupos",
   "NOT_FOUND_GROUPS":"No se han encontrado grupos",
   "NO_FAVS":"Aún no tienes publicaciones en tu lista de favoritos",
@@ -48,11 +50,18 @@
     "PLACEHOLDERS": {
       "WANT_TO_DO_A_PUBLISH": "¿Quieres hacer una publicación?",
       "GROUPS": "Buscar grupo",
-      "WRITE_COMMENT":"¡Manda un comentario!"
+      "WRITE_COMMENT":"¡Manda un comentario!",
+      "SEARCH_GROUP":"Busca un grupo"
     },
     "BAJAR":"Vista previa",
     "MALE":"Hombre",
     "FEMALE":"Mujer",
-    "OTHER":"Otro"
+    "OTHER":"Otro",
+    "ADD_FAV":"Añadido a favoritos",
+    "DELETE_FAV":"Eliminado de favoritos",
+    "SELECT_HOURS":"Selecciona las horas",
+    "SELECT_MINUTES":"Selecciona los minutos",
+    "FILL_FIELDS":"Rellena los campos",
+    "POST":"Publicar"
 }
 

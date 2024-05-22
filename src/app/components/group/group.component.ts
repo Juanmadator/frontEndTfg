@@ -1,60 +1,94 @@
-import { AfterViewInit, Component, ElementRef, NgModule, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { GroupMessage } from '../../services/groups/GroupMessage';
 import { GroupsService } from '../../services/groups/groups.service';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { group } from '@angular/animations';
-import { Group } from '../../services/groups/Group';
 import { UserService } from '../../services/user/user.service';
 import { User } from '../../services/user/User';
-import { FormsModule } from '@angular/forms';
-import { ScrollBottomDirective } from '../../scroll-bottom.directive';
+import { Group } from '../../services/groups/Group';
 
 @Component({
   selector: 'app-group',
   standalone: true,
-  imports: [NavbarComponent, CommonModule, InfiniteScrollModule, RouterLink, FormsModule,ScrollBottomDirective],
+  imports: [NavbarComponent, CommonModule, FormsModule],
   templateUrl: './group.component.html',
-  styleUrl: './group.component.css'
+  styleUrls: ['./group.component.css']
 })
-export class GroupComponent implements AfterViewInit{
-  groupId!: number
+export class GroupComponent implements AfterViewInit {
+  groupId!: number;
   groupMessages: GroupMessage[] = [];
   group!: Group;
-  message!: string;
+  message: string = '';
   public currentPage = 0;
   public pageSize = 5;
   hasMoreMessages = true;
   user: any = {};
+  mensaje!:GroupMessage;
   @ViewChild('messagesContainer') messagesContainer!: ElementRef;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
-
   constructor(
     private route: ActivatedRoute,
-    private groupService: GroupsService, private elementRef: ElementRef,private sanitizer: DomSanitizer, private userService: UserService
+    private groupService: GroupsService,
+    private sanitizer: DomSanitizer,
+    private userService: UserService,
+    private renderer: Renderer2
   ) { }
-  ngAfterViewInit(): void {
-    this.messagesContainer.nativeElement.scrollTop = this.messagesContainer.nativeElement.scrollHeight;
 
+  ngAfterViewInit(): void {
+    this.scrollToBottom();
   }
+
+  sendMessage(message: string): void {
+    const file = this.fileInput.nativeElement.files?.[0];
+    const newMessage: GroupMessage = {
+      id: undefined,
+      groupId: this.groupId,
+      message: message,
+      fileUrl: undefined,
+      dateSent: new Date()
+    };
+
+    this.groupService.sendGroupMessage(this.groupId, this.user.id, message, file)
+      .subscribe(
+        (response: any) => {
+          // Caso de éxito: La solicitud fue exitosa
+          newMessage.id = response.id;
+          newMessage.fileUrl = response.fileUrl;
+          this.groupMessages.push(newMessage);
+          this.scrollToBottom();
+          this.resetMessageInput();
+
+          // Si el mensaje incluye una imagen, agregarla al contenedor de mensajes
+          if (newMessage.fileUrl && !newMessage.fileUrl.endsWith('.pdf')) {
+            const imgElement = this.renderer.createElement('img');
+            this.renderer.setAttribute(imgElement, 'src', `http://localhost:8080/images/${newMessage.fileUrl}`);
+            this.renderer.appendChild(this.messagesContainer.nativeElement, imgElement);
+          }
+        },
+        (error: any) => {
+          // Caso de error: La solicitud falló
+          this.groupMessages.push(newMessage);
+          this.scrollToBottom();
+          this.resetMessageInput();
+        }
+      );
+  }
+
   ngOnInit(): void {
-    // Obtener el groupId de los parámetros de la URL
     this.route.paramMap.subscribe(params => {
       this.groupId = Number(params.get('id'));
       if (this.groupId) {
         this.loadGroupMessages();
         this.cargarInfoGrupo();
-
       } else {
         console.error('No se proporcionó un ID de grupo válido en la URL.');
       }
     });
     this.getUserData();
-
   }
 
   loadGroupMessages(): void {
@@ -62,10 +96,8 @@ export class GroupComponent implements AfterViewInit{
       .subscribe(
         messages => {
           if (messages && messages.length > 0) {
-            // Reemplazar la lista existente de mensajes con los nuevos mensajes
             this.groupMessages = messages;
-            // Mover el scroll al final del div
-            this.messagesContainer.nativeElement.scrollTop = this.messagesContainer.nativeElement.scrollHeight;
+            this.scrollToBottom();
           } else {
             this.hasMoreMessages = false;
           }
@@ -75,13 +107,16 @@ export class GroupComponent implements AfterViewInit{
         }
       );
   }
-  cargarInfoGrupo() {
+
+  cargarInfoGrupo(): void {
     this.groupService.getGroupInfo(this.groupId).subscribe(
       group => {
         this.group = group;
-        console.log(group);
+      },
+      error => {
+        console.error('Error al cargar la información del grupo:', error);
       }
-    )
+    );
   }
 
   getUserData(): void {
@@ -89,58 +124,33 @@ export class GroupComponent implements AfterViewInit{
       (user: User | null) => {
         this.user = user;
       },
-      (error: any) => {
+      error => {
         console.error('Error al obtener datos del usuario:', error);
       }
     );
   }
 
-
-
-
   onScroll(): void {
-    console.log("escrolliando");
     this.loadGroupMessages();
   }
-
 
   sanitizeUrl(url: string): SafeResourceUrl {
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
 
-  sendMessage(message: string): void {
-    const file = this.fileInput.nativeElement.files?.[0];
-    this.groupService.sendGroupMessage(this.groupId, this.user.id, message, file)
-      .subscribe(
-        response => {
-
-        },error=>{
- // Verificar si la respuesta tiene contenido y no hay errores
-            // Crear un nuevo mensaje
-            const newMessage: GroupMessage = {
-              id: error.id,
-              groupId: this.groupId,
-              message: message,
-              fileUrl: error.fileUrl,
-              dateSent: new Date()
-            };
-
-            // Agregar el nuevo mensaje a la lista existente
-            this.groupMessages.push(newMessage);
-
-            // Limpiar el campo de mensaje y el campo de archivo después de enviar el mensaje
-            message = '';
-            if (this.fileInput) {
-              this.fileInput.nativeElement.value = '';
-            }
 
 
-        }
-      );
+  private scrollToBottom(): void {
+    setTimeout(() => {
+      this.messagesContainer.nativeElement.scrollTop = this.messagesContainer.nativeElement.scrollHeight;
+    }, 100);
   }
 
-
-
-
+  private resetMessageInput(): void {
+    this.message = '';
+    if (this.fileInput) {
+      this.fileInput.nativeElement.value = '';
+    }
+  }
 }

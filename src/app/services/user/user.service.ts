@@ -20,6 +20,12 @@ export class UserService {
     return of(null);
   }
 
+  getUserById(id:number): Observable<User> {
+      return this.http.get<User>(`${environment.urlApi}/users/${id}`).pipe(
+        catchError(this.handleError)
+      );
+  }
+
   private handleError(error: HttpErrorResponse) {
     if (error.status === 0) {
       console.log("Se ha producido un error", error.error);
@@ -29,6 +35,8 @@ export class UserService {
     }
     return throwError(()=>new Error("Algo falló. Por favor vuelve a intentarlo más tarde"))
   }
+
+
 
 
   updateUser(userId: number, user: any, profileImage: File | null): Observable<any> {
