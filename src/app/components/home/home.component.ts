@@ -19,12 +19,12 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [NavbarComponent, CommonModule, TranslateModule,FormsModule, InfiniteScrollModule, LazyLoadImageModule],
+  imports: [NavbarComponent, CommonModule, TranslateModule, FormsModule, InfiniteScrollModule, LazyLoadImageModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
-  constructor(private elementRef: ElementRef,private translate: TranslateService, private dialog:MatDialog,private userService: UserService, private postsService: PostsService, private renderer: Renderer2,private groupService:GroupsService) { }
+  constructor(private elementRef: ElementRef, private translate: TranslateService, private dialog: MatDialog, private userService: UserService, private postsService: PostsService, private renderer: Renderer2, private groupService: GroupsService) { }
   public menuItems =
     document.querySelectorAll(".menu-item");
   postContent: string = '';
@@ -44,7 +44,7 @@ export class HomeComponent implements OnInit {
   showConfirmation = false;
   showComments = false;
   private originalBodyOverflow: string | null = null;
-  postId!:number;
+  postId!: number;
 
   //array de posts a los que le has dado me gusta
   favouritePosts: { postId: number, isFavourite: boolean }[] = [];
@@ -151,20 +151,20 @@ export class HomeComponent implements OnInit {
     this.groupService.getAllGroups().subscribe(
       (groupsData: any[]) => {
         // Recorre cada grupo
-       if(groupsData!=null && groupsData!=undefined){
-        groupsData.forEach((group: any) => {
-          // Obtiene el nombre del usuario (coach) para este grupo
-          this.groupService.getCoachUsername(group.id).subscribe(
-            (response: any) => {
-              // Asigna el nombre del usuario (coach) al grupo
-              group.coachUsername = response.username ;
-            },
-            (error: any) => {
-              console.log(`Error obteniendo el nombre del usuario para el grupo ${group.id}: ${error}`);
-            }
-          );
-        });
-       }
+        if (groupsData != null && groupsData != undefined) {
+          groupsData.forEach((group: any) => {
+            // Obtiene el nombre del usuario (coach) para este grupo
+            this.groupService.getCoachUsername(group.id).subscribe(
+              (response: any) => {
+                // Asigna el nombre del usuario (coach) al grupo
+                group.coachUsername = response.username;
+              },
+              (error: any) => {
+                console.log(`Error obteniendo el nombre del usuario para el grupo ${group.id}: ${error}`);
+              }
+            );
+          });
+        }
         // Asigna los grupos actualizados que ahora incluyen el nombre del usuario (coach)
         this.groups = groupsData;
       },
@@ -212,25 +212,36 @@ export class HomeComponent implements OnInit {
             if (sessionStorage.getItem("userId")) {
               let userId: string | null = sessionStorage.getItem("userId"); // Obtener el userId de
               let userIdFinal: number = userId ? parseInt(userId) : 0;
-            if(userId){
-              this.postsService.getFavouritePosts(userIdFinal).subscribe(
-                (favouritePosts: number[]) => {
-                  // Actualizar el estado isFavourite de cada post según corresponda
-                  this.posts.forEach(post => {
-                    if(favouritePosts.includes(post.id)){
-                      post.isFavourite=true;
-                    }
-                  });
-                },
-                (error: any) => {
-                  console.error('Error al obtener los posts favoritos:', error);
-                }
-              );
-            }
+              if (userId) {
+                this.postsService.getFavouritePosts(userIdFinal).subscribe(
+                  (favouritePosts: number[]) => {
+                    // Actualizar el estado isFavourite de cada post según corresponda
+                    this.posts.forEach(post => {
+                      if (favouritePosts.includes(post.id)) {
+                        post.isFavourite = true;
+                      }
+                    });
+                  },
+                  (error: any) => {
+                    console.error('Error al obtener los posts favoritos:', error);
+                  }
+                );
+              }
             }
             this.getUserByPost();
             // Iniciar el temporizador para cargar las imágenes
-            this.startImageLoadingTimer();
+            // En el método getPosts(), después de obtener los posts del servidor
+            (posts: Post[]) => {
+              // Iterar sobre los posts y cargar las imágenes directamente
+              posts.forEach(post => {
+                const img = new Image();
+                img.onload = () => {
+                  post.loading = false;
+                };
+                img.src = 'http://localhost:8080/images/' + post.imageUrl;
+              });
+            }
+
           }
         }
         if (posts !== null && posts !== undefined) {
@@ -270,6 +281,7 @@ export class HomeComponent implements OnInit {
         // Agregar el nuevo post directamente a la lista existente
         const newPost: Post = response; // Asegúrate de que response sea el nuevo post devuelto por el servidor
         this.posts.unshift(newPost); // Agrega el nuevo post al principio de la lista
+        location.reload();
       },
       (error: any) => {
         // Manejar errores
@@ -280,18 +292,7 @@ export class HomeComponent implements OnInit {
 
 
 
-  startImageLoadingTimer(): void {
-    // Verificar periódicamente el estado de las imágenes y cargarlas cuando estén disponibles
-    this.posts.forEach((post, index) => {
-      if (post.loading) {
-        const img = new Image();
-        img.onload = () => {
-          this.posts[index].loading = false;
-        };
-        img.src = 'http://localhost:8080/images/' + post.imageUrl;
-      }
-    });
-  }
+
 
 
 
@@ -441,7 +442,7 @@ export class HomeComponent implements OnInit {
             });
             Toast.fire({
               icon: "success",
-              title:`<i class="fa-regular fa-heart"></i>  ${translatedText}`
+              title: `<i class="fa-regular fa-heart"></i>  ${translatedText}`
             });
           });
         },
@@ -468,8 +469,8 @@ export class HomeComponent implements OnInit {
               showConfirmButton: false,
               timer: 1300,
               timerProgressBar: true,
-              customClass:{
-                popup:'pop-up'
+              customClass: {
+                popup: 'pop-up'
               },
               didOpen: (toast) => {
                 toast.onmouseenter = Swal.stopTimer;
@@ -478,7 +479,7 @@ export class HomeComponent implements OnInit {
             });
             Toast.fire({
               icon: "success",
-              title:`<i class="fa-solid fa-heart-crack"></i> ${translatedText}`
+              title: `<i class="fa-solid fa-heart-crack"></i> ${translatedText}`
             });
           });
         },

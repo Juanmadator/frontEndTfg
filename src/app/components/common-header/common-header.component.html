@@ -14,7 +14,7 @@
       }
       @else if(user.verified && !user.coach){
         <a [routerLink]="['/create/rutine']">
-        <label class="btn btn-primary" for="create-post">
+        <label class="" for="create-post">
          <i class="fas fa-plus"></i>
         </label>
       </a>
@@ -22,7 +22,7 @@
 
       @else {
       <a [routerLink]="['/register']">
-        <label class="btn btn-primary" for="create-post">
+        <label class="" for="create-post">
           {{ 'REGISTER' | translate }}
         </label>
       </a>

@@ -40,6 +40,10 @@
 
             <button *ngIf="user && !isMember(grupo) && user.id !== getCoachIdOfGroup(grupo.id)"
               (click)="unirte(grupo.id)" id="unirte">{{"JOIN_GROUP"|translate}}</button>
+
+
+            <button *ngIf="!user"
+            (click)="unirte(grupo.id)" id="unirte">  <a [routerLink]="'/login'">{{"SIGN_IN"|translate}}</a></button>
           </div>
         </div>
       </div>

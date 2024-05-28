@@ -27,30 +27,97 @@
       "TRICEPS": "Tríceps",
       "CAMINAR": "Caminar"
     },
-    "BICEPS":{
-      "CURL":"Curl de biceps",
-      "POLEA":"Curl de biceps en polea",
-      "DOMINADAS":"Dominadas",
-      "FLEXIONES":"Flexiones"
+    "BICEPS": {
+      "CURL": "Curl de bíceps",
+      "POLEA": "Curl de bíceps en polea",
+      "DOMINADAS": "Dominadas",
+      "FLEXIONES": "Flexiones",
+      "DESCRIPCION": {
+        "CURL": "Flexiona los codos levantando una barra o mancuernas hacia los hombros.",
+        "POLEA": "Usa una máquina de polea alta, agarra la barra con las palmas hacia arriba y flexiona los codos.",
+        "DOMINADAS": "Agarra una barra con las manos separadas al ancho de los hombros y levántate hasta que tu barbilla esté sobre la barra.",
+        "FLEXIONES": "Apoya las manos en el suelo al ancho de los hombros, baja el cuerpo y luego empuja hacia arriba."
+      }
     },
-    "ABDOMEN":{
-      "COLGADO":"Elevación de piernas colgado",
-      "RUSOS":"Giros rusos",
-      "ELEVACION":"Elevación de piernas",
-      "SENTADILLAS":"Sentadillas con barra"
+    "ABDOMEN": {
+      "COLGADO": "Elevación de piernas colgado",
+      "RUSOS": "Giros rusos",
+      "ELEVACION": "Elevación de piernas",
+      "SENTADILLAS": "Sentadillas con barra",
+      "DESCRIPCION": {
+        "COLGADO": "Sujétate de una barra con los brazos extendidos, levanta las piernas hasta que estén paralelas al suelo.",
+        "RUSOS": "Siéntate en el suelo, inclina el torso hacia atrás, gira el torso y toca el suelo a cada lado.",
+        "ELEVACION": "Acuéstate en el suelo, levanta las piernas hasta que formen un ángulo de 90 grados con el torso.",
+        "SENTADILLAS": "Coloca una barra en la parte superior de los hombros, baja el cuerpo doblando las rodillas y las caderas."
+      }
     },
-    "BACK":{
-      "REMO":"Remo a dos manos",
-      "REMO_UNA_MANO":"Remo con una mancuerna",
-      "SENTADILLAS":"Sentadillas con barra",
-      "CRUNCH_PESO":"Flexión abdominal con peso",
-      "FLEXIONES":"Flexiones",
-      "DOMINADAS":"Dominadas"
+    "BACK": {
+      "REMO": "Remo a dos manos",
+      "REMO_UNA_MANO": "Remo con una mancuerna",
+      "SENTADILLAS": "Sentadillas con barra",
+      "CRUNCH_PESO": "Flexión abdominal con peso",
+      "FLEXIONES": "Flexiones",
+      "DOMINADAS": "Dominadas",
+      "DESCRIPCION": {
+        "REMO": "Dobla el torso hacia adelante, agarra una barra con las manos separadas al ancho de los hombros y levántala hacia el abdomen.",
+        "REMO_UNA_MANO": "Apoya una rodilla y una mano sobre un banco, agarra una mancuerna con la otra mano y levántala hacia el torso.",
+        "SENTADILLAS": "Como se explicó anteriormente, este ejercicio también puede involucrar los músculos de la espalda.",
+        "CRUNCH_PESO": "Acuéstate boca arriba, sostén una pesa con los brazos extendidos y levanta el torso hacia las rodillas.",
+        "FLEXIONES": "Apoya las manos en el suelo al ancho de los hombros, baja el cuerpo y luego empuja hacia arriba.",
+        "DOMINADAS": "Agarra una barra con las manos separadas al ancho de los hombros y levántate hasta que tu barbilla esté sobre la barra."
+      }
     },
-    "CHEST":{
-    "FLEXIONES":"Flexiones estilo diamante",
-    "PRESS_BANCA":"Elevación de barra en banca",
-    "ELEVACION_MANCUERNAS":"Elevación de mancuernas con inclinación"
+    "CHEST": {
+      "FLEXIONES": "Flexiones estilo diamante",
+      "PRESS_BANCA": "Elevación de barra en banca",
+      "ELEVACION_MANCUERNAS": "Elevación de mancuernas con inclinación",
+      "DESCRIPCION": {
+        "FLEXIONES": "Apoya las manos cerca una de la otra formando un diamante, baja el cuerpo flexionando los codos y luego empuja hacia arriba.",
+        "PRESS_BANCA": "Acuéstate en un banco, baja la barra hasta el pecho y luego empújala hacia arriba.",
+        "ELEVACION_MANCUERNAS": "Acuéstate en un banco inclinado, levanta las mancuernas hacia arriba y júntalas sobre el pecho."
+      }
+    },
+    "LEGS": {
+      "PRESS": "Press de piernas",
+      "ZANCADAS_MANCUERNAS": "Zancadas con mancuernas",
+      "SENTADILLAS": "Sentadillas a 90 grados",
+      "SALTO_ALTURA": "Salto de altura",
+      "PUNTILLAS": "Elevación de talón con mancuernas/barra",
+      "DESCRIPCION": {
+        "PRESS": "Siéntate en una máquina de press de piernas, empuja la plataforma hacia arriba con las piernas y luego baja lentamente.",
+        "ZANCADAS_MANCUERNAS": "Da un paso hacia adelante con una pierna, baja el cuerpo hasta que ambas rodillas formen ángulos de 90 grados.",
+        "SENTADILLAS": "Como se explicó anteriormente, este ejercicio también puede involucrar los músculos de las piernas.",
+        "SALTO_ALTURA": "Salta hacia arriba lo más alto posible, levantando las rodillas hacia el pecho mientras estás en el aire.",
+        "PUNTILLAS": "Levántate sobre las puntas de los pies, manteniendo las mancuernas o la barra sobre los hombros."
+      }
+    },
+    "SHOULDERS": {
+      "VUELO_CON_ANILLOS": "Vuelo con anillos",
+      "ELEVACION_VERTICAL_MANCUERNAS": "Elevación 90 grados de mancuernas",
+      "ELEVACION_MANCUERNAS_DIRECTA": "Elevación-hombros",
+      "DOMINADAS": "Dominadas",
+      "FLEXIONES_INCLINADAS": "Flexiones inclinadas",
+      "DESCRIPCION": {
+        "VUELO_CON_ANILLOS": "Agárrate de unos anillos con los brazos extendidos, levanta el cuerpo hasta que los hombros estén a la altura de las orejas.",
+        "ELEVACION_VERTICAL_MANCUERNAS": "Levanta las mancuernas desde los muslos hasta que estén por encima de los hombros.",
+        "ELEVACION_MANCUERNAS_DIRECTA": "Mantén las mancuernas a los lados del cuerpo, levántalas hacia los lados hasta que estén paralelas al suelo.",
+        "DOMINADAS": "Como se explicó anteriormente, este ejercicio también puede involucrar los músculos de los hombros.",
+        "FLEXIONES_INCLINADAS": "Apoya las manos en un banco inclinado, baja el cuerpo flexionando los codos y luego empuja hacia arriba."
+      }
+    },
+    "TRICEPS": {
+      "FONDO": "Fondo de tríceps",
+      "CURL_POLEA": "Tríceps con polea",
+      "ELEVACION_ESPALDA": "Elevación hombro-espalda",
+      "ELEVACION": "Elevación de mancuernas apoyado",
+      "FLEXIONES": "Flexiones estilo diamante",
+      "DESCRIPCION": {
+        "FONDO": "Siéntate en un banco con las manos a los lados del cuerpo, baja el cuerpo doblando los codos y luego empújate hacia arriba.",
+        "CURL_POLEA": "Utiliza una máquina de polea alta con la barra recta, baja la barra detrás de la cabeza flexionando los codos y luego extiéndelos hacia arriba.",
+        "ELEVACION_ESPALDA": "Acuéstate boca abajo en un banco inclinado, levanta una mancuerna hacia arriba y hacia atrás sobre la cabeza.",
+        "ELEVACION": "Acuéstate boca arriba con las rodillas dobladas, sostén una mancuerna con ambas manos y levántala hacia arriba sobre el pecho.",
+        "FLEXIONES": "Como se explicó anteriormente, este ejercicio también puede involucrar los músculos de los tríceps."
+      }
     },
     "NEXT":"Siguiente",
     "BEFORE":"Anterior",
@@ -80,6 +147,7 @@
       "GROUP_TITLE_PLACEHOLDER":"Nombre del grupo",
       "GROUP_DESCRIPTION_PLACEHOLDER":"¡Identifica a tu grupo!",
       "CREATE_GROUP":"Crea tu grupo"
+
     },
     "TITLES": {
       "HOME": "Home",

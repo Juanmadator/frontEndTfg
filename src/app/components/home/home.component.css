@@ -609,7 +609,7 @@ input[type="text"]:focus {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.3); /* Sombra */
+  background-color: rgba(0, 0, 0, 0.1); /* Sombra */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -760,4 +760,22 @@ input[type="text"]:focus {
 
 .primero{
   font-weight: bold;
+}
+
+
+.photo .post-image{
+  max-width: 500px;
+  max-height: 500px;
+}
+
+.close,
+.middle .feed .primero i {
+  font-size: 250px;
+}
+
+.primero{
+  display: grid;
+  place-items: center;
+  text-align: center;
+  margin-top: 55px;
 }

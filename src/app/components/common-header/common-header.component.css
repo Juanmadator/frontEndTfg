@@ -200,3 +200,12 @@
   .idioma:hover{
     transform: scale(1.10);
   }
+
+  label{
+    border: none;
+  }
+
+  label:hover{
+    border: none;
+    background-color: var(--color-terciary);
+  }

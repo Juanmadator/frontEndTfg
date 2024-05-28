@@ -5,6 +5,9 @@ import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import jsPDF from 'jspdf';
+import confetti from 'canvas-confetti';
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-create-rutine',
   standalone: true,
@@ -39,13 +42,52 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
   chest: string[] = [
     "CHEST.FLEXIONES","CHEST.PRESS_BANCA","CHEST.ELEVACION_MANCUERNAS"
   ];
+  legs: string[] = [
+    "LEGS.PRESS","LEGS.ZANCADAS_MANCUERNAS","LEGS.SENTADILLAS","LEGS.SALTO_ALTURA","LEGS.PUNTILLAS"
+  ];
+  shoulders: string[] = [
+    "SHOULDERS.VUELO_CON_ANILLOS","SHOULDERS.ELEVACION_VERTICAL_MANCUERNAS","SHOULDERS.ELEVACION_MANCUERNAS_DIRECTA","SHOULDERS.DOMINADAS","SHOULDERS.FLEXIONES_INCLINADAS"
+  ];
+  triceps:string[]=[
+    "TRICEPS.FONDO","TRICEPS.CURL_POLEA","TRICEPS.ELEVACION_ESPALDA","TRICEPS.ELEVACION","TRICEPS.FLEXIONES"
+  ];
+
+  biceps_descripcion: string[] = [
+    "BICEPS.CURL", "BICEPS.POLEA", "BICEPS.DOMINADAS", "BICEPS.FLEXIONES"
+  ];
+
+  abdomen_descripcion: string[] = [
+    "ABDOMEN.COLGADO", "ABDOMEN.RUSOS", "ABDOMEN.ELEVACION", "ABDOMEN.SENTADILLAS"
+  ];
+
+  back_descripcion: string[] = [
+    "BACK.REMO", "BACK.REMO_UNA_MANO", "BACK.SENTADILLAS","BACK.CRUNCH_PESO","BACK.FLEXIONES", "BACK.DOMINADAS"
+  ];
+
+  chest_descripcion: string[] = [
+    "CHEST.FLEXIONES","CHEST.PRESS_BANCA","CHEST.ELEVACION_MANCUERNAS"
+  ];
+
+  legs_descripcion: string[] = [
+    "LEGS.PRESS","LEGS.ZANCADAS_MANCUERNAS","LEGS.SENTADILLAS","LEGS.SALTO_ALTURA","LEGS.PUNTILLAS"
+  ];
+
+  shoulders_descripcion: string[] = [
+    "SHOULDERS.VUELO_CON_ANILLOS","SHOULDERS.ELEVACION_VERTICAL_MANCUERNAS","SHOULDERS.ELEVACION_MANCUERNAS_DIRECTA","SHOULDERS.DOMINADAS","SHOULDERS.FLEXIONES_INCLINADAS"
+  ];
+
+  triceps_descripcion:string[]=[
+    "TRICEPS.FONDO","TRICEPS.CURL_POLEA","TRICEPS.ELEVACION_ESPALDA","TRICEPS.ELEVACION","TRICEPS.FLEXIONES"
+  ];
+
+
   currentPage: number = 1;
   selectedHour: number | null = null;
   selectedMinutes: number | null = null;
   nombresImagenesTraducidas: string[] = [];
   selectedIntensity = '';
   personalNotes = '';
-  ejercicio!: number;
+  ejercicio: number=-1;
   private langChangeSubscription!: Subscription;
   constructor(private translate: TranslateService) {
   }
@@ -88,6 +130,27 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
     if (this.currentPage < 3) {
       this.currentPage++;
     }
+
+
+
+    if(this.currentPage===3 && this.ejercicio<0){
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "error",
+        title: "Selecciona un ejercicio"
+      });
+      this.currentPage--;
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -118,7 +181,6 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
   crearEnPaso3() {
     if (this.currentPage === 3) {
       // Aquí puedes agregar la lógica para crear en el paso 3
-      console.log('Creando en el paso 3');
     }
   }
 
@@ -137,7 +199,7 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
 
   seleccionarImagen(index: number) {
     this.imagenSeleccionada = index;
-    console.log(this.imagenSeleccionada);
+    this.ejercicio=-1;
   }
 
 
@@ -196,4 +258,90 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
     ]
   };
 
+
+  getDescripcionEjercicioSeleccionado(): string {
+    let descripcion = '';
+    switch (this.imagenSeleccionada) {
+      case 0:
+        descripcion = "ABDOMEN.DESCRIPCION." + this.abdomen[this.ejercicio].split('.')[1];
+        break;
+      case 1:
+        descripcion = "BACK.DESCRIPCION." + this.back[this.ejercicio].split('.')[1];
+        break;
+      case 2:
+        descripcion = "BICEPS.DESCRIPCION." + this.biceps[this.ejercicio].split('.')[1];
+        break;
+      case 4:
+        descripcion = "CHEST.DESCRIPCION." + this.chest[this.ejercicio].split('.')[1];
+        break;
+      case 5:
+        descripcion = "LEGS.DESCRIPCION." + this.legs[this.ejercicio].split('.')[1];
+        break;
+      case 7:
+        descripcion = "SHOULDERS.DESCRIPCION." + this.shoulders[this.ejercicio].split('.')[1];
+        break;
+      case 8:
+        descripcion = "TRICEPS.DESCRIPCION." + this.triceps[this.ejercicio].split('.')[1];
+        break;
+      default:
+        descripcion = '';
+        break;
+    }
+    return descripcion;
+  }
+
+
+  getName(): string {
+    let descripcion = '';
+    switch (this.imagenSeleccionada) {
+      case 0:
+        descripcion = this.abdomen[this.ejercicio];
+        break;
+      case 1:
+        descripcion =this.back[this.ejercicio];
+        break;
+      case 2:
+        descripcion = this.biceps[this.ejercicio];
+        break;
+      case 4:
+        descripcion = this.chest[this.ejercicio];
+        break;
+      case 5:
+        descripcion =this.legs[this.ejercicio];
+        break;
+      case 7:
+        descripcion = this.shoulders[this.ejercicio];
+        break;
+      case 8:
+        descripcion = this.triceps[this.ejercicio];
+        break;
+      default:
+        descripcion = '';
+        break;
+    }
+    return descripcion;
+  }
+
+  peso: number = 0; // Ini
+
+
+  showPlusSymbols() {
+    confetti({
+      spread: 360,
+      ticks: 200,
+      gravity: 1,
+      decay: 0.94,
+      startVelocity: 30,
+      particleCount: 100,
+      scalar: 3,
+      shapes: ["image"],
+      shapeOptions: {
+
+      }
+    });
+  }
+
+  sumarCantidad(){
+    this.peso++;
+  }
 }

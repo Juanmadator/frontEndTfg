@@ -59,7 +59,7 @@ export class AppComponent implements OnInit {
         // Ocultar el spinner después de un breve retraso
         setTimeout(() => {
           this.isSpinnerVisible = false;
-        }, 800);
+        }, 400);
       }
     });
   }

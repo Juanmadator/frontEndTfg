@@ -7,7 +7,7 @@
 
     <div *ngIf="esPaginaActual(1)">
       <div class="titulo">
-        <div class="info"><i class="fa-solid fa-circle-info"></i></div>
+        <div class="info"><img src="/assets/images/exercises/logo.png" alt="" class="logo"></div>
         <h2>{{ 'SELECT_SPORT' | translate }}</h2>
       </div>
       <div class="imagenes">
@@ -25,7 +25,7 @@
 
     <div *ngIf="esPaginaActual(2)">
       <div class="titulo">
-        <div class="info"><i class="fa-solid fa-circle-info"></i></div>
+        <div class="info"><img src="/assets/images/exercises/logo.png" alt="" class="logo"></div>
         <h2>{{nombresImagenesTraducidas[imagenSeleccionada]}}</h2>
       </div>
       @if(imagenSeleccionada===3 || imagenSeleccionada===6 || imagenSeleccionada===9){
@@ -47,6 +47,16 @@
          @if(imagenSeleccionada==4){
           <p class="text-center">{{ chest[i] |translate}}</p>
          }
+         @if(imagenSeleccionada==5){
+          <p class="text-center">{{ legs[i] |translate}}</p>
+         }
+         @if(imagenSeleccionada==7){
+          <p class="text-center">{{ shoulders[i] |translate}}</p>
+         }
+         @if(imagenSeleccionada==8){
+          <p class="text-center">{{ triceps[i] |translate}}</p>
+         }
+
         </div>
       </div>
       }
@@ -57,6 +67,24 @@
     </div>
 
     <div *ngIf="esPaginaActual(3)">
+      <h3 class="text-center">{{ getName() |translate }}</h3>
+      <div class="descripcion">
+        <img [src]="imagenesEjercicios[imagenSeleccionada][ejercicio]" alt="Ejercicio Seleccionado" class="deporte ejercicio-final" id="imagenArriba" (click)="showPlusSymbols()">
+        <p>{{ getDescripcionEjercicioSeleccionado() | translate }}</p>
+        <div id="plusSymbolsContainer"></div>
+    </div>
+
+
+
+      <div class="botones">
+        <button class="next-step" (click)="stepBefore()">{{"BEFORE"|translate}}</button>
+        <button class="next-step" (click)="crearRutina()">{{"CREATE"|translate}}</button>
+      </div>
+    </div>
+
+
+
+    <div *ngIf="esPaginaActual(4)">
       <h3 class="text-center">Paso 3: Configuración adicional</h3>
       <form class="personalizacion">
         <div class="intensity">

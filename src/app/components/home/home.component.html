@@ -47,7 +47,7 @@
               </div>
               <div class="modal-body text-center">
                 <p>{{ postContent }}</p>
-                <img *ngIf="selectedFile" [srcset]="modalImage" alt="Selected Image" class="modal-image">
+                <img *ngIf="selectedFile" [src]="modalImage" alt="Selected Image" class="modal-image">
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">{{'CLOSE'|translate}}</button>
@@ -63,7 +63,7 @@
               <div class="user">
                 <div class="profile-photo">
                   @if(post.userData?.profilepicture!=null && post.userData?.profilepicture!=undefined){
-                  <img [srcset]="'http://localhost:8080/profile-images/'+post.userData?.profilepicture"
+                  <img [src]="'http://localhost:8080/profile-images/'+post.userData?.profilepicture"
                     alt="User photo">
                   }@else {
                   <img src="assets/images/anonimo.png" alt="User photo">
@@ -101,8 +101,8 @@
             </div>
             }@else {
             <div class="photo">
-              <img [srcset]="'http://localhost:8080/images/'+post.imageUrl" [id]="'post-image-' + post.id"
-                alt="User photo" class="post-image" loading="eager">
+              <img [src]="'http://localhost:8080/images/'+post.imageUrl" [id]="'post-image-' + post.id"
+                alt="User photo" class="post-image" >
             </div>
             }
 
@@ -133,7 +133,7 @@
                   <div *ngFor="let comment of comments" class="comment">
 
                       @if(comment.userData?.profilepicture &&comment.userData?.profilepicture!=null && comment.userData?.profilepicture!=undefined){
-                        <img [srcset]="'http://localhost:8080/profile-images/'+comment.userData?.profilepicture"
+                        <img [src]="'http://localhost:8080/profile-images/'+comment.userData?.profilepicture"
                           alt="User photo">
                         }@else {
                         <img src="assets/images/anonimo.png" alt="User photo">
@@ -143,8 +143,9 @@
                         comment.content }}</p>
                   </div>
                 }@else {
-                  <div class="comment">
-                   <p class="primero">¡Se el primero en comentar!</p>
+                  <div class="comment primero">
+                    <i class="fa-regular fa-comments fa-10x"></i>
+                    <h1>¡SE EL PRIMERO EN COMENTAR!</h1>
                   </div>
                 }
 
@@ -161,7 +162,6 @@
           </div>
         </div>
       </div>
-
       <div class="right">
         <div class="messages">
           <div class="heading-messages">
@@ -183,7 +183,7 @@
             @if(groups!=null && groups!=undefined){
             <div class="message" *ngFor="let grupo of groups">
               <div class="profile-photo">
-                <img [srcset]="'http://localhost:8080/images/'+grupo.profileImage" alt="Imagen usuario">
+                <img [src]="'http://localhost:8080/images/'+grupo.profileImage" alt="Imagen usuario">
               </div>
               <div class="message-body">
                 <div>
@@ -203,7 +203,5 @@
         </div>
       </div>
     </div>
-
   </div>
-
 </main>

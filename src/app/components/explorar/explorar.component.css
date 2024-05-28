@@ -499,3 +499,8 @@ height: fit-content;
 .contenido{
 margin-bottom: 50px;
 }
+
+button a{
+  text-decoration: none;
+  color: white;
+}

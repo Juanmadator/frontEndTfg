@@ -37,6 +37,7 @@ export class ExplorarComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserData();
+    this.loadGroups();
   }
 
   getUserData(): void {
