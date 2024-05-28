@@ -195,4 +195,10 @@ export class ExplorarComponent implements OnInit {
     });
   }
 
+
+  iconVisible: boolean = true;
+
+  onBarraClick() {
+    this.iconVisible = false;
+  }
 }

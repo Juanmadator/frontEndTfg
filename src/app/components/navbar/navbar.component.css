@@ -10,6 +10,7 @@ main .contenedor .left {
 }
 .contenedor {
   width: 87%;
+  z-index: 200;
 }
 main .contenedor .left .profile {
   padding: var(--card-padding);

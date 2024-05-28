@@ -4,54 +4,55 @@
   </div>
 
   <div class="ejercicios">
-    <div class="titulo">
-      <div class="info"><i class="fa-solid fa-circle-info"></i></div>
-      <h2>{{ 'SELECT_SPORT' | translate }}</h2>
-    </div>
+
     <div *ngIf="esPaginaActual(1)">
+      <div class="titulo">
+        <div class="info"><i class="fa-solid fa-circle-info"></i></div>
+        <h2>{{ 'SELECT_SPORT' | translate }}</h2>
+      </div>
       <div class="imagenes">
         <div *ngFor="let imagen of imagenes; let i = index" class="imagen-item">
-          <img [src]="imagen" alt="Imagen de deporte" class="deporte" (click)="seleccionarImagen(i)" [class.seleccionada]="imagenSeleccionada === i">
+          <img [src]="imagen" alt="Imagen de deporte" class="deporte" (click)="seleccionarImagen(i)"
+            [class.seleccionada]="imagenSeleccionada === i">
           <p class="text-center">{{ nombresImagenesTraducidas[i] }}</p>
         </div>
       </div>
       <div class="botones" *ngIf="imagenSeleccionada!=null">
-        <button class="next-step" (click)="nextStep()">{{"NEXT"|translate}}</button>
+        <button class="next-step" (click)="nextStep()" >{{"NEXT"|translate}}</button>
       </div>
     </div>
 
+
     <div *ngIf="esPaginaActual(2)">
-      <div class="tiempo">
-        <div class="hour-options">
-        </div>
-        <div class="minutes-options">
-          <div><h4>{{"SELECT_MINUTES" | translate}}</h4></div>
-          <div class="minutos">
-            <button class="minutes-option"
-                    (click)="selectMinutes(15)"
-                    [ngClass]="{'selected-time': selectedMinutes === 15}">15</button>
-            <button class="minutes-option"
-                    (click)="selectMinutes(25)"
-                    [ngClass]="{'selected-time': selectedMinutes === 25}">25</button>
-            <button class="minutes-option"
-                    (click)="selectMinutes(35)"
-                    [ngClass]="{'selected-time': selectedMinutes === 35}">35</button>
-            <button class="minutes-option"
-                    (click)="selectMinutes(45)"
-                    [ngClass]="{'selected-time': selectedMinutes === 45}">45</button>
-          </div>
+      <div class="titulo">
+        <div class="info"><i class="fa-solid fa-circle-info"></i></div>
+        <h2>{{nombresImagenesTraducidas[imagenSeleccionada]}}</h2>
+      </div>
+      @if(imagenSeleccionada===3 || imagenSeleccionada===6 || imagenSeleccionada===9){
+      <h1>hey cardio</h1>
+      } @else {
+      <div class="imagenes-2">
+        <div *ngFor="let img of imagenesEjercicios[imagenSeleccionada]; let i = index" class="imagen-item">
+          <img [src]="img" alt="Exercise Image {{i}}" class="deporte" (click)="seleccionarEjercicio(i)"
+          [class.seleccionada]="ejercicio === i">
+          @if(imagenSeleccionada==0){
+            <p class="text-center">{{ abdomen[i] |translate}}</p>
+           }
+           @if(imagenSeleccionada==1){
+            <p class="text-center">{{ back[i] |translate}}</p>
+           }
+         @if(imagenSeleccionada==2){
+          <p class="text-center">{{ biceps[i] |translate}}</p>
+         }
+         @if(imagenSeleccionada==4){
+          <p class="text-center">{{ chest[i] |translate}}</p>
+         }
         </div>
       </div>
-
-
-      <div class="imagen-deporte">
-        <img *ngIf="imagenSeleccionada !== null" [src]="imagenes[imagenSeleccionada]" alt="Imagen seleccionada" class="selected-image">
-        <h3 *ngIf="imagenSeleccionada !== null" class="ejercicio-texto">{{ nombresImagenes[imagenSeleccionada] | translate }}</h3>
-      </div>
-
-      <div class="botones" *ngIf="imagenSeleccionada!=null">
-        <button class="next-step" (click)="stepBefore()">{{"BEFORE"|translate}}</button>
-        <button class="next-step" (click)="nextStep()">{{"NEXT"|translate}}</button>
+      }
+      <div class="botones">
+        <button class="next-step" (click)="stepBefore()">{{'BEFORE' | translate}}</button>
+        <button class="next-step" (click)="nextStep()">{{'NEXT' | translate}}</button>
       </div>
     </div>
 
@@ -67,7 +68,8 @@
           </div>
           <div class="personal-notes">
             <h4>Tipo de ejercicio</h4>
-            <textarea [(ngModel)]="personalNotes" name="personalNotes" placeholder="Escribe un poco sobre el ejercicio..."></textarea>
+            <textarea [(ngModel)]="personalNotes" name="personalNotes"
+              placeholder="Escribe un poco sobre el ejercicio..."></textarea>
           </div>
         </div>
 

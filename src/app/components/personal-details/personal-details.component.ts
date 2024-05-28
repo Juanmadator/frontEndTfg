@@ -33,7 +33,7 @@ export class PersonalDetailsComponent implements OnInit {
   linkIsActive: boolean = false;
   user: any = { gender: undefined };
   profilePictureUrl: string | ArrayBuffer | null = 'assets/images/anonimo.png';
-
+  formChanges = false;
   selectedFile: File | null = null;
 
   ngOnInit(): void {
@@ -57,7 +57,7 @@ export class PersonalDetailsComponent implements OnInit {
           this.selectedCountry = this.countries.length > 0 ? this.countries[0].name.common : '';
         }
       },(error)=>{
-        
+
       }
 
     );
@@ -77,7 +77,9 @@ export class PersonalDetailsComponent implements OnInit {
 
     event.preventDefault();
     //aqui se llamará al endpoint para actualizar el usuario
-    this.updateUser();
+    if (this.formChanges) {
+     this.updateUser();
+    }
   }
 
  onFileInputChange(event: any): void {
@@ -151,7 +153,9 @@ export class PersonalDetailsComponent implements OnInit {
     document.getElementById('file-input')?.click();
   }
 
-
+  detectChanges() {
+    this.formChanges = true;
+  }
 
 
 

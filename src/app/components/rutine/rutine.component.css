@@ -43,13 +43,13 @@ article {
 .fondo{
   width: 80%;
   margin: 0 auto;
-  display: flex;
-  justify-content: center;
+  display: grid;
   align-items: center;
+  height: 600px;
+  margin-bottom: 100px;
 }
 .fondo {
   background-color: #f0f0f0;
-  margin-top: 100px;
 }
 
 
@@ -358,7 +358,6 @@ body {
 
 @media (min-width: 860px) {
   .articles {
-    width: 100%;
     grid-template-columns: repeat(2, 2fr);
   }
 
@@ -378,8 +377,10 @@ body {
 @media(min-width:1201px){
   .other-navbar {
     width: 287px;
+    margin-top: 100px;
   }
 }
+
 
 @media(max-width:600px){
   .other-navbar{
@@ -387,7 +388,51 @@ body {
   }
 }
 
-
 .article{
   max-width: 100px;
+}
+
+.articles{
+  max-width: 80%;
+  max-height: 400px;
+  margin-top: -165px;
+}
+
+
+@media(max-width:992px){
+  .articles{
+    margin-top: 100px;
+  }
+}
+
+@media(min-width:993px){
+  .fondo{
+    margin-top: 50px;
+  }
+  .articles{
+    margin-top: -30px;
+  }
+}
+
+
+@media(min-width:1201px){
+  .fondo{
+    margin-top: 0px;
+  }
+  .articles{
+    margin-top: -160px;
+  }
+}
+
+@media(min-width:1201px){
+  .articles{
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+.articles{
+  padding-bottom: 200px;
+}
+.fondo{
+  margin-bottom: 50px;
 }

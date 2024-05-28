@@ -205,7 +205,7 @@ article:has(:hover, :focus) {
 .articles
 {
  display: flex;
-  z-index: 40;
+  z-index: 20;
   display: flex;
   margin: 0 auto;
   gap: 10px;
@@ -266,7 +266,7 @@ button{
 
 
 .articles{
-  z-index: 50;
+  z-index: 20;
 }
 
 @media(min-width:1201px){
@@ -440,14 +440,14 @@ text-align: center;
 
 @media(max-width:600px){
   .articles{
-    margin-top: 100px;
+    margin-top: 50px;
   }
 }
 
 
 @media(min-width:993px){
   .articles{
-    margin-top: 100px;
+    margin-top: 50px;
   }
 }
 
@@ -470,5 +470,32 @@ text-align: center;
 }
 
 
+.barra{
+  width: 100%;
+height: fit-content;
+}
+
+.busqueda{
+  margin-left: -50px;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+
+}
 
 
+.hidden {
+  transform: translateY(-50px);
+  opacity: 0;
+}
+
+.barra input{
+  width: 100%;
+}
+
+.other-navbar{
+  z-index: 50;
+}
+
+
+.contenido{
+margin-bottom: 50px;
+}

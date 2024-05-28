@@ -27,6 +27,31 @@
       "TRICEPS": "Tríceps",
       "CAMINAR": "Caminar"
     },
+    "BICEPS":{
+      "CURL":"Curl de biceps",
+      "POLEA":"Curl de biceps en polea",
+      "DOMINADAS":"Dominadas",
+      "FLEXIONES":"Flexiones"
+    },
+    "ABDOMEN":{
+      "COLGADO":"Elevación de piernas colgado",
+      "RUSOS":"Giros rusos",
+      "ELEVACION":"Elevación de piernas",
+      "SENTADILLAS":"Sentadillas con barra"
+    },
+    "BACK":{
+      "REMO":"Remo a dos manos",
+      "REMO_UNA_MANO":"Remo con una mancuerna",
+      "SENTADILLAS":"Sentadillas con barra",
+      "CRUNCH_PESO":"Flexión abdominal con peso",
+      "FLEXIONES":"Flexiones",
+      "DOMINADAS":"Dominadas"
+    },
+    "CHEST":{
+    "FLEXIONES":"Flexiones estilo diamante",
+    "PRESS_BANCA":"Elevación de barra en banca",
+    "ELEVACION_MANCUERNAS":"Elevación de mancuernas con inclinación"
+    },
     "NEXT":"Siguiente",
     "BEFORE":"Anterior",
     "CREATE":"Crear",
@@ -51,7 +76,20 @@
       "WANT_TO_DO_A_PUBLISH": "¿Quieres hacer una publicación?",
       "GROUPS": "Buscar grupo",
       "WRITE_COMMENT":"¡Manda un comentario!",
-      "SEARCH_GROUP":"Busca un grupo"
+      "SEARCH_GROUP":"Busca un grupo",
+      "GROUP_TITLE_PLACEHOLDER":"Nombre del grupo",
+      "GROUP_DESCRIPTION_PLACEHOLDER":"¡Identifica a tu grupo!",
+      "CREATE_GROUP":"Crea tu grupo"
+    },
+    "TITLES": {
+      "HOME": "Home",
+      "EXPLORE":"Explorar",
+      "GROUPS":"Tus grupos",
+      "FAVS":"Favoritos",
+      "RUTINE":"Rutina",
+      "PROFILE":"Perfil",
+      "ABOUT":"Sobre nosotros"
+
     },
     "BAJAR":"Vista previa",
     "MALE":"Hombre",
@@ -62,6 +100,9 @@
     "SELECT_HOURS":"Selecciona las horas",
     "SELECT_MINUTES":"Selecciona los minutos",
     "FILL_FIELDS":"Rellena los campos",
-    "POST":"Publicar"
+    "POST":"Publicar",
+    "ADD_GROUP":"¡Grupo añadido!",
+    "GROUP_TITLE":"Máximo 10 caracteres",
+    "GROUP_DESCRIPTION":"Descripción del grupo"
 }
 

@@ -299,3 +299,11 @@ form {
     margin-top: 100px;
   }
 }
+
+
+@media(max-width:992px){
+  .contenedor,.messages,.formulario{
+    width: 100%;
+    margin: 0 auto;
+  }
+}

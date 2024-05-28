@@ -51,6 +51,17 @@
   margin-top: 100px;
 }
 
+.imagenes-2 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  place-items: center;
+  width: 100%;
+  gap: 20px;
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 100px;
+}
+
 @media (min-width: 768px) {
   .imagenes {
     grid-template-columns: repeat(3, 1fr);
@@ -67,7 +78,7 @@
   width: 90px; /* Tamaño de la imagen */
   height: 90px;
   border-radius: 30%; /* Asegura que la imagen sea un círculo */
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   padding: 15px;
   transition: 0.3s all ease;
 }
@@ -145,6 +156,7 @@
   flex-direction: row;
   justify-content: center;
   gap: 15px;
+  margin-top: 20px;
 }
 
 .ejercicio-texto {
@@ -242,4 +254,29 @@ p span{
   width: 200px;
  height: 100px;
  overflow: hidden;
+}
+
+
+@media(min-width:1201px){
+  .other-navbar {
+    width: 287px;
+  }
+}
+
+
+.imagen-item{
+  display: grid;
+  place-items: center;
+  align-items: center;
+  grid-template-rows: 1fr 1fr;
+  gap: 0;
+
+}
+
+.imagen-item img{
+  margin-bottom: 0;
+}
+.imagen-item p{
+  max-width: 160px;
+  margin-top: 10px;
 }

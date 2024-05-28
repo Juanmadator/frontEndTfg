@@ -140,3 +140,10 @@ img {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+/* Estilos para el modo oscuro */
+body.dark-mode {
+  background-color: #375868;
+  color: #fff;
+}

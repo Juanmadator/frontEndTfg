@@ -7,7 +7,7 @@
     <div class="create">
       @if(user.verified && user.coach){
         <a  [routerLink]="['/create/group']">
-      <label class="btn btn-primary" for="create-post" title="Crear grupo">
+      <label class="btn btn-primary" for="create-post" [title]="'CREATE_GROUP'|translate">
        <i class="fas fa-plus"></i>
       </label>
     </a>
@@ -27,6 +27,7 @@
         </label>
       </a>
       }
+
 
       <div class="profile-photo">
         @if(user.profilepicture){

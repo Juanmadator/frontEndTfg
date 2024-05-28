@@ -15,18 +15,18 @@
      </div>
       <form class="paso-1">
         <mat-form-field>
-          <mat-label>Título del grupo</mat-label>
-          <input matInput [(ngModel)]="tituloGrupo" (keyup)="check()" name="tituloGrupo" required>
+          <mat-label>{{"GROUP_TITLE"|translate}}</mat-label>
+          <input matInput [(ngModel)]="tituloGrupo" (keyup)="check()" name="tituloGrupo" [placeholder]="'PLACEHOLDERS.GROUP_TITLE_PLACEHOLDER'|translate" required>
         </mat-form-field>
         <mat-form-field>
-          <mat-label>Descripción del grupo</mat-label>
-          <textarea matInput [(ngModel)]="descripcionGrupo" (keyup)="check()" name="descripcionGrupo"
+          <mat-label>{{"GROUP_DESCRIPTION"|translate}}</mat-label>
+          <textarea matInput [(ngModel)]="descripcionGrupo" (keyup)="check()" name="descripcionGrupo" [placeholder]="'PLACEHOLDERS.GROUP_DESCRIPTION_PLACEHOLDER'|translate"
             required></textarea>
         </mat-form-field>
       </form>
       <div class="botones">
         <!-- Botón para avanzar al siguiente paso -->
-        <button (click)="avanzarPaso()" class="siguiente" [disabled]="!comprobados">Siguiente</button>
+        <button (click)="avanzarPaso()" class="siguiente" [disabled]="!comprobados">{{"NEXT"|translate}}</button>
       </div>
     </div>
 

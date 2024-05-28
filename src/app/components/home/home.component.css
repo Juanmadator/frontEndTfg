@@ -655,7 +655,7 @@ input[type="text"]:focus {
   justify-content: center;
   position: absolute;
   margin-top: 0;
-  margin-left: 85%;
+  margin-left: 81%;
   z-index: 100000;
   width: 50px;
   color: red;
