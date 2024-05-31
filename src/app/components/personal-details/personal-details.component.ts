@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormsModule, NgModel } from '@angular/forms';
+import { FormsModule, NgModel, NgForm, FormControl } from '@angular/forms';
 import { UserService } from '../../services/user/user.service';
 import { User } from '../../services/user/User';
 import { Router } from '@angular/router';
@@ -11,6 +11,8 @@ import CryptoJS from 'crypto-js';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import Swal from 'sweetalert2';
+import { RegisterService } from '../../services/register/register.service';
+
 @Component({
   selector: 'app-personal-details',
   standalone: true,
@@ -19,8 +21,11 @@ import Swal from 'sweetalert2';
   styleUrl: './personal-details.component.css'
 })
 export class PersonalDetailsComponent implements OnInit {
-  constructor(private http: HttpClient, private translate: TranslateService, private userService: UserService, private router: Router, private authService: LoginServiceAuth) { }
+  constructor(private http: HttpClient, private translate: TranslateService, private registerService:RegisterService,private userService: UserService, private router: Router, private authService: LoginServiceAuth) { }
+
   @ViewChild('selectPais') selectPais!: ElementRef<HTMLSelectElement>;
+  @ViewChild('usernameModel') usernameModel!: NgModel;
+
   countries: any[] = [];
   name!: string;
   lastname!: string;
@@ -35,7 +40,8 @@ export class PersonalDetailsComponent implements OnInit {
   profilePictureUrl: string | ArrayBuffer | null = 'assets/images/anonimo.png';
   formChanges = false;
   selectedFile: File | null = null;
-
+  pillado:boolean=false;
+  originalUsername!: string;
   ngOnInit(): void {
     if (sessionStorage.getItem("userId")) {
       this.getUserData();
@@ -49,51 +55,80 @@ export class PersonalDetailsComponent implements OnInit {
         this.countries = data.sort((a, b) => a.name.common.localeCompare(b.name.common));
         this.countries.unshift({ name: { common: 'Seleccionar un país' } });
 
-        // Verificar si this.user.country está definido y es un valor válido en la lista de países
         if (this.user.country && this.countries.some(country => country.name.common === this.user.country)) {
           this.selectedCountry = this.user.country;
         } else {
-          // Si this.user.country no está definido o no es un valor válido, seleccionar el primer país en la lista
           this.selectedCountry = this.countries.length > 0 ? this.countries[0].name.common : '';
         }
-      },(error)=>{
-
-      }
-
+      }, error => {}
     );
   }
-
-
-  normalizeString(value: string): string {
-    return value.trim().toLowerCase();
-  }
-
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
   }
 
-  onSubmit(event: any) {
-
+  onSubmit(event: any, form: NgForm) {
     event.preventDefault();
-    //aqui se llamará al endpoint para actualizar el usuario
-    if (this.formChanges) {
-     this.updateUser();
+    if (form.valid) {
+      this.checkUsername().then(isAvailable => {
+        if (isAvailable) {
+          if (this.formChanges) {
+            this.updateUser();
+            this.pillado=false;
+          }
+        } else {
+          this.translate.get('USERNAME_ALREADY_EXISTS').subscribe((translatedText: string) => {
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "bottom",
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+              }
+            });
+            Toast.fire({
+              icon: "error",
+              title: `${translatedText}`
+            });
+          });
+        }
+      });
+    } else {
+      this.translate.get('FILL_FIELDS').subscribe((translatedText: string) => {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "bottom",
+          showConfirmButton: false,
+          timer: 1300,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          }
+        });
+        Toast.fire({
+          icon: "error",
+          title: `${translatedText}`
+        });
+      });
     }
   }
 
- onFileInputChange(event: any): void {
-  const file = event.target.files[0];
-  if (file) {
-    this.selectedFile = file;
-    const reader = new FileReader();
-    reader.onload = (e: any) => {
-      this.profilePictureUrl = e.target.result; // Actualiza la URL de la imagen del perfil
-    };
-    reader.readAsDataURL(file);
+  onFileInputChange(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.profilePictureUrl = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
   }
-}
-
 
   updateUser(): void {
     const userIdString = sessionStorage.getItem('userId');
@@ -114,9 +149,7 @@ export class PersonalDetailsComponent implements OnInit {
               const decryptedPassword = CryptoJS.AES.decrypt(encryptedPassword, 'your-secret-key').toString(CryptoJS.enc.Utf8);
               sessionStorage.removeItem('token');
               this.authService.login(this.user.username, decryptedPassword, 'Cambios efectuados correctamente').subscribe(
-                () => {
-
-                },
+                () => {},
                 (error: any) => {
                   console.error('Error al iniciar sesión después de actualizar el usuario:', error);
                 }
@@ -124,7 +157,27 @@ export class PersonalDetailsComponent implements OnInit {
             }
           },
           (error: any) => {
-            console.error('Error al actualizar el usuario:', error);
+            if (error.status === 502) {
+              this.translate.get('USERNAME_ALREADY_EXISTS').subscribe((translatedText: string) => {
+                const Toast = Swal.mixin({
+                  toast: true,
+                  position: "bottom",
+                  showConfirmButton: false,
+                  timer: 3000,
+                  timerProgressBar: true,
+                  didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                  }
+                });
+                Toast.fire({
+                  icon: "error",
+                  title: `${translatedText}`
+                });
+              });
+            } else {
+              console.error('Error al actualizar el usuario:', error);
+            }
           }
         );
       } else {
@@ -149,20 +202,45 @@ export class PersonalDetailsComponent implements OnInit {
     }
   }
 
+  checkUsername(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      if (this.user.username === this.originalUsername) {
+        this.pillado=false;
+        resolve(true);
+      } else if (this.user.username) {
+        this.registerService.checkUsernameAvailability(this.user.username).subscribe(
+          available => {
+            if (!available) {
+            this.pillado=false;
+              resolve(true);
+            } else {
+              this.pillado=true;
+
+              resolve(false);
+            }
+          },
+          error => {
+            console.error('Error al verificar el nombre de usuario:', error);
+            resolve(false);
+          }
+        );
+      } else {
+        resolve(false);
+      }
+    });
+  }
+
   openFileInput(event: any) {
     document.getElementById('file-input')?.click();
+    this.formChanges = true;
   }
 
   detectChanges() {
     this.formChanges = true;
   }
 
-
-
-
   handleCountryChange(event: Event): void {
     const selectedCountryName = (event.target as HTMLSelectElement).value;
-    // Aquí podrías hacer más validaciones si es necesario antes de asignar el país al usuario
     this.user.country = selectedCountryName;
   }
 
@@ -170,21 +248,17 @@ export class PersonalDetailsComponent implements OnInit {
     this.userService.getUser().subscribe(
       (user: User | null) => {
         if (user) {
+          this.originalUsername = user.username;
           this.user = user;
           this.profilePictureUrl = this.user.profilepicture
             ? `http://localhost:8080/profile-images/${this.user.profilepicture}`
             : 'assets/images/anonimo.png';
-          // Verifica si la fecha de nacimiento existe en el usuario
           if (this.user.age) {
-            // Parsea la fecha de nacimiento a objeto Date
             const dateOfBirth = new Date(this.user.age);
-            // Suma un día a la fecha de nacimiento
             dateOfBirth.setDate(dateOfBirth.getDate() + 1);
-            // Obtiene el año, mes y día de la fecha sumada
             const year = dateOfBirth.getFullYear();
             const month = (dateOfBirth.getMonth() + 1).toString().padStart(2, '0');
             const day = dateOfBirth.getDate().toString().padStart(2, '0');
-            // Formatea la fecha en el formato YYYY-MM-DD
             const formattedDate = `${year}-${month}-${day}`;
             const inputDateElement = document.getElementById('age') as HTMLInputElement;
             if (inputDateElement) {
@@ -201,15 +275,11 @@ export class PersonalDetailsComponent implements OnInit {
     );
   }
 
-
-
   ngAfterViewInit() {
-    // Verificar si el elemento selectPais está presente antes de deshabilitarlo
     if (this.selectPais && this.selectPais.nativeElement) {
       this.selectPais.nativeElement.disabled = true;
     }
   }
-
 
   public closeSession(): void {
     console.log("cerrando sesion");
@@ -218,8 +288,4 @@ export class PersonalDetailsComponent implements OnInit {
     sessionStorage.setItem("redirectToHome", "true");
     this.router.navigateByUrl('/home');
   }
-
-
-
-
 }

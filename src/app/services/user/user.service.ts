@@ -2,17 +2,18 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { Observable, catchError, of, throwError } from 'rxjs';
 import { User } from './User';
-import { environment } from '../../environments/environments';
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   constructor(private http: HttpClient) { }
+
+ private urlApi:string='http://localhost:8080/api/v1'
   getUser(): Observable<User|null> {
     const idUser = sessionStorage.getItem("userId");
     if (idUser) {
       const headers = new HttpHeaders().set('Content-Type', 'application/json');
-      return this.http.get<User>(`${environment.urlApi}/users/${idUser}`, { headers }).pipe(
+      return this.http.get<User>(`${this.urlApi}/users/${idUser}`, { headers }).pipe(
         catchError(this.handleError)
       );
     }
@@ -21,7 +22,7 @@ export class UserService {
   }
 
   getUserById(id:number): Observable<User> {
-      return this.http.get<User>(`${environment.urlApi}/users/${id}`).pipe(
+      return this.http.get<User>(`${this.urlApi}/users/${id}`).pipe(
         catchError(this.handleError)
       );
   }
@@ -60,7 +61,7 @@ export class UserService {
     // Configurar las cabeceras adecuadamente para enviar datos de formulario multipart
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    return this.http.put<any>(`${environment.urlApi}/users/${userId}`, formData, { headers }).pipe(
+    return this.http.put<any>(`${this.urlApi}/users/${userId}`, formData, { headers }).pipe(
       catchError(this.handleError)
     );
   }

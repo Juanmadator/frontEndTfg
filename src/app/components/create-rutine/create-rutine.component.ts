@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
@@ -7,6 +7,29 @@ import { FormsModule } from '@angular/forms';
 import jsPDF from 'jspdf';
 import confetti from 'canvas-confetti';
 import Swal from 'sweetalert2';
+import { RoutineService } from '../../services/routine/routine.service';
+
+export interface Ejercicio {
+  userId: number;
+  nombre: string;
+  descripcion: string;
+  imagen: string;
+  repeticiones: number;
+  peso: number;
+  grupoMuscular:string;
+}
+
+export interface Rutina {
+  id:number;
+  userId: number;
+  name: string;
+  description: string;
+  repeticiones: number;
+  peso: number;
+  routine:number;
+  grupoMuscular:string;
+}
+
 
 @Component({
   selector: 'app-create-rutine',
@@ -16,7 +39,47 @@ import Swal from 'sweetalert2';
   styleUrl: './create-rutine.component.css'
 })
 export class CreateRutineComponent implements OnInit, OnDestroy {
+  ejercicios: Ejercicio[] = [];
   imagenSeleccionada!: number;
+  repeticiones: number = 10;
+  pesoNumero: number = 20;
+  rutinas: Rutina[] = [];
+
+  addRoutine() {
+    const routineId = this.generateRoutineId();
+    this.ejercicios.forEach(exercise => {
+      this.routineService.createRoutine(
+        exercise.nombre,
+        exercise.descripcion,
+        exercise.repeticiones,
+        exercise.peso,
+        routineId,
+        exercise.grupoMuscular
+      ).subscribe(
+        (response: any) => {
+          console.log('Routine added successfully:', response);
+          // Puedes realizar alguna acción adicional aquí después de agregar la rutina, si es necesario
+        },
+        (error: any) => {
+          console.error('Error adding routine:', error);
+          // Maneja el error de acuerdo a tus necesidades
+        }
+      );
+    });
+  }
+
+
+  obtenerRutinas() {
+    this.routineService.getRoutinesByUserId().subscribe((response) => {
+      this.rutinas = response;
+      console.log(response);
+    })
+  }
+
+
+  generateRoutineId(): string {
+    return 'routine-' + Date.now();
+  }
 
   imagenes: string[] = [
     'assets/images/1.png', 'assets/images/2.png', 'assets/images/3.png', 'assets/images/4.png',
@@ -36,20 +99,20 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
     "ABDOMEN.COLGADO", "ABDOMEN.RUSOS", "ABDOMEN.ELEVACION", "ABDOMEN.SENTADILLAS"
   ];
   back: string[] = [
-    "BACK.REMO", "BACK.REMO_UNA_MANO", "BACK.SENTADILLAS","BACK.CRUNCH_PESO","BACK.FLEXIONES", "BACK.DOMINADAS"
+    "BACK.REMO", "BACK.REMO_UNA_MANO", "BACK.SENTADILLAS", "BACK.CRUNCH_PESO", "BACK.FLEXIONES", "BACK.DOMINADAS"
   ];
 
   chest: string[] = [
-    "CHEST.FLEXIONES","CHEST.PRESS_BANCA","CHEST.ELEVACION_MANCUERNAS"
+    "CHEST.FLEXIONES", "CHEST.PRESS_BANCA", "CHEST.ELEVACION_MANCUERNAS"
   ];
   legs: string[] = [
-    "LEGS.PRESS","LEGS.ZANCADAS_MANCUERNAS","LEGS.SENTADILLAS","LEGS.SALTO_ALTURA","LEGS.PUNTILLAS"
+    "LEGS.PRESS", "LEGS.ZANCADAS_MANCUERNAS", "LEGS.SENTADILLAS", "LEGS.SALTO_ALTURA", "LEGS.PUNTILLAS"
   ];
   shoulders: string[] = [
-    "SHOULDERS.VUELO_CON_ANILLOS","SHOULDERS.ELEVACION_VERTICAL_MANCUERNAS","SHOULDERS.ELEVACION_MANCUERNAS_DIRECTA","SHOULDERS.DOMINADAS","SHOULDERS.FLEXIONES_INCLINADAS"
+    "SHOULDERS.VUELO_CON_ANILLOS", "SHOULDERS.ELEVACION_VERTICAL_MANCUERNAS", "SHOULDERS.ELEVACION_MANCUERNAS_DIRECTA", "SHOULDERS.DOMINADAS", "SHOULDERS.FLEXIONES_INCLINADAS"
   ];
-  triceps:string[]=[
-    "TRICEPS.FONDO","TRICEPS.CURL_POLEA","TRICEPS.ELEVACION_ESPALDA","TRICEPS.ELEVACION","TRICEPS.FLEXIONES"
+  triceps: string[] = [
+    "TRICEPS.FONDO", "TRICEPS.CURL_POLEA", "TRICEPS.ELEVACION_ESPALDA", "TRICEPS.ELEVACION", "TRICEPS.FLEXIONES"
   ];
 
   biceps_descripcion: string[] = [
@@ -61,24 +124,26 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
   ];
 
   back_descripcion: string[] = [
-    "BACK.REMO", "BACK.REMO_UNA_MANO", "BACK.SENTADILLAS","BACK.CRUNCH_PESO","BACK.FLEXIONES", "BACK.DOMINADAS"
+    "BACK.REMO", "BACK.REMO_UNA_MANO", "BACK.SENTADILLAS", "BACK.CRUNCH_PESO", "BACK.FLEXIONES", "BACK.DOMINADAS"
   ];
 
   chest_descripcion: string[] = [
-    "CHEST.FLEXIONES","CHEST.PRESS_BANCA","CHEST.ELEVACION_MANCUERNAS"
+    "CHEST.FLEXIONES", "CHEST.PRESS_BANCA", "CHEST.ELEVACION_MANCUERNAS"
   ];
 
   legs_descripcion: string[] = [
-    "LEGS.PRESS","LEGS.ZANCADAS_MANCUERNAS","LEGS.SENTADILLAS","LEGS.SALTO_ALTURA","LEGS.PUNTILLAS"
+    "LEGS.PRESS", "LEGS.ZANCADAS_MANCUERNAS", "LEGS.SENTADILLAS", "LEGS.SALTO_ALTURA", "LEGS.PUNTILLAS"
   ];
 
   shoulders_descripcion: string[] = [
-    "SHOULDERS.VUELO_CON_ANILLOS","SHOULDERS.ELEVACION_VERTICAL_MANCUERNAS","SHOULDERS.ELEVACION_MANCUERNAS_DIRECTA","SHOULDERS.DOMINADAS","SHOULDERS.FLEXIONES_INCLINADAS"
+    "SHOULDERS.VUELO_CON_ANILLOS", "SHOULDERS.ELEVACION_VERTICAL_MANCUERNAS", "SHOULDERS.ELEVACION_MANCUERNAS_DIRECTA", "SHOULDERS.DOMINADAS", "SHOULDERS.FLEXIONES_INCLINADAS"
   ];
 
-  triceps_descripcion:string[]=[
-    "TRICEPS.FONDO","TRICEPS.CURL_POLEA","TRICEPS.ELEVACION_ESPALDA","TRICEPS.ELEVACION","TRICEPS.FLEXIONES"
+  triceps_descripcion: string[] = [
+    "TRICEPS.FONDO", "TRICEPS.CURL_POLEA", "TRICEPS.ELEVACION_ESPALDA", "TRICEPS.ELEVACION", "TRICEPS.FLEXIONES"
   ];
+
+
 
 
   currentPage: number = 1;
@@ -87,9 +152,16 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
   nombresImagenesTraducidas: string[] = [];
   selectedIntensity = '';
   personalNotes = '';
-  ejercicio: number=-1;
+  ejercicio: number = -1;
   private langChangeSubscription!: Subscription;
-  constructor(private translate: TranslateService) {
+  constructor(private translate: TranslateService, private el: ElementRef, private routineService: RoutineService) {
+  }
+
+  scrollToLista() {
+    const listaElement = this.el.nativeElement.querySelector('#lista');
+    if (listaElement) {
+      listaElement.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 
   ngOnInit(): void {
@@ -97,6 +169,16 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
     this.langChangeSubscription = this.translate.onLangChange.subscribe(() => {
       this.updateTranslations();
     });
+
+    this.obtenerRutinas();
+  }
+
+  deleteExercise(index: number) {
+    this.ejercicios.splice(index, 1); // Eliminar el ejercicio en la posición index del array
+  }
+
+  save() {
+
   }
 
   selectIntensity(intensity: string): void {
@@ -111,10 +193,25 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
 
   //GUARDAR PDF CON EL EJERCICIO
   generarPDF() {
-    const doc = new jsPDF();
-    doc.text('Hello world!', 10, 10);
-    const fileName = `rutina_${this.getFormattedDate()}.pdf`;
-    doc.save(fileName);
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const doc = new jsPDF();
+        doc.text('Hello world!', 10, 10);
+        const fileName = `rutina_${this.getFormattedDate()}.pdf`;
+        doc.save(fileName);
+      }
+    });
+
+
   }
 
   getFormattedDate() {
@@ -127,32 +224,41 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
 
 
   nextStep() {
+    console.log(this.imagenSeleccionada);
+
     if (this.currentPage < 3) {
-      this.currentPage++;
+      if (this.currentPage === 2 && (this.imagenSeleccionada === 3 || this.imagenSeleccionada === 6 || this.imagenSeleccionada === 9)) {
+        this.currentPage++;
+      } else {
+        this.currentPage++;
+      }
     }
 
-
-
-    if(this.currentPage===3 && this.ejercicio<0){
-      const Toast = Swal.mixin({
-        toast: true,
-        position: "top",
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.onmouseenter = Swal.stopTimer;
-          toast.onmouseleave = Swal.resumeTimer;
-        }
-      });
-      Toast.fire({
-        icon: "error",
-        title: "Selecciona un ejercicio"
-      });
-      this.currentPage--;
+    if (this.currentPage === 3 && this.ejercicio < 0) {
+      // Solo mostrar el SweetAlert si la imagen seleccionada no es 3, 6 o 9
+      if (this.imagenSeleccionada !== 3 && this.imagenSeleccionada !== 6 && this.imagenSeleccionada !== 9) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          }
+        });
+        Toast.fire({
+          icon: "error",
+          title: "Selecciona un ejercicio"
+        });
+        this.currentPage--; // Retrocede si no se ha seleccionado un ejercicio válido
+      }
     }
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+
 
   // Método para retroceder a la página anterior
   stepBefore() {
@@ -176,14 +282,6 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
   }
 
 
-
-  // Método para crear en el paso 3
-  crearEnPaso3() {
-    if (this.currentPage === 3) {
-      // Aquí puedes agregar la lógica para crear en el paso 3
-    }
-  }
-
   private updateTranslations() {
     this.translate.get(this.nombresImagenes).subscribe(translations => {
       this.nombresImagenesTraducidas = this.nombresImagenes.map(key => translations[key]);
@@ -193,20 +291,21 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
 
 
   crearRutina(): void {
-    // Lógica para crear la rutina
-    console.log('Rutina creada con éxito');
+    this.addExercise();
+    console.log(this.ejercicios);
   }
 
   seleccionarImagen(index: number) {
     this.imagenSeleccionada = index;
-    this.ejercicio=-1;
+    this.ejercicio = -1;
   }
+
+
 
 
   seleccionarEjercicio(index: number) {
     this.ejercicio = index;
   }
-
 
 
   imagenesEjercicios: { [key: number]: string[] } = {
@@ -271,11 +370,17 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
       case 2:
         descripcion = "BICEPS.DESCRIPCION." + this.biceps[this.ejercicio].split('.')[1];
         break;
+      case 3: // Agregado para bicicleta
+        descripcion = "BICICLETA_DES";
+        break;
       case 4:
         descripcion = "CHEST.DESCRIPCION." + this.chest[this.ejercicio].split('.')[1];
         break;
       case 5:
         descripcion = "LEGS.DESCRIPCION." + this.legs[this.ejercicio].split('.')[1];
+        break;
+      case 6: // Agregado para correr
+        descripcion = "CORRER_DES";
         break;
       case 7:
         descripcion = "SHOULDERS.DESCRIPCION." + this.shoulders[this.ejercicio].split('.')[1];
@@ -283,12 +388,16 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
       case 8:
         descripcion = "TRICEPS.DESCRIPCION." + this.triceps[this.ejercicio].split('.')[1];
         break;
+      case 9: // Agregado para andar
+        descripcion = "ANDAR_DES";
+        break;
       default:
         descripcion = '';
         break;
     }
     return descripcion;
   }
+
 
 
   getName(): string {
@@ -298,22 +407,31 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
         descripcion = this.abdomen[this.ejercicio];
         break;
       case 1:
-        descripcion =this.back[this.ejercicio];
+        descripcion = this.back[this.ejercicio];
         break;
       case 2:
         descripcion = this.biceps[this.ejercicio];
+        break;
+      case 3: // Agregado para bicicleta
+        descripcion = "BICICLETA";
         break;
       case 4:
         descripcion = this.chest[this.ejercicio];
         break;
       case 5:
-        descripcion =this.legs[this.ejercicio];
+        descripcion = this.legs[this.ejercicio];
+        break;
+      case 6: // Agregado para correr
+        descripcion = "CORRER";
         break;
       case 7:
         descripcion = this.shoulders[this.ejercicio];
         break;
       case 8:
         descripcion = this.triceps[this.ejercicio];
+        break;
+      case 9: // Agregado para andar
+        descripcion = "ANDAR";
         break;
       default:
         descripcion = '';
@@ -322,7 +440,8 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
     return descripcion;
   }
 
-  peso: number = 0; // Ini
+
+  peso: number = 0;
 
 
   showPlusSymbols() {
@@ -341,7 +460,102 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
     });
   }
 
-  sumarCantidad(){
+  sumarCantidad() {
     this.peso++;
   }
+
+
+  addExercise() {
+    let nuevoEjercicio;
+
+    if (this.imagenSeleccionada != 3 && this.imagenSeleccionada != 6 && this.imagenSeleccionada != 9) {
+      nuevoEjercicio = {
+        nombre: this.getName(),
+        descripcion: this.getDescripcionEjercicioSeleccionado(),
+        repeticiones: this.repeticiones,
+        peso: this.pesoNumero,
+        imagen: this.imagenesEjercicios[this.imagenSeleccionada][this.ejercicio],
+        grupoMuscular:this.nombresImagenes[this.imagenSeleccionada],
+      };
+    } else {
+      nuevoEjercicio = {
+        nombre: this.getName(),
+        descripcion: this.getDescripcionEjercicioSeleccionado(),
+        repeticiones: this.repeticiones,
+        peso: this.pesoNumero,
+        imagen: this.imagenes[this.imagenSeleccionada],
+        grupoMuscular:this.nombresImagenes[this.imagenSeleccionada],
+      };
+    }
+
+    if (this.ejercicios.push(nuevoEjercicio)) {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "success",
+        title: "Agregado con éxito a la lista"
+      });
+    }
+
+    setTimeout(() => {
+      this.currentPage = 1;
+      this.ejercicio = -1;
+      this.imagenSeleccionada = -1;
+    }, 500);
+
+    console.log(nuevoEjercicio);
+  }
+
+
+  eliminarRutina(ejercicio: Rutina): void {
+    this.routineService.deleteRoutine(ejercicio.id)
+      .subscribe(
+        (response: string) => {
+          this.translate.get('DELETE_RUTINE').subscribe((translatedText: string) => {
+            Swal.fire({
+              icon: 'success',
+              title: '',
+              text: translatedText,
+              position: 'top',
+              showConfirmButton: false,
+              timer: 2500, // Tiempo en milisegundos que durará el mensaje
+              timerProgressBar: true, // Barra de progreso del temporizador
+            }).then(() => {
+              // Recargar la página
+           setTimeout(()=>{
+            this.obtenerRutinas();
+           })
+            });
+          });
+        },
+        (error) => {
+          this.translate.get('DELETE_RUTINE').subscribe((translatedText: string) => {
+            Swal.fire({
+              icon: 'success',
+              title: '',
+              text: translatedText,
+              position: 'top',
+              showConfirmButton: false,
+              timer: 2500, // Tiempo en milisegundos que durará el mensaje
+              timerProgressBar: true, // Barra de progreso del temporizador
+            }).then(() => {
+              // Recargar la página
+           setTimeout(()=>{
+            this.obtenerRutinas();
+           })
+            });
+          });
+        }
+      );
+  }
+
 }

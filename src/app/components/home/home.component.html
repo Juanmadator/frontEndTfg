@@ -63,8 +63,7 @@
               <div class="user">
                 <div class="profile-photo">
                   @if(post.userData?.profilepicture!=null && post.userData?.profilepicture!=undefined){
-                  <img [src]="'http://localhost:8080/profile-images/'+post.userData?.profilepicture"
-                    alt="User photo">
+                  <img [src]="'http://localhost:8080/profile-images/'+post.userData?.profilepicture" alt="User photo">
                   }@else {
                   <img src="assets/images/anonimo.png" alt="User photo">
                   }
@@ -80,7 +79,7 @@
                   <i class="uil uil-ellipsis-h"></i>
                 </button>
                 <div class="delete-confirmation" *ngIf="post.showConfirmation">
-                  <p>¿Quieres eliminar tu post?</p>
+                  <p>{{"DELETE_POST"|translate}}</p>
                   <div class="botones-de-confirmacion">
                     <button (click)="deletePost(post.id, post.userId)"><i class="fa-solid fa-check"></i></button>
                     <button (click)="hideDeleteConfirmation(post.id)"><i class="fa-solid fa-xmark"></i></button>
@@ -101,8 +100,8 @@
             </div>
             }@else {
             <div class="photo">
-              <img [src]="'http://localhost:8080/images/'+post.imageUrl" [id]="'post-image-' + post.id"
-                alt="User photo" class="post-image" >
+              <img [src]="'http://localhost:8080/images/'+post.imageUrl" [id]="'post-image-' + post.id" alt="User photo"
+                class="post-image">
             </div>
             }
 
@@ -129,36 +128,45 @@
             <div class="comments text-muted">
               <div class="modal-background" *ngIf="showComments" (click)="toggleModal(post.id)">
                 <div class="modal-content" (click)="preventClose($event)">
-                  @if(comments.length>0){
-                  <div *ngFor="let comment of comments" class="comment">
-
-                      @if(comment.userData?.profilepicture &&comment.userData?.profilepicture!=null && comment.userData?.profilepicture!=undefined){
-                        <img [src]="'http://localhost:8080/profile-images/'+comment.userData?.profilepicture"
-                          alt="User photo">
-                        }@else {
-                        <img src="assets/images/anonimo.png" alt="User photo">
-                        }
-                      <p>
-                        {{
-                        comment.content }}</p>
+                  <div *ngIf="comments.length > 0; else noComments">
+                    <div class="comentarios" #messagesContainer>
+                      <div *ngFor="let comment of comments" class="comment">
+                        <img *ngIf="comment.userData?.profilepicture"
+                             [src]="'http://localhost:8080/profile-images/' + comment.userData?.profilepicture"
+                             alt="User photo">
+                        <img *ngIf="!comment.userData?.profilepicture"
+                             src="assets/images/anonimo.png"
+                             alt="User photo">
+                        <p>{{ comment.content }}</p>
+                      </div>
+                    </div>
                   </div>
-                }@else {
-                  <div class="comment primero">
-                    <i class="fa-regular fa-comments fa-10x"></i>
-                    <h1>¡SE EL PRIMERO EN COMENTAR!</h1>
-                  </div>
-                }
-
-
+                  <ng-template #noComments>
+                    <div class="comment primero">
+                      <i class="fa-regular fa-comments fa-10x"></i>
+                      <h1>{{"NO_COMMENTS"|translate}}</h1>
+                    </div>
+                  </ng-template>
 
                   <div class="mandar-comentario">
-                    <input type="text" [placeholder]="'PLACEHOLDERS.WRITE_COMMENT' |translate">
+                    <form (ngSubmit)="addComment(postId)" class="comentar">
+                     @if(user&&user!=null){
+                      <input type="text" class="mensaje" id="mensaje-content" name="content"
+                      [(ngModel)]="commentContent" [placeholder]="'PLACEHOLDERS.WRITE_COMMENT' | translate" required>
+                     }@else {
+                      <input type="text" class="mensaje" id="mensaje-content" name="content"
+                      [(ngModel)]="commentContent" [placeholder]="'SIGN_IN_COMMENTS' | translate" disabled required>
+                     }
+                     @if(user&&user!=null){
+                      <input type="submit" [value]="'POST' | translate" class="enviar">
+                     }
+                    </form>
                   </div>
-                  <button (click)="toggleModal(post.id)" class="cerrar" [title]="'CLOSE'|translate"><i
-                      class="fa-solid fa-xmark"></i></button>
+                  <button (click)="toggleModal(post.id)" class="cerrar" [title]="'CLOSE'|translate"><i class="fa-solid fa-xmark"></i></button>
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </div>
@@ -182,17 +190,29 @@
           <div class="all-messages">
             @if(groups!=null && groups!=undefined){
             <div class="message" *ngFor="let grupo of groups">
-              <div class="profile-photo">
-                <img [src]="'http://localhost:8080/images/'+grupo.profileImage" alt="Imagen usuario">
+
+              <div class="mensaje-arriba">
+                <div class="profile-photo">
+                  <img [src]="'http://localhost:8080/images/'+grupo.profileImage" alt="Imagen usuario">
+                </div>
+                <h5>{{grupo.name}}</h5>
+
               </div>
               <div class="message-body">
                 <div>
-                  <h5>{{grupo.name}}</h5>
                   <small class="text-muted"> &#64;{{grupo.coachUsername}}</small>
                 </div>
 
-                <div class="boton"><button class="btn btn-primary"
-                    (click)="unirte(grupo.id)">{{'JOIN_GROUP'|translate}}</button></div>
+                <div class="botones">
+                  <button *ngIf="user && isCoachOfGroup(grupo.id)" (click)="salirte(grupo.id)" disabled
+                    id="salirte">{{"YOUR_GROUP"|translate}}</button>
+                  <button *ngIf="user && isMember(grupo) && user.id !== getCoachIdOfGroup(grupo.id)"
+                    (click)="salirte(grupo.id)" id="salirte">{{"EXIT_GROUP"|translate}}</button>
+                  <button *ngIf="user && !isMember(grupo) && user.id !== getCoachIdOfGroup(grupo.id)"
+                    (click)="unirte(grupo.id)" id="unirte">{{"JOIN_GROUP"|translate}}</button>
+                  <button *ngIf="!user"
+                   id="unirte">  <a [routerLink]="'/login'">{{"SIGN_IN"|translate}}</a></button>
+                </div>
               </div>
             </div>
             }@else {

@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { Group } from '../../services/groups/Group';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { RouterLink } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-rutine',
@@ -20,7 +21,7 @@ import { RouterLink } from '@angular/router';
     FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatInputModule, CommonModule, NavbarComponent, RouterLink],
+    MatInputModule, CommonModule, NavbarComponent, RouterLink,TranslateModule],
   templateUrl: './rutine.component.html',
   styleUrl: './rutine.component.css'
 })

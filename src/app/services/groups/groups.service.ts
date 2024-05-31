@@ -1,10 +1,9 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { GroupMessage } from './GroupMessage';
-import { Page } from './Page';
 import { UserGroup } from './UserGroup';
-import { Group, GroupResponse } from './Group';
+import { Group } from './Group';
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +11,10 @@ import { Group, GroupResponse } from './Group';
 export class GroupsService {
 
   private baseUrl = 'http://localhost:8080/api/groups';
-  private allGroups = 'http://localhost:8080/api/groups/all/groups';
+
   constructor(private http: HttpClient) { }
 
   createGroup(name: string, description: string, coachId: number, profileImage: File): Observable<any> {
-
     const token = sessionStorage.getItem('token');
     if (!token) {
       return of(null)
@@ -30,7 +28,7 @@ export class GroupsService {
     if (profileImage) {
       formData.append('profileImage', profileImage, profileImage.name);
     }
-    return this.http.post<any>(`${this.baseUrl}/create/${coachId}`, formData,{headers:headers});
+    return this.http.post<any>(`${this.baseUrl}/create/${coachId}`, formData, { headers: headers });
   }
 
   deleteGroup(groupId: number): Observable<any> {
@@ -41,18 +39,16 @@ export class GroupsService {
     return this.http.get(`${this.baseUrl}/user/${userId}`);
   }
 
-
   getAllGroups(): Observable<any> {
-    return this.http.get(`${this.allGroups}`);
+    return this.http.get(`${this.baseUrl}/all/groups`);
   }
-
 
   getCoachUsername(groupId: number): Observable<string> {
     return this.http.get<string>(`${this.baseUrl}/${groupId}`);
   }
 
   getGroupInfo(id: number): Observable<any> {
-    return this.http.get(`http://localhost:8080/api/groups/group/${id}`)
+    return this.http.get(`${this.baseUrl}/group/${id}`);
   }
 
   sendGroupMessage(groupId: number, senderId: number, message: string, file?: File): Observable<any> {
@@ -68,14 +64,11 @@ export class GroupsService {
     if (file) {
       formData.append('file', file, file.name);
     }
-    const url = `${this.baseUrl}/${groupId}/send`;
-    return this.http.post(url, formData,{headers:headers});
+    return this.http.post(`${this.baseUrl}/${groupId}/send`, formData, { headers: headers });
   }
 
-  // Obtener todos los mensajes de un grupo
   getGroupMessages(groupId: number): Observable<GroupMessage[]> {
-    const url = `${this.baseUrl}/group/${groupId}/messages`;
-    return this.http.get<GroupMessage[]>(url);
+    return this.http.get<GroupMessage[]>(`${this.baseUrl}/group/${groupId}/messages`);
   }
 
   joinGroup(userGroup: UserGroup): Observable<any> {
@@ -85,7 +78,7 @@ export class GroupsService {
     }
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    return this.http.post<any>(`${this.baseUrl}/join`, userGroup,{headers:headers});
+    return this.http.post<any>(`${this.baseUrl}/join`, userGroup, { headers: headers });
   }
 
   deleteUserGroup(userGroup: UserGroup): Observable<any> {
@@ -94,32 +87,19 @@ export class GroupsService {
       return of(null);
     }
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const url = `${this.baseUrl}/userGroup/${userGroup.userId}/${userGroup.groupId}`;
-    return this.http.delete(url, { headers: headers });
+    return this.http.delete(`${this.baseUrl}/userGroup/${userGroup.userId}/${userGroup.groupId}`, { headers: headers });
   }
 
-
-  // Contar miembros de un grupo
   getUsersCountInGroup(groupId: number): Observable<number> {
     return this.http.get<number>(`${this.baseUrl}/group/${groupId}/users/count`);
   }
 
-  // Saber si un usuario pertenece a un grupo
   getGroupsByNormalUser(userId: number): Observable<Group[]> {
     return this.http.get<Group[]>(`${this.baseUrl}/user/${userId}/groups`);
   }
 
-  // Mostrar grupos a los que un usuario pertenece
   checkUserMembership(groupId: number, userId: number): Observable<boolean> {
     return this.http.get<boolean>(`${this.baseUrl}/group/${groupId}/user/${userId}/is-member`);
   }
-
-  getGroups(): Observable<any[]> {
-    // Realizar la solicitud GET al endpoint para obtener todos los grupos
-    return this.http.get<any[]>(`${this.baseUrl}/all/groups`);
-  }
-
-
-
 
 }

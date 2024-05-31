@@ -7,7 +7,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { FixedMessageComponent } from '../../fixed-message/fixed-message.component';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-favoritos',
   standalone: true,
@@ -21,7 +21,7 @@ export class FavoritosComponent implements OnInit {
   private pageNumber: number = 0;
   private pageSize: number = 20;
   isLoading: boolean = false;
-  constructor(private postService: PostsService,private router :Router) { }
+  constructor(private postService: PostsService,private router :Router,private translate: TranslateService) { }
 
   ngOnInit(): void {
     this.getPosts();
@@ -74,14 +74,15 @@ export class FavoritosComponent implements OnInit {
   }
 
 
-  show(post:Post) {
+  show(post: Post) {
+    this.translate.get(['DELETE_FROM_LIST', 'DELETE_POST_CONFIRMATION', 'YES_DELETE', 'CANCEL']).subscribe(translations => {
       Swal.fire({
-        title: 'Eliminar de tu lista',
-        text: '¿Quieres eliminar este post de tu lista de favoritos?',
+        title: translations['DELETE_FROM_LIST'],
+        text: translations['DELETE_POST_CONFIRMATION'],
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Sí, borrar',
-        cancelButtonText: 'Cancelar'
+        confirmButtonText: translations['YES_DELETE'],
+        cancelButtonText: translations['CANCEL']
       }).then((result) => {
         if (result.isConfirmed) {
           if (sessionStorage.getItem("userId")) {
@@ -89,7 +90,7 @@ export class FavoritosComponent implements OnInit {
             let userIdFinal: number = userId ? parseInt(userId) : 0;
             this.postService.deleteFavourite(userIdFinal, post.id).subscribe(
               (response) => {
-               location.reload();
+                location.reload();
               },
               (error) => {
                 location.reload();
@@ -98,6 +99,7 @@ export class FavoritosComponent implements OnInit {
           }
         }
       });
+    });
   }
 
 }

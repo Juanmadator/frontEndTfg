@@ -57,7 +57,6 @@ export class RegisterComponent implements OnInit {
         .set('Content-Type', 'application/json');
 
       this.showSpinner = true; // Mostrar spinner antes de realizar la solicitud
-      console.log(value);
       this.http.post('http://localhost:8080/auth/register', value, { headers }).subscribe(
         (response: any) => {
           this.showMessage = true;
@@ -92,7 +91,6 @@ export class RegisterComponent implements OnInit {
         this.userService.getUser().subscribe(
           (user: User | null) => {
             this.user = user;
-            console.log(this.user.verified);
           },
           (error: any) => {
             console.error(error);

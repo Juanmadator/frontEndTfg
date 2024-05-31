@@ -9,11 +9,11 @@ import { GroupsService } from '../../services/groups/groups.service';
 import { UserService } from '../../services/user/user.service';
 import { User } from '../../services/user/User';
 import { Group } from '../../services/groups/Group';
-
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-group',
   standalone: true,
-  imports: [NavbarComponent, CommonModule, FormsModule],
+  imports: [NavbarComponent, CommonModule, FormsModule,TranslateModule],
   templateUrl: './group.component.html',
   styleUrls: ['./group.component.css']
 })
@@ -35,7 +35,8 @@ export class GroupComponent implements AfterViewInit {
     private groupService: GroupsService,
     private sanitizer: DomSanitizer,
     private userService: UserService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private translate: TranslateService
   ) { }
 
   ngAfterViewInit(): void {
@@ -61,19 +62,21 @@ export class GroupComponent implements AfterViewInit {
           this.groupMessages.push(newMessage);
           this.scrollToBottom();
           this.resetMessageInput();
-
           // Si el mensaje incluye una imagen, agregarla al contenedor de mensajes
           if (newMessage.fileUrl && !newMessage.fileUrl.endsWith('.pdf')) {
             const imgElement = this.renderer.createElement('img');
             this.renderer.setAttribute(imgElement, 'src', `http://localhost:8080/images/${newMessage.fileUrl}`);
             this.renderer.appendChild(this.messagesContainer.nativeElement, imgElement);
           }
+          this.loadGroupMessages();
+
         },
         (error: any) => {
           // Caso de error: La solicitud falló
           this.groupMessages.push(newMessage);
           this.scrollToBottom();
           this.resetMessageInput();
+          this.loadGroupMessages();
         }
       );
   }
@@ -138,9 +141,6 @@ export class GroupComponent implements AfterViewInit {
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
-
-
-
   private scrollToBottom(): void {
     setTimeout(() => {
       this.messagesContainer.nativeElement.scrollTop = this.messagesContainer.nativeElement.scrollHeight;
@@ -152,5 +152,17 @@ export class GroupComponent implements AfterViewInit {
     if (this.fileInput) {
       this.fileInput.nativeElement.value = '';
     }
+  }
+
+  zoomed = false;
+
+  zoomImage(event: any): void {
+    const img = event.target;
+    if (!this.zoomed) {
+      img.classList.add('zoomed-image');
+    } else {
+      img.classList.remove('zoomed-image');
+    }
+    this.zoomed = !this.zoomed;
   }
 }

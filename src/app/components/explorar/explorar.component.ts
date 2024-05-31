@@ -55,7 +55,7 @@ export class ExplorarComponent implements OnInit {
   }
 
   loadGroups(): void {
-    this.groupService.getGroups().subscribe(
+    this.groupService.getAllGroups().subscribe(
       (groups: Group[]) => {
         this.groups = groups;
         this.filterGroups(); // Llama a filterGroups() después de cargar los grupos

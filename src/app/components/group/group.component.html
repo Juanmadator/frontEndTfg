@@ -17,18 +17,23 @@
 
       <div class="messages" #messagesContainer>
         <div *ngFor="let message of groupMessages" class="message">
-          <div class="contenido">
-            <p>{{ message.message }}
-              <ng-container *ngIf="message.fileUrl && message.fileUrl.endsWith('.pdf')">
-                <a [href]="'http://localhost:8080/images/' + message.fileUrl" target="_blank">
-                  <br> <span>Ver PDF <i class="fa-regular fa-file-pdf"></i></span>
-                </a>
-              </ng-container>
-              <img *ngIf="message.fileUrl && !message.fileUrl.endsWith('.pdf')" [src]="'http://localhost:8080/images/' + message.fileUrl" alt="Imagen">
-            </p>
+          <div class=" mensaje-contenido">
+            <div class="super-content">
+              <img [src]="'http://localhost:8080/profile-images/'+this.user.profilepicture" alt="" class="perfil" [title]="this.user.username">
+              <p>{{ message.message }}
+                <ng-container *ngIf="message.fileUrl && message.fileUrl.endsWith('.pdf')">
+                  <a [href]="'http://localhost:8080/images/' + message.fileUrl" target="_blank">
+                    <br> <span>Ver PDF <i class="fa-regular fa-file-pdf"></i></span>
+                  </a>
+                </ng-container>
+                <img *ngIf="message.fileUrl && !message.fileUrl.endsWith('.pdf')" [src]="'http://localhost:8080/images/' + message.fileUrl" alt="Imagen" (click)="zoomImage($event)">
+              </p>
+            </div>
           </div>
         </div>
       </div>
+
+
 
       <div class="formulario">
         <form (submit)="sendMessage(message)">
@@ -44,7 +49,7 @@
               </label>
               <input type="file" id="file" name="file" #fileInput [disabled]="!user?.coach" />
             </div>
-            <input [(ngModel)]="message" [ngModelOptions]="{ standalone: true }" placeholder="Message..." type="text" id="messageInput" autocomplete="off" [disabled]="!user?.coach" />
+            <input [(ngModel)]="message" [ngModelOptions]="{ standalone: true }"[placeholder]="'MANDAR_MENSAJE'|translate" type="text" id="messageInput" autocomplete="off" [disabled]="!user?.coach" />
             <button id="sendButton" type="submit">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 664 663">
                 <path fill="none" d="M646.293 331.888L17.7538 17.6187L155.245 331.888M646.293 331.888L17.753 646.157L155.245 331.888M646.293 331.888L318.735 330.228L155.245 331.888"></path>

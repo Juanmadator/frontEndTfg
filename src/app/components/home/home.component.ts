@@ -1,4 +1,12 @@
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  Renderer2,
+  ViewChild
+} from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { User } from '../../services/user/User';
 import { UserService } from '../../services/user/user.service';
@@ -15,22 +23,31 @@ import { MatDialog } from '@angular/material/dialog';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Comment } from '../../services/posts/Comment';
 import Swal from 'sweetalert2';
+import { Group } from '../../services/groups/Group';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [NavbarComponent, CommonModule, TranslateModule, FormsModule, InfiniteScrollModule, LazyLoadImageModule],
+  imports: [NavbarComponent, CommonModule, TranslateModule, FormsModule, InfiniteScrollModule, LazyLoadImageModule,RouterLink],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent implements OnInit {
-  constructor(private elementRef: ElementRef, private translate: TranslateService, private dialog: MatDialog, private userService: UserService, private postsService: PostsService, private renderer: Renderer2, private groupService: GroupsService) { }
-  public menuItems =
-    document.querySelectorAll(".menu-item");
+export class HomeComponent implements OnInit  {
+  constructor(
+    private elementRef: ElementRef,
+    private translate: TranslateService,
+    private dialog: MatDialog,
+    private userService: UserService,
+    private postsService: PostsService,
+    private renderer: Renderer2,
+    private groupService: GroupsService
+  ) { }
+
+
   postContent: string = '';
   selectedFile!: File | null;
   user: any = {};
-  //array de posts
   posts: Post[] = [];
   pageNumber = 0;
   pageSize = 20;
@@ -46,86 +63,60 @@ export class HomeComponent implements OnInit {
   private originalBodyOverflow: string | null = null;
   postId!: number;
 
-  //array de posts a los que le has dado me gusta
   favouritePosts: { postId: number, isFavourite: boolean }[] = [];
   comments: Comment[] = [];
   @ViewChild('messages') messages!: ElementRef<HTMLDivElement>;
   @ViewChild('messageSearch') messageSearch?: ElementRef<HTMLInputElement>;
 
   ngOnInit(): void {
-
     const redirectToHome = sessionStorage.getItem("redirectToHome");
     if (redirectToHome === "true") {
-      // Eliminar la variable de sesión
       sessionStorage.removeItem("redirectToHome");
-      // Recargar la página
       window.location.reload();
     }
-    // Escucha el evento de entrada en el campo de búsqueda de mensajes
     this.messageSearch?.nativeElement.addEventListener('keyup', this.filterMessages);
     if (sessionStorage.getItem("userId")) {
       this.getUserData();
     }
     this.getPosts();
     this.getUserData();
-
     this.loadGroups();
+
+   if(this.user){
+    this.loadGroupsUser();
+   }
   }
 
 
   toggleModal(postId: number) {
-    this.postId = postId; // Guarda el ID del post en una propiedad del componente
+    this.postId = postId;
     this.showComments = !this.showComments;
     if (this.showComments) {
       this.disableBodyScroll();
-      // Aquí puedes cargar los comentarios del post usando el ID
       this.loadComments(postId);
     } else {
       this.enableBodyScroll();
     }
   }
-  loadComments(postId: number) {
-    this.postsService.getComments(postId).subscribe(
-      (response) => {
-        this.comments = response;
-        this.getUserByComment(); // Llama a getUserByComment después de cargar los comentarios
-      },
-      (error) => {
-        console.error('Error al cargar los comentarios:', error);
-      }
-    );
-    console.log(this.comments);
-  }
 
   getUserByComment(): void {
-    // Obtener los usuarios correspondientes a cada comentario
     const userRequests = this.comments.map(comment =>
       this.userService.getUserById(comment.userId)
     );
 
-    // Combinar las solicitudes de usuario en un solo observable
     forkJoin(userRequests).subscribe(
       (users: (User)[]) => {
-        // Verificar si se obtuvieron todos los usuarios correctamente
         if (users.every(user => user !== null)) {
-          // Asignar cada usuario a su comentario correspondiente
           this.comments.forEach((comment, index) => {
-            // Verificar si el usuario no es nulo antes de asignar la imagen de perfil
             if (users[index]) {
               comment.userData = users[index];
             }
           });
-        } else {
-          console.error('Al menos uno de los usuarios es nulo.');
         }
       },
-      (error: any) => {
-        console.error('Error al obtener usuarios de comentarios:', error);
-      }
+      (error: any) => { }
     );
   }
-
-
 
   private disableBodyScroll() {
     this.originalBodyOverflow = document.body.style.overflow;
@@ -138,7 +129,6 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    // Asegúrate de restaurar el scroll del cuerpo cuando el componente se destruya
     this.enableBodyScroll();
   }
 
@@ -146,38 +136,28 @@ export class HomeComponent implements OnInit {
     event.stopPropagation();
   }
 
-
   loadGroups(): void {
     this.groupService.getAllGroups().subscribe(
       (groupsData: any[]) => {
-        // Recorre cada grupo
         if (groupsData != null && groupsData != undefined) {
           groupsData.forEach((group: any) => {
-            // Obtiene el nombre del usuario (coach) para este grupo
             this.groupService.getCoachUsername(group.id).subscribe(
               (response: any) => {
-                // Asigna el nombre del usuario (coach) al grupo
                 group.coachUsername = response.username;
               },
-              (error: any) => {
-                console.log(`Error obteniendo el nombre del usuario para el grupo ${group.id}: ${error}`);
-              }
+              (error: any) => { }
             );
           });
         }
-        // Asigna los grupos actualizados que ahora incluyen el nombre del usuario (coach)
         this.groups = groupsData;
       },
-      (error: any) => {
-        console.log(`Error obteniendo los grupos: ${error}`);
-      }
+      (error: any) => { }
     );
   }
 
   showPostPreview() {
     this.showModal = true;
   }
-
 
   showMessage() {
     if (this.user.verified == null) {
@@ -186,84 +166,85 @@ export class HomeComponent implements OnInit {
     setTimeout(() => {
       this.showMessageToUser = false;
     }, 1500)
-
   }
 
-  // Método para ocultar la ventana modal
   hidePostPreview() {
     this.showModal = false;
   }
 
-
   getPosts(): void {
-    // Obtener los posts
     this.postsService.getAllPosts(this.pageNumber, this.pageSize).subscribe(
       (posts: Post[]) => {
-        if (posts !== null && posts !== undefined) {
-          if (posts.length > 0) {
-            this.pageNumber++;
-            if (this.pageNumber === 1) {
-              this.posts = posts.map(post => ({ ...post, loading: true }));
-            } else {
-              this.posts = this.posts.concat(posts.map(post => ({ ...post, loading: true })));
-            }
-
-            // Obtener la información sobre los posts marcados como favoritos por el usuario actual
-            if (sessionStorage.getItem("userId")) {
-              let userId: string | null = sessionStorage.getItem("userId"); // Obtener el userId de
-              let userIdFinal: number = userId ? parseInt(userId) : 0;
-              if (userId) {
-                this.postsService.getFavouritePosts(userIdFinal).subscribe(
-                  (favouritePosts: number[]) => {
-                    // Actualizar el estado isFavourite de cada post según corresponda
-                    this.posts.forEach(post => {
-                      if (favouritePosts.includes(post.id)) {
-                        post.isFavourite = true;
-                      }
-                    });
-                  },
-                  (error: any) => {
-                    console.error('Error al obtener los posts favoritos:', error);
-                  }
-                );
-              }
-            }
-            this.getUserByPost();
-            // Iniciar el temporizador para cargar las imágenes
-            // En el método getPosts(), después de obtener los posts del servidor
-            (posts: Post[]) => {
-              // Iterar sobre los posts y cargar las imágenes directamente
-              posts.forEach(post => {
-                const img = new Image();
-                img.onload = () => {
-                  post.loading = false;
-                };
-                img.src = 'http://localhost:8080/images/' + post.imageUrl;
-              });
-            }
-
+        if (posts !== null && posts !== undefined && posts.length > 0) {
+          this.pageNumber++;
+          if (this.pageNumber === 1) {
+            this.posts = posts.map(post => ({ ...post, loading: true }));
+          } else {
+            this.posts = this.posts.concat(posts.map(post => ({ ...post, loading: true })));
           }
-        }
-        if (posts !== null && posts !== undefined) {
-          if (posts.length < this.pageSize) {
-            this.hasMorePosts = false;
+
+          if (sessionStorage.getItem("userId")) {
+            let userId: string | null = sessionStorage.getItem("userId");
+            let userIdFinal: number = userId ? parseInt(userId) : 0;
+            if (userId) {
+              this.postsService.getFavouritePosts(userIdFinal).subscribe(
+                (favouritePosts: number[]) => {
+                  this.posts.forEach(post => {
+                    if (favouritePosts.includes(post.id)) {
+                      post.isFavourite = true;
+                    }
+                  });
+                },
+                (error: any) => { }
+              );
+            }
           }
+
+          this.loadPostImages();
+          this.getUserByPost();
+        } else {
+          this.hasMorePosts = false;
         }
       },
-      (error: any) => {
-        console.error('Error al obtener los posts:', error);
-      }
+      (error: any) => { }
     );
+  }
+
+  getUserByPost(): void {
+    const userRequests = this.posts.map(post =>
+      this.userService.getUserById(post.userId)
+    );
+    forkJoin(userRequests).subscribe(
+      (users: (User | null)[]) => {
+        if (users.every(user => user !== null)) {
+          this.posts.forEach((post, index) => {
+            post.userData = users[index]!;
+          });
+        }
+      },
+      (error: any) => { }
+    );
+  }
+
+  loadPostImages(): void {
+    this.posts.forEach(post => {
+      const img = new Image();
+      img.onload = () => {
+        post.loading = false;
+      };
+      img.onerror = () => {
+        post.loading = false;
+      };
+      img.src = 'http://localhost:8080/images/' + post.imageUrl;
+    });
   }
 
   onScroll() {
     this.getPosts();
   }
 
-
   crearpost() {
     if (!this.postContent && !this.selectedFile) {
-      // Si no hay contenido de texto ni imagen seleccionada, no hacer nada
       return;
     }
 
@@ -272,29 +253,17 @@ export class HomeComponent implements OnInit {
       file = new File([this.selectedFile], this.selectedFile.name, { type: this.selectedFile.type });
     }
 
-    // Llamamos al servicio para crear el post
     this.postsService.createPost(file, this.postContent, this.user.id).subscribe(
       (response: any) => {
-        this.postContent = ''; // Limpiar el contenido del post
+        this.postContent = '';
         this.selectedFile = null;
-
-        // Agregar el nuevo post directamente a la lista existente
-        const newPost: Post = response; // Asegúrate de que response sea el nuevo post devuelto por el servidor
-        this.posts.unshift(newPost); // Agrega el nuevo post al principio de la lista
+        const newPost: Post = response;
+        this.posts.unshift(newPost);
         location.reload();
       },
-      (error: any) => {
-        // Manejar errores
-      }
+      (error: any) => { }
     );
   }
-
-
-
-
-
-
-
 
   public changeActiveItem(item: any): void {
     const menuItems = document.querySelectorAll(".menu-item");
@@ -327,7 +296,6 @@ export class HomeComponent implements OnInit {
     });
   };
 
-
   getUserData(): void {
     this.userService.getUser().subscribe(
       (user: User | null) => {
@@ -335,42 +303,6 @@ export class HomeComponent implements OnInit {
       },
       (error: any) => {
         console.error('Error al obtener datos del usuario:', error);
-      }
-    );
-  }
-
-  unirte(grupoId: number) {
-    let id = sessionStorage.getItem("userId");
-    // Transformar el userId a un número usando parseInt()
-    const userIdNumber = parseInt(id || '0', 10); // El segundo parámetro
-
-    const userGroup = {
-      userId: userIdNumber,
-      groupId: grupoId
-    };
-
-    this.groupService.joinGroup(userGroup).subscribe(userGroup => {
-      console.log(userGroup);
-    })
-  }
-
-  getUserByPost(): void {
-    const userRequests = this.posts.map(post =>
-      this.userService.getUserById(post.userId)
-    );
-
-    forkJoin(userRequests).subscribe(
-      (users: (User | null)[]) => {
-        if (users.every(user => user !== null)) {
-          this.posts.forEach((post, index) => {
-            post.userData = users[index]!;
-          });
-        } else {
-          console.error('Al menos uno de los usuarios no existe');
-        }
-      },
-      (error: any) => {
-        console.error('Error al obtener usuarios de publicaciones:', error);
       }
     );
   }
@@ -385,9 +317,7 @@ export class HomeComponent implements OnInit {
     const file: File = event.target.files[0];
     if (file) {
       try {
-        // Comprimir la imagen
         const compressedFile = await this.compressImage(file);
-        // Guardar el archivo comprimido
         this.selectedFile = compressedFile;
       } catch (error) {
         console.error('Error al comprimir la imagen:', error);
@@ -397,12 +327,11 @@ export class HomeComponent implements OnInit {
 
   async compressImage(file: File): Promise<File> {
     const options = {
-      maxSizeMB: 1, // Tamaño máximo del archivo comprimido en MB
-      maxWidthOrHeight: 1920, // Ancho o altura máximo permitido
-      useWebWorker: true // Utilizar Web Worker para mejorar el rendimiento
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true
     };
     try {
-      // Comprimir la imagen y devolver el archivo comprimido
       const compressedFile = await imageCompression(file, options);
       return compressedFile as File;
     } catch (error) {
@@ -410,21 +339,17 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  //me gusta de los posts
   like(postId: number): void {
     const postToUpdate = this.posts.find(post => post.id === postId);
     if (!postToUpdate) return;
 
-    // Actualiza el estado del post inmediatamente
     postToUpdate.isFavourite = !postToUpdate.isFavourite;
 
     if (postToUpdate.isFavourite) {
-      // Si el post se marcó como favorito, agrégalo a la lista de favoritos
       this.favouritePosts.push({ postId: postId, isFavourite: true });
 
       this.postsService.addFavourite(postId, this.user.id).subscribe(
         () => {
-          // Confirmar que el post ha sido añadido a favoritos
           this.translate.get('ADD_FAV').subscribe((translatedText: string) => {
             const Toast = Swal.mixin({
               toast: true,
@@ -448,18 +373,13 @@ export class HomeComponent implements OnInit {
         },
         error => {
           console.error('Failed to add favourite:', error);
-          // Revertir el estado en caso de error
           postToUpdate.isFavourite = false;
-          // Eliminar el post de la lista de favoritos
           this.removePostFromFavourites(postId);
-
         }
       );
     } else {
-      // Si el post se desmarcó como favorito, elimínalo de la lista de favoritos
       this.removePostFromFavourites(postId);
 
-      // Realiza la solicitud para eliminar el favorito
       this.postsService.addFavourite(postId, this.user.id).subscribe(
         () => {
           this.translate.get('DELETE_FAV').subscribe((translatedText: string) => {
@@ -485,9 +405,7 @@ export class HomeComponent implements OnInit {
         },
         error => {
           console.error('Failed to remove favourite:', error);
-          // Revertir el estado en caso de error
           postToUpdate.isFavourite = true;
-          // Agregar el post a la lista de favoritos nuevamente
           this.favouritePosts.push({ postId: postId, isFavourite: true });
         }
       );
@@ -501,14 +419,12 @@ export class HomeComponent implements OnInit {
     }
   }
 
-
   isFavourite(postId: number): boolean {
     const post = this.favouritePosts.find(p => p.postId === postId);
     return post ? post.isFavourite : false;
   }
 
   showDeleteConfirmation(postId: number) {
-    // Establecer la variable showConfirmation de la publicación específica en true
     const index = this.posts.findIndex(post => post.id === postId);
     if (index !== -1) {
       this.posts[index].showConfirmation = true;
@@ -516,17 +432,14 @@ export class HomeComponent implements OnInit {
   }
 
   hideDeleteConfirmation(postId: number) {
-    // Establecer la variable showConfirmation de la publicación específica en false
     const index = this.posts.findIndex(post => post.id === postId);
     if (index !== -1) {
       this.posts[index].showConfirmation = false;
     }
   }
 
-
   deletePost(postId: number, userId: number) {
     this.postsService.deletePost(postId, userId).subscribe(() => {
-      // Eliminar el post de la lista local de posts
       const index = this.posts.findIndex(post => post.id === postId);
       if (index !== -1) {
         this.posts.splice(index, 1);
@@ -534,6 +447,152 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  newComment: Comment = { userId: 0, postId: 0, content: '' };
+  commentContent: string = '';
 
+  addComment(postId: number) {
+    const trimmedComment = this.commentContent.trim();
+    console.log('Comentario:', trimmedComment);
+    console.log('User ID:', this.user.id);
+    console.log('Post ID:', postId);
+
+    if (!trimmedComment) {
+      console.warn('Comentario vacío, no se enviará.');
+      return;
+    }
+
+    const newComment: Comment = {
+      userId: this.user.id,
+      postId: postId,
+      content: trimmedComment
+    };
+
+    this.postsService.createComment(newComment).subscribe(
+      (comment: Comment) => {
+        console.log('Comentario creado:', comment);
+        this.commentContent = '';
+        this.loadComments(postId);
+
+      },
+      (error) => {
+        console.error('Error al crear el comentario:', error);
+      }
+    );
+  }
+
+  @ViewChild('messagesContainer') messagesContainer!: ElementRef;
+
+
+
+  loadComments(postId: number) {
+    this.postsService.getComments(postId).subscribe(
+      (response) => {
+        this.comments = response;
+        this.getUserByComment();
+        setTimeout(() => {
+          this.scrollToBottom();
+        }, 100); // Asegúrate de que se llama después de actualizar los comentarios
+      },
+      (error) => {
+        console.error('Error al cargar los comentarios:', error);
+      }
+    );
+  }
+
+  private scrollToBottom(): void {
+    setTimeout(() => {
+      if (this.messagesContainer && this.messagesContainer.nativeElement) {
+        this.messagesContainer.nativeElement.scrollTop = this.messagesContainer.nativeElement.scrollHeight;
+      } else {
+        console.log("Error: No se pudo encontrar el contenedor de mensajes o el elemento nativo.");
+      }
+    }, 100);
+  }
+
+  userGroups: Group[] = [];
+  unirte(grupoId: number) {
+    let id = sessionStorage.getItem("userId");
+    const userIdNumber = parseInt(id || '0', 10);
+
+    const userGroup = {
+      userId: userIdNumber,
+      groupId: grupoId
+    };
+
+    this.groupService.joinGroup(userGroup).subscribe(userGroup => {
+      const joinedGroup = this.groups.find(group => group.id === userGroup.groupId);
+      if (joinedGroup) {
+        this.userGroups.push(joinedGroup);
+      }
+    })
+  }
+
+  salirte(grupoId: number) {
+    const userId = sessionStorage.getItem("userId");
+    const userIdNumber = parseInt(userId || '0', 10);
+
+    const usuarioUnido = this.userGroups.some(group => group.id === grupoId);
+
+    if (!usuarioUnido) {
+      console.log('El usuario no está unido al grupo');
+      return;
+    }
+
+    const userGroup = {
+      userId: userIdNumber,
+      groupId: grupoId
+    };
+
+    this.groupService.deleteUserGroup(userGroup).subscribe(() => {
+      console.log('El usuario se ha eliminado correctamente del grupo');
+      const index = this.userGroups.findIndex(group => group.id === grupoId);
+      if (index !== -1) {
+        this.userGroups.splice(index, 1);
+        this.userGroups = this.userGroups.filter(userGroup => userGroup.id !== grupoId);
+      }
+    }, (error) => {
+      console.error('Error al eliminar el usuario del grupo:', error);
+    });
+  }
+
+
+  loadGroupsUser(): void {
+    this.groupService.getAllGroups().subscribe(
+      (groups: Group[]) => {
+        this.userGroups = groups;
+        this.checkMemberships();
+      },
+      (error: any) => {
+        console.error('Error al cargar grupos:', error);
+      }
+    );
+  }
+
+
+  checkMemberships(): void {
+    if(this.groups){
+     this.groups.forEach(group => {
+       this.groupService.checkUserMembership(group.id, this.user!.id)
+         .subscribe((response: boolean) => {
+           if (response) {
+             this.userGroups.push(group);
+           }
+         });
+     });
+    }
+   }
+
+
+   isMember(group: Group): boolean {
+    return this.userGroups.some(userGroup => userGroup.id === group.id);
+  }
+
+  isCoachOfGroup(grupoId: number): boolean {
+    return this.user!.id === this.getCoachIdOfGroup(grupoId);
+  }
+  getCoachIdOfGroup(grupoId: number): number | null {
+    const grupo = this.groups.find(grupo => grupo.id === grupoId);
+    return grupo ? grupo.coachId : null;
+  }
 
 }

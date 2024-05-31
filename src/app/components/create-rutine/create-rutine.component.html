@@ -17,8 +17,8 @@
           <p class="text-center">{{ nombresImagenesTraducidas[i] }}</p>
         </div>
       </div>
-      <div class="botones" *ngIf="imagenSeleccionada!=null">
-        <button class="next-step" (click)="nextStep()" >{{"NEXT"|translate}}</button>
+      <div class="botones" *ngIf="imagenSeleccionada>=0">
+        <button class="next-step" (click)="nextStep()">{{"NEXT"|translate}}</button>
       </div>
     </div>
 
@@ -29,90 +29,198 @@
         <h2>{{nombresImagenesTraducidas[imagenSeleccionada]}}</h2>
       </div>
       @if(imagenSeleccionada===3 || imagenSeleccionada===6 || imagenSeleccionada===9){
-      <h1>hey cardio</h1>
+       <div class="descripcion">
+        <img [src]="imagenes[imagenSeleccionada]" alt="Ejercicio Seleccionado"
+        class="deporte ejercicio-final des" id="cardio">
+        @if(imagenSeleccionada==3){
+          <p class="des">{{"BICICLETA_DES"|translate}}</p>
+        }
+        @if(imagenSeleccionada==6){
+          <p class="des">{{"CORRER_DES"|translate}}</p>
+        }
+        @if(imagenSeleccionada==9){
+          <p class="des">{{"ANDAR_DES"|translate}}</p>
+        }
+
+        <div>
+          <h4 class="text-center">{{"KILOMETROS_ESTIMADOS"|translate}}</h4>
+
+
+          <div class="peso">
+            <img src="/assets/images/exercises/smartwatch.png" alt="">
+            <div class="PB-range-slider-div">
+              <input type="range" min="1" max="30" [(ngModel)]="repeticiones" class="PB-range-slider" id="myRange">
+              <p class="PB-range-slidervalue">{{ repeticiones }}km</p>
+            </div>
+          </div>
+
+        </div>
+        <div>
+          <h4 class="text-center">{{"TIEMPO_ESTIMADO"|translate}}</h4>
+
+          <div class="peso">
+            <img src="/assets/images/exercises/stopwatch.png" alt="">
+            <div class="PB-range-slider-div">
+              <input type="range" step="2" min="10" max="200"   [(ngModel)]="pesoNumero" class="PB-range-slider" id="myRange">
+              <p class="PB-range-slidervalue">{{ pesoNumero }} min</p>
+            </div>
+          </div>
+
+        </div>
+       </div>
+
+
+       <div class="botones">
+        <button class="next-step" (click)="stepBefore()">{{'BEFORE' | translate}}</button>
+        <button class="next-step" (click)="addExercise()">{{'ADD' | translate}}</button>
+      </div>
       } @else {
       <div class="imagenes-2">
         <div *ngFor="let img of imagenesEjercicios[imagenSeleccionada]; let i = index" class="imagen-item">
           <img [src]="img" alt="Exercise Image {{i}}" class="deporte" (click)="seleccionarEjercicio(i)"
-          [class.seleccionada]="ejercicio === i">
+            [class.seleccionada]="ejercicio === i">
           @if(imagenSeleccionada==0){
-            <p class="text-center">{{ abdomen[i] |translate}}</p>
-           }
-           @if(imagenSeleccionada==1){
-            <p class="text-center">{{ back[i] |translate}}</p>
-           }
-         @if(imagenSeleccionada==2){
+          <p class="text-center">{{ abdomen[i] |translate}}</p>
+          }
+          @if(imagenSeleccionada==1){
+          <p class="text-center">{{ back[i] |translate}}</p>
+          }
+          @if(imagenSeleccionada==2){
           <p class="text-center">{{ biceps[i] |translate}}</p>
-         }
-         @if(imagenSeleccionada==4){
+          }
+          @if(imagenSeleccionada==4){
           <p class="text-center">{{ chest[i] |translate}}</p>
-         }
-         @if(imagenSeleccionada==5){
+          }
+          @if(imagenSeleccionada==5){
           <p class="text-center">{{ legs[i] |translate}}</p>
-         }
-         @if(imagenSeleccionada==7){
+          }
+          @if(imagenSeleccionada==7){
           <p class="text-center">{{ shoulders[i] |translate}}</p>
-         }
-         @if(imagenSeleccionada==8){
+          }
+          @if(imagenSeleccionada==8){
           <p class="text-center">{{ triceps[i] |translate}}</p>
-         }
+          }
 
         </div>
+
+
       </div>
-      }
       <div class="botones">
         <button class="next-step" (click)="stepBefore()">{{'BEFORE' | translate}}</button>
         <button class="next-step" (click)="nextStep()">{{'NEXT' | translate}}</button>
       </div>
+      }
+
     </div>
 
     <div *ngIf="esPaginaActual(3)">
-      <h3 class="text-center">{{ getName() |translate }}</h3>
-      <div class="descripcion">
-        <img [src]="imagenesEjercicios[imagenSeleccionada][ejercicio]" alt="Ejercicio Seleccionado" class="deporte ejercicio-final" id="imagenArriba" (click)="showPlusSymbols()">
-        <p>{{ getDescripcionEjercicioSeleccionado() | translate }}</p>
-        <div id="plusSymbolsContainer"></div>
-    </div>
+   @if(this.imagenSeleccionada!=3 && this.imagenSeleccionada!=6 && this.imagenSeleccionada!=9){
+    <h3 class="text-center">{{ getName() |translate }}</h3>
+    <div class="descripcion">
+      <img [src]="imagenesEjercicios[imagenSeleccionada][ejercicio]" alt="Ejercicio Seleccionado"
+        class="deporte ejercicio-final des" id="imagenArriba" >
+      <p class="des">{{ getDescripcionEjercicioSeleccionado() | translate }}</p>
+      <div>
+        <h4 class="text-center">Elige repeticiones</h4>
 
+
+        <div class="peso">
+          <img src="/assets/images/exercises/number-10.png" alt="">
+          <div class="PB-range-slider-div">
+            <input type="range" min="5" max="30" [(ngModel)]="repeticiones" class="PB-range-slider" id="myRange">
+            <p class="PB-range-slidervalue">{{ repeticiones }}</p>
+          </div>
+        </div>
+
+      </div>
+      <div>
+        <h4 class="text-center">Elige un peso</h4>
+
+        <div class="peso">
+          <img src="/assets/images/exercises/weight.png" alt="">
+          <div class="PB-range-slider-div">
+            <input type="range" step="2" min="10" max="200" [(ngModel)]="pesoNumero" class="PB-range-slider" id="myRange">
+            <p class="PB-range-slidervalue">{{ pesoNumero }} kg</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+   }
 
 
       <div class="botones">
         <button class="next-step" (click)="stepBefore()">{{"BEFORE"|translate}}</button>
-        <button class="next-step" (click)="crearRutina()">{{"CREATE"|translate}}</button>
+        <button class="next-step" (click)="addExercise()">{{"ADD"|translate}}</button>
       </div>
     </div>
 
 
 
-    <div *ngIf="esPaginaActual(4)">
-      <h3 class="text-center">Paso 3: Configuración adicional</h3>
-      <form class="personalizacion">
-        <div class="intensity">
-          <h4>Selecciona la intensidad</h4>
-          <div class="intensity-options">
-            <button class="intensity-option" (click)="selectIntensity('low')">Baja</button>
-            <button class="intensity-option" (click)="selectIntensity('medium')">Media</button>
-            <button class="intensity-option" (click)="selectIntensity('high')">Alta</button>
-          </div>
-          <div class="personal-notes">
-            <h4>Tipo de ejercicio</h4>
-            <textarea [(ngModel)]="personalNotes" name="personalNotes"
-              placeholder="Escribe un poco sobre el ejercicio..."></textarea>
-          </div>
-        </div>
 
-        <div class="preview">
-          <h4>Vista previa del plan</h4>
-          <p><strong>Ejercicio:</strong> {{ nombresImagenes[imagenSeleccionada] | translate }}</p>
-          <p><strong>Duración:</strong> {{ selectedHour }} horas y {{ selectedMinutes }} minutos</p>
-          <p><strong>Intensidad:</strong> {{ selectedIntensity }}</p>
-          <p><strong>Notas:</strong> <span class="notes">{{ personalNotes }}</span></p>
-        </div>
-      </form>
-      <div class="botones">
-        <button class="next-step" (click)="stepBefore()">{{"BEFORE"|translate}}</button>
-        <button class="next-step" (click)="crearRutina()">{{"CREATE"|translate}}</button>
+  </div>
+</div>
+<div *ngIf="ejercicios.length>0" class="bajar"><p (click)="scrollToLista()" class="">{{"NAVBAR_RUTINE"|translate}}</p></div>
+
+@if(ejercicios.length>0){
+  <div  id="lista" class="lista">
+    <div *ngFor="let ejercicio of ejercicios;let i = index" class="card" >
+      <img [src]="ejercicio.imagen" class="card-img-top" alt="ejercicio">
+      <div class="card-body">
+        <h5 class="card-title"><b>{{"NOMBRE"|translate}}</b> {{ ejercicio.nombre | translate }}</h5>
+        <p class="card-text"><b>{{"DESCRIPTION"|translate}}:</b>{{ ejercicio.descripcion | translate }}</p>
+       @if(ejercicio.nombre==="BICICLETA" || ejercicio.nombre==="CORRER"|| ejercicio.nombre==="ANDAR"){
+        <p class="card-text"><b>{{"KILOMETROS"|translate}}:</b> {{ ejercicio.repeticiones }}</p>
+        <p class="card-text"><b>{{"TIEMPO"|translate}}:</b> {{ ejercicio.peso }}</p>
+       }@else {
+        <p class="card-text"><b>{{"REPETICIONES"|translate}}:</b> {{ ejercicio.repeticiones }}</p>
+        <p class="card-text"><b>{{"PESO"|translate}}:</b> {{ ejercicio.peso }}</p>
+       }
+       <div class="botones-finales">
+        <button  class="delete" (click)="deleteExercise(i)">{{ "DELETE" | translate }}</button>
+       </div>
       </div>
     </div>
   </div>
-</div>
+  <div class="botones-rutina">
+    <button (click)="generarPDF()">{{"GENERAR"|translate}}</button>
+    <button (click)="addRoutine()">{{"CREATE"|translate}}</button>
+  </div>
+  <div class="apoyo"></div>
+
+}@if(rutinas.length>0) {
+  <div id="lista" class="lista">
+    <!-- Cards de ejercicios -->
+    <div *ngFor="let ejercicio of rutinas; let i = index" class="card card-rutina">
+      <div class="card-body">
+        <!-- Imagen del grupo muscular -->
+        <img [src]="imagenes[nombresImagenes.indexOf(ejercicio.grupoMuscular)]" alt="grupo-muscular" class="img-fluid mx-auto d-block text-center mb-5" style="max-width: 150px;">
+
+        <!-- Detalles del ejercicio -->
+        <h5 class="card-title"><b>{{ "NOMBRE" | translate }}</b> {{ ejercicio.name | translate }}</h5>
+        <p class="card-text"><b>{{ "DESCRIPTION" | translate }}:</b>{{ ejercicio.description | translate }}</p>
+
+        <!-- Mostrar detalles dependiendo del tipo de ejercicio -->
+        <ng-container *ngIf="['BICICLETA', 'CORRER', 'ANDAR'].includes(ejercicio.name)">
+          <p class="card-text"><b>{{ "KILOMETROS" | translate }}:</b> {{ ejercicio.repeticiones }}</p>
+          <p class="card-text"><b>{{ "TIEMPO" | translate }}:</b> {{ ejercicio.peso }}</p>
+        </ng-container>
+        <ng-container *ngIf="!['BICICLETA', 'CORRER', 'ANDAR'].includes(ejercicio.name)">
+          <p class="card-text"><b>{{ "REPETICIONES" | translate }}:</b> {{ ejercicio.repeticiones }}</p>
+          <p class="card-text"><b>{{ "PESO" | translate }}:</b> {{ ejercicio.peso }}</p>
+        </ng-container>
+
+        <div class="botones-finales">
+          <button class="delete" (click)="eliminarRutina(ejercicio)">{{ "DELETE" | translate }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <div class="apoyo"></div>
+
+
+}

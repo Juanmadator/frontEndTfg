@@ -1,10 +1,10 @@
 {
   "REGISTER": "Register",
-  "DESIGNED": "Designed by",
+  "DESIGNED": "Designed by ",
   "COPYRIGHT": "All rights reserved",
   "CREATE_GROUP": "Create your group",
-  "PREVIUS_POST": "All rights reserved",
-  "SIGN_IN_POST": "You must sign in to post",
+  "PREVIUS_POST": "Previous post",
+  "SIGN_IN_POST": "You must sign in to make a post",
   "CLOSE": "Close",
   "SHOW_COMMENTS": "Show comments",
   "GROUPS": "Groups",
@@ -13,7 +13,7 @@
   "YOUR_GROUP": "Your group",
   "YOUR_GROUPS": "Your groups",
   "NOT_FOUND_GROUPS": "No groups found",
-  "NO_FAVS": "You have no posts in your favorites list yet",
+  "NO_FAVS": "You don't have any posts in your favorites list yet",
   "SELECT_SPORT": "Customize your exercises",
   "IMAGES": {
     "ABDOMEN": "Abdomen",
@@ -28,15 +28,15 @@
     "CAMINAR": "Walking"
   },
   "BICEPS": {
-    "CURL": "Biceps curl",
-    "POLEA": "Cable biceps curl",
+    "CURL": "Bicep curl",
+    "POLEA": "Cable bicep curl",
     "DOMINADAS": "Pull-ups",
     "FLEXIONES": "Push-ups",
     "DESCRIPCION": {
-      "CURL": "Flex the elbows lifting a bar or dumbbells towards the shoulders.",
-      "POLEA": "Use a high pulley machine, grab the bar with palms facing up, and flex the elbows.",
-      "DOMINADAS": "Grab a bar with hands shoulder-width apart and pull yourself up until your chin is over the bar.",
-      "FLEXIONES": "Place your hands on the floor shoulder-width apart, lower your body, and then push up."
+      "CURL": "Bend your elbows lifting a barbell or dumbbells towards your shoulders.",
+      "POLEA": "Use a high pulley machine, grab the bar with palms up and bend your elbows.",
+      "DOMINADAS": "Grab a bar with your hands shoulder-width apart and lift yourself until your chin is over the bar.",
+      "FLEXIONES": "Place your hands on the floor shoulder-width apart, lower your body and then push up."
     }
   },
   "ABDOMEN": {
@@ -46,25 +46,25 @@
     "SENTADILLAS": "Barbell squats",
     "DESCRIPCION": {
       "COLGADO": "Hang from a bar with arms extended, lift your legs until they are parallel to the floor.",
-      "RUSOS": "Sit on the floor, lean back slightly, twist your torso, and touch the floor on each side.",
+      "RUSOS": "Sit on the floor, lean your torso back, twist your torso and touch the ground on each side.",
       "ELEVACION": "Lie on the floor, lift your legs until they form a 90-degree angle with your torso.",
-      "SENTADILLAS": "Place a barbell on your shoulders, lower your body by bending your knees and hips."
+      "SENTADILLAS": "Place a barbell on your upper shoulders, lower your body by bending your knees and hips."
     }
   },
   "BACK": {
-    "REMO": "Two-arm row",
+    "REMO": "Two-hand row",
     "REMO_UNA_MANO": "One-arm dumbbell row",
     "SENTADILLAS": "Barbell squats",
     "CRUNCH_PESO": "Weighted crunch",
     "FLEXIONES": "Push-ups",
     "DOMINADAS": "Pull-ups",
     "DESCRIPCION": {
-      "REMO": "Bend your torso forward, grab a barbell with hands shoulder-width apart, and lift it towards your abdomen.",
-      "REMO_UNA_MANO": "Place one knee and one hand on a bench, grab a dumbbell with the other hand, and lift it towards your torso.",
-      "SENTADILLAS": "As previously described, this exercise can also engage the back muscles.",
-      "CRUNCH_PESO": "Lie on your back, hold a weight with extended arms, and lift your torso towards your knees.",
-      "FLEXIONES": "Place your hands on the floor shoulder-width apart, lower your body, and then push up.",
-      "DOMINADAS": "Grab a bar with hands shoulder-width apart and pull yourself up until your chin is over the bar."
+      "REMO": "Bend your torso forward, grab a barbell with hands shoulder-width apart and lift it towards your abdomen.",
+      "REMO_UNA_MANO": "Place one knee and one hand on a bench, grab a dumbbell with the other hand and lift it towards your torso.",
+      "SENTADILLAS": "This exercise may involve back muscles.",
+      "CRUNCH_PESO": "Lie on your back, hold a weight with extended arms and lift your torso towards your knees.",
+      "FLEXIONES": "Place your hands on the floor shoulder-width apart, lower your body and then push up.",
+      "DOMINADAS": "Grab a bar with your hands shoulder-width apart and lift yourself until your chin is over the bar."
     }
   },
   "CHEST": {
@@ -72,9 +72,9 @@
     "PRESS_BANCA": "Bench press",
     "ELEVACION_MANCUERNAS": "Incline dumbbell press",
     "DESCRIPCION": {
-      "FLEXIONES": "Place your hands close together forming a diamond shape, lower your body by bending your elbows, and then push up.",
-      "PRESS_BANCA": "Lie on a bench, lower the barbell to your chest, and then push it up.",
-      "ELEVACION_MANCUERNAS": "Lie on an incline bench, lift the dumbbells up, and bring them together over your chest."
+      "FLEXIONES": "Place your hands close together forming a diamond, lower your body by bending your elbows and then push up.",
+      "PRESS_BANCA": "Lie on a bench, lower the bar to your chest and then push it up.",
+      "ELEVACION_MANCUERNAS": "Lie on an inclined bench, lift the dumbbells up and bring them together over your chest."
     }
   },
   "LEGS": {
@@ -82,41 +82,41 @@
     "ZANCADAS_MANCUERNAS": "Dumbbell lunges",
     "SENTADILLAS": "90-degree squats",
     "SALTO_ALTURA": "High jump",
-    "PUNTILLAS": "Calf raise with dumbbells/barbell",
+    "PUNTILLAS": "Heel raise",
     "DESCRIPCION": {
-      "PRESS": "Sit on a leg press machine, push the platform up with your legs, and then lower it slowly.",
+      "PRESS": "Sit on a leg press machine, push the platform up with your legs and then slowly lower it.",
       "ZANCADAS_MANCUERNAS": "Step forward with one leg, lower your body until both knees form 90-degree angles.",
-      "SENTADILLAS": "As previously described, this exercise can also engage the leg muscles.",
-      "SALTO_ALTURA": "Jump as high as possible, lifting your knees towards your chest while in the air.",
-      "PUNTILLAS": "Rise up on your toes, holding the dumbbells or barbell on your shoulders."
+      "SENTADILLAS": "As explained earlier, this exercise may also involve leg muscles.",
+      "SALTO_ALTURA": "Jump as high as possible, bringing your knees to your chest while in the air.",
+      "PUNTILLAS": "Rise onto the balls of your feet, holding dumbbells or a barbell on your shoulders."
     }
   },
   "SHOULDERS": {
     "VUELO_CON_ANILLOS": "Ring fly",
-    "ELEVACION_VERTICAL_MANCUERNAS": "90-degree dumbbell lift",
-    "ELEVACION_MANCUERNAS_DIRECTA": "Lateral shoulder raise",
+    "ELEVACION_VERTICAL_MANCUERNAS": "90-degree dumbbell raise",
+    "ELEVACION_MANCUERNAS_DIRECTA": "Shoulder raise",
     "DOMINADAS": "Pull-ups",
     "FLEXIONES_INCLINADAS": "Incline push-ups",
     "DESCRIPCION": {
-      "VUELO_CON_ANILLOS": "Grab some rings with extended arms, lift your body until your shoulders are level with your ears.",
-      "ELEVACION_VERTICAL_MANCUERNAS": "Lift the dumbbells from your thighs until they are above your shoulders.",
-      "ELEVACION_MANCUERNAS_DIRECTA": "Keep the dumbbells at your sides, lift them laterally until they are parallel to the floor.",
-      "DOMINADAS": "As previously described, this exercise can also engage the shoulder muscles.",
-      "FLEXIONES_INCLINADAS": "Place your hands on an inclined bench, lower your body by bending your elbows, and then push up."
+      "VUELO_CON_ANILLOS": "Grab onto rings with extended arms, lift your body until your shoulders are at ear level.",
+      "ELEVACION_VERTICAL_MANCUERNAS": "Lift the dumbbells from your thighs to above your shoulders.",
+      "ELEVACION_MANCUERNAS_DIRECTA": "Hold dumbbells at your sides, lift them to the sides until they are parallel to the floor.",
+      "DOMINADAS": "As explained earlier, this exercise may also involve shoulder muscles.",
+      "FLEXIONES_INCLINADAS": "Place your hands on an inclined bench, lower your body by bending your elbows and then push up."
     }
   },
   "TRICEPS": {
-    "FONDO": "Triceps dip",
-    "CURL_POLEA": "Cable triceps extension",
-    "ELEVACION_ESPALDA": "Overhead triceps extension",
-    "ELEVACION": "Supported dumbbell press",
+    "FONDO": "Tricep dip",
+    "CURL_POLEA": "Tricep cable curl",
+    "ELEVACION_ESPALDA": "Shoulder-back raise",
+    "ELEVACION": "Supported dumbbell raise",
     "FLEXIONES": "Diamond push-ups",
     "DESCRIPCION": {
-      "FONDO": "Sit on a bench with hands at your sides, lower your body by bending your elbows, and then push up.",
-      "CURL_POLEA": "Use a high pulley machine with a straight bar, lower the bar behind your head by bending your elbows, and then extend them upwards.",
-      "ELEVACION_ESPALDA": "Lie face down on an incline bench, lift a dumbbell up and back over your head.",
-      "ELEVACION": "Lie on your back with knees bent, hold a dumbbell with both hands, and lift it upwards over your chest.",
-      "FLEXIONES": "As previously described, this exercise can also engage the triceps muscles."
+      "FONDO": "Sit on a bench with your hands at your sides, lower your body by bending your elbows and then push up.",
+      "CURL_POLEA": "Use a high pulley machine with a straight bar, lower the bar behind your head by bending your elbows and then extend them up.",
+      "ELEVACION_ESPALDA": "Lie face down on an inclined bench, lift a dumbbell up and back over your head.",
+      "ELEVACION": "Lie on your back with your knees bent, hold a dumbbell with both hands and lift it up over your chest.",
+      "FLEXIONES": "As explained earlier, this exercise may also involve tricep muscles."
     }
   },
   "NEXT": "Next",
@@ -125,7 +125,7 @@
   "NAVBAR_EXPLORAR": "Explore",
   "NAVBAR_GRUPOS": "Groups",
   "NAVBAR_FAVS": "Favorites",
-  "NAVBAR_RUTINE": "Routine",
+  "NAVBAR_RUTINE": "Routines",
   "NAVBAR_ABOUT": "About us",
   "NAVBAR_PROFILE": "Profile",
   "NAVBAR_ESTANDAR": "Standard",
@@ -145,7 +145,7 @@
     "WRITE_COMMENT": "Send a comment!",
     "SEARCH_GROUP": "Search for a group",
     "GROUP_TITLE_PLACEHOLDER": "Group name",
-    "GROUP_DESCRIPTION_PLACEHOLDER": "Identify your group!",
+    "GROUP_DESCRIPTION_PLACEHOLDER": "Describe your group!",
     "CREATE_GROUP": "Create your group"
   },
   "TITLES": {
@@ -165,9 +165,38 @@
   "DELETE_FAV": "Removed from favorites",
   "SELECT_HOURS": "Select hours",
   "SELECT_MINUTES": "Select minutes",
+  "FILL_FIELDS": "Fill in the fields",
   "POST": "Post",
   "ADD_GROUP": "Group added!",
-  "GROUP_TITLE": "Maximum 10 characters",
-  "GROUP_DESCRIPTION": "Group description"
-
+  "GROUP_TITLE": "Max 10 characters",
+  "GROUP_DESCRIPTION": "Group description",
+  "ADD": "Add to list",
+  "DELETE": "Delete",
+  "PESO": "Weight",
+  "REPETICIONES": "Repetitions",
+  "NOMBRE": "Name",
+  "DESCRIPTION": "Description",
+  "GENERAR": "Generate PDF",
+  "BICICLETA": "Bicycle",
+  "CORRER": "Running",
+  "ANDAR": "Walking",
+  "BICICLETA_DES": "Do cardio using a bicycle or stationary bike to stay in shape",
+  "CORRER_DES": "Run outdoors or on a treadmill to improve cardiovascular endurance and strength.",
+  "ANDAR_DES": "Walk at your own pace to stay active and healthy, enjoying the surroundings.",
+  "KILOMETROS_ESTIMADOS": "Estimated kilometers",
+  "TIEMPO_ESTIMADO": "Estimated time",
+  "KILOMETROS": "Kilometers",
+  "TIEMPO": "Time",
+  "DELETE_POST": "Do you want to delete the post?",
+  "MANDAR_MENSAJE": "Write here!",
+  "DELETE_RUTINE": "Exercise deleted!",
+  "ENTRAR":"See group",
+  "SIGN_IN_COMMENTS":"Log in to be able to comment",
+  "NO_COMMENTS":"Be the first in comment!",
+  "LISTA_FAVS":"Favorites list",
+  "DELETE_FROM_LIST": "Delete from list",
+  "DELETE_POST_CONFIRMATION": "Do you want to remove this post from your favorites list?",
+  "YES_DELETE": "Yes, delete",
+  "CANCEL": "Cancel",
+  "USERNAME_ALREADY_EXISTS": "Username already exists."
 }

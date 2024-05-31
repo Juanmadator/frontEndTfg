@@ -258,10 +258,7 @@ main .contenedor .left .profile {
   border: 2px solid var(--color-white);
   margin-left: -0.6rem;
 }
-.middle .liked-by span:first-child,
-.right .messages .message:last-child {
-  margin: 0;
-}
+
 .middle .liked-by p {
   margin-left: 1rem;
 }
@@ -273,8 +270,9 @@ main .contenedor .right {
   margin-right: -1.4rem;
 }
 .all-messages {
-  height: 200px;
+  height: 250px;
   overflow-y: scroll;
+  padding-bottom: 35px;
 }
 .right .messages {
   height: 28rem;
@@ -333,12 +331,17 @@ main .contenedor .right {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-left: 5%;
-}
+
+  }
+
+  .all-messages .message{
+    width: 80%;
+    margin: 0 auto;
+  }
 .message-body {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 15px;
   align-items: center;
 }
 .contenedor {
@@ -598,6 +601,7 @@ input[type="text"]:focus {
 .comments {
   background-color: transparent;
   z-index: 3000;
+
 }
 
 .show-comments {
@@ -609,7 +613,7 @@ input[type="text"]:focus {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.1); /* Sombra */
+  background-color: rgba(0, 0, 0, 0.09); /* Sombra */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -625,7 +629,7 @@ input[type="text"]:focus {
   height: 600px;
   overflow-y: scroll;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 
@@ -737,18 +741,26 @@ input[type="text"]:focus {
   justify-content:flex-start;
   margin: 0 auto;
   gap: 10px;
+
 }
 
-.comment p{
+.comentarios{
+  max-height: 500px;
+  overflow-y: scroll;
+}
+
+.comment p {
+  display: inline-block;
   padding: 10px;
   border-radius: 5px;
   background-color: var(--color-light);
   font-size: 18px;
   margin-bottom: 10px;
-  width: 300px;
-  overflow-y: scroll;
-  max-height: 100px;
+  max-width: 300px;
+  max-height: fit-content;
+  word-wrap: break-word; /* Esta línea fuerza al texto a envolverse dentro del contenedor */
 }
+
 
 
 .comment img{
@@ -778,4 +790,63 @@ input[type="text"]:focus {
   place-items: center;
   text-align: center;
   margin-top: 55px;
+}
+
+
+.comentar{
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.comentar .mensaje{
+  margin-left: 50px;
+}
+
+
+.comentar .enviar{
+  width: 25%;
+  background-color: var(--color-primary);
+  padding: 10px 20px;
+  border-radius: 8px;
+  color: white;
+  transition: 0.3s all ease;
+}
+
+.comentar .enviar:hover{
+  background-color: var(--color-terciary);
+}
+
+.mensaje-arriba{
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  place-items: center;
+  gap: 20px;
+}
+
+@media(min-width:1201px){
+  .mensaje-arriba,.message-body{
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+#unirte{
+  padding: 10px;
+  border-radius: 8px;
+  background-color: var(--color-primary);
+  color: white;
+}
+
+#unirte a{
+  color: white;
+}
+
+#salirte{
+  padding: 10px;
+  border-radius: 8px;
+  background-color: rgb(207, 5, 5);
+  color: white;
 }

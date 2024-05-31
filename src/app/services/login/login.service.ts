@@ -1,27 +1,26 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, catchError, map, tap, throwError } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import Swal from 'sweetalert2';
-import { User } from '../user/User';
-import { environment } from '../../environments/environments';
+
 @Injectable({
   providedIn: 'root'
 })
 export class LoginServiceAuth {
 
+  private baseUrl: string = 'http://localhost:8080/auth/';
+
   constructor(private http: HttpClient, private router: Router) { }
 
-
   getUserIdByUsername(username: string): Observable<number> {
-    return this.http.get<number>(`http://localhost:8080/auth/user/${username}`);
+    return this.http.get<number>(`${this.baseUrl}user/${username}`);
   }
-
 
   login(username: string, password: string, customMessage?: string): Observable<any> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const body = { username: username, password: password };
-    return this.http.post("http://localhost:8080/auth/login", body, { headers }).pipe(
+    return this.http.post(`${this.baseUrl}login`, body, { headers }).pipe(
       tap((response: any) => {
         if (response.token != null) {
           sessionStorage.setItem("token", response.token);
@@ -34,7 +33,6 @@ export class LoginServiceAuth {
               sessionStorage.setItem('userId', userId.toString());
               this.router.navigate(['/home']);
             }
-
           );
         }
         if (response.error != null) {
@@ -48,7 +46,6 @@ export class LoginServiceAuth {
       })
     );
   }
-
 
   inicioCorrecto(message: string): void {
     const Toast = Swal.mixin({
@@ -68,23 +65,18 @@ export class LoginServiceAuth {
     });
   }
 
-
   get userToken(): String {
-    let token: string = ''; // Asigna un valor predeterminado a token
-    // Verifica si hay un token en sessionStorage
+    let token: string = '';
     const tokenFromSessionStorage = sessionStorage.getItem("token");
     if (tokenFromSessionStorage !== null) {
-      token = tokenFromSessionStorage; // Asigna el valor del token desde sessionStorage
+      token = tokenFromSessionStorage;
     }
-    return token; // Retorna el token
+    return token;
   }
-
 
   public closeSession(): void {
     console.log("cerrando sesion");
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("userId");
   }
-
-
 }

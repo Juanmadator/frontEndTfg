@@ -3,39 +3,54 @@
     <app-navbar></app-navbar>
   </div>
   <div class="formulario">
-    <h1 class="text-center username-title text-black">PERFIL</h1>
-    <form (submit)="onSubmit($event)" #form="ngForm">
+    <h1 class="text-center username-title text-black">{{"NAVBAR_PROFILE"|translate}}</h1>
+    <form (submit)="onSubmit($event, form)" #form="ngForm">
       <div class="imagen">
-        <img *ngIf="!user.profilePictureUrl" [src]="profilePictureUrl" alt="Profile Picture" (click)="openFileInput($event)">
-        <img *ngIf="user.profilePictureUrl" src="assets/images/anonimo.png" alt="Anónimo" (click)="openFileInput($event)">
+        <img *ngIf="!user.profilePictureUrl" [src]="profilePictureUrl" alt="Profile Picture" (click)="openFileInput($event)" (ngModelChange)="detectChanges()">
+        <img *ngIf="user.profilePictureUrl" src="assets/images/anonimo.png" alt="Anónimo" (click)="openFileInput($event)" (ngModelChange)="detectChanges()">
       </div>
 
       <div class="d-flex">
-        <input id="file-input" type="file" name="imagen" accept="image/*" style="display: none;"
-          (change)="onFileInputChange($event)">
+        <input id="file-input" type="file" name="imagen" accept="image/*" style="display: none;" (change)="onFileInputChange($event)">
       </div>
       <div class="name-lastname">
         <div class="name">
-          <span> {{"PROFILE_NAME" | translate}}:</span>
-          <input type="text" placeholder="Name" [(ngModel)]="user.name" name="name" class="rounded-1" required (ngModelChange)="detectChanges()">
+          <span>{{"PROFILE_NAME" | translate}}:</span>
+          <input type="text" placeholder="Name" [(ngModel)]="user.name" name="name" class="rounded-1" required (ngModelChange)="detectChanges()" #name="ngModel">
+          <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+            {{ "NAME_REQUIRED" | translate }}
+          </div>
         </div>
         <div class="lastname">
-          <span> {{"PROFILE_SURNAME" | translate}}:</span>
-          <input type="text" placeholder="LastName" [(ngModel)]="user.lastname" name="lastname" class="rounded-1" required (ngModelChange)="detectChanges()">
+          <span>{{"PROFILE_SURNAME" | translate}}:</span>
+          <input type="text" placeholder="LastName" [(ngModel)]="user.lastname" name="lastname" class="rounded-1" required (ngModelChange)="detectChanges()" #lastname="ngModel">
+          <div *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)" class="alert alert-danger">
+            {{ "SURNAME_REQUIRED" | translate }}
+          </div>
         </div>
       </div>
 
       <div class="d-flex justify-content-between">
-        <span> {{"PROFILE_USERNAME" | translate}}: </span>
-        <input type="text" placeholder="Username" [(ngModel)]="user.username" name="username" class="rounded-1" required (ngModelChange)="detectChanges()">
+        <span>{{"PROFILE_USERNAME" | translate}}:</span>
+        <input type="text" placeholder="Username"  [(ngModel)]="user.username" name="username" class="rounded-1" required (ngModelChange)="detectChanges(); checkUsername()" #username="ngModel">
+        <div *ngIf="username.invalid && (username.dirty || username.touched)" class="alert alert-danger">
+          {{ "USERNAME_REQUIRED" | translate }}
+        </div>
+        <div *ngIf="pillado" class="alert alert-danger">
+          {{ "USERNAME_TAKEN" | translate }}
+        </div>
       </div>
+
       <b>{{"PROFILE_GENDER" | translate}}: <span class="red">*</span></b>
-      <select name="gender" id="gender" [(ngModel)]="user.gender" (ngModelChange)="detectChanges()">
-        <option [ngValue]="null" disabled class="red">Select a gender </option>
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-        <option value="Other">Other</option>
+      <select name="gender" id="gender" [(ngModel)]="user.gender" required (ngModelChange)="detectChanges()" #gender="ngModel">
+        <option [ngValue]="null" disabled class="red">{{ "SELECT_GENDER" | translate }}</option>
+        <option value="Male">{{ "MALE" | translate }}</option>
+        <option value="Female">{{ "FEMALE" | translate }}</option>
+        <option value="Other">{{ "OTHER" | translate }}</option>
       </select>
+      <div *ngIf="gender.invalid && (gender.dirty || gender.touched)" class="alert alert-danger">
+        {{ "GENDER_REQUIRED" | translate }}
+      </div>
 
       <div class="d-flex justify-content-between">
         <div class="edad-email">
@@ -44,25 +59,32 @@
             @if(user.age < 16) {
               <span class="red">Debes tener al menos 16 años</span>
             }
-            <input type="date" id="age" placeholder="Age" name="age" class="rounded-1" min="16" (ngModelChange)="detectChanges()">
+            <input type="date" id="age" placeholder="Age" name="age" class="rounded-1" required min="16" (ngModelChange)="detectChanges()">
+
           </div>
           <div class="email w-100">
             <span>Email:</span>
-            <input type="text" disabled="" placeholder="Email" [(ngModel)]="user.email" name="email" class="rounded-1" required>
+            <input type="text" disabled="" placeholder="Email" [(ngModel)]="user.email" name="email" class="rounded-1" required #email="ngModel">
+            <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
+              {{ "EMAIL_REQUIRED" | translate }}
+            </div>
           </div>
         </div>
 
         <b>{{"PROFILE_COUNTRY" | translate}}:</b>
-        <select [(ngModel)]="selectedCountry" name="country" (change)="handleCountryChange($event)" (ngModelChange)="detectChanges()">
-          <option *ngIf="countries.length === 0" [value]="'Cargando...'">Cargando...</option>
+        <select [(ngModel)]="selectedCountry" name="country" required (change)="handleCountryChange($event)" (ngModelChange)="detectChanges()" #country="ngModel">
+          <option *ngIf="countries.length === 0" [value]="'Cargando...'">{{ "LOADING_COUNTRIES" | translate }}</option>
           <ng-container *ngFor="let country of countries; let i = index">
             <option [ngValue]="country.name.common" [selected]="selectedCountry === country.name.common || (user && user.country === country.name.common)" [disabled]="i === 0">{{ country.name.common }}</option>
           </ng-container>
         </select>
+        <div *ngIf="country.invalid && (country.dirty || country.touched)" class="alert alert-danger">
+          {{ "COUNTRY_REQUIRED" | translate }}
+        </div>
       </div>
 
       <div class="botones">
-        <input type="submit" class="rounded-1 cerrar-sesion enviar" [value]="'SAVE' | translate" [disabled]="!formChanges" />
+        <input type="submit" class="rounded-1 cerrar-sesion enviar" [value]="'SAVE' | translate" [disabled]="!formChanges || form.invalid" />
         <button type="button" class="cerrar-sesion" (click)="closeSession()">{{"CLOSE_SESSION" | translate}}</button>
       </div>
     </form>
