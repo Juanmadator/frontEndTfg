@@ -209,3 +209,11 @@
     border: none;
     background-color: var(--color-terciary);
   }
+
+  #reg{
+    background-color: var(--color-primary);
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+  }

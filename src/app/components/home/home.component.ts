@@ -452,15 +452,9 @@ export class HomeComponent implements OnInit  {
 
   addComment(postId: number) {
     const trimmedComment = this.commentContent.trim();
-    console.log('Comentario:', trimmedComment);
-    console.log('User ID:', this.user.id);
-    console.log('Post ID:', postId);
-
     if (!trimmedComment) {
-      console.warn('Comentario vacío, no se enviará.');
       return;
     }
-
     const newComment: Comment = {
       userId: this.user.id,
       postId: postId,
@@ -469,10 +463,8 @@ export class HomeComponent implements OnInit  {
 
     this.postsService.createComment(newComment).subscribe(
       (comment: Comment) => {
-        console.log('Comentario creado:', comment);
         this.commentContent = '';
         this.loadComments(postId);
-
       },
       (error) => {
         console.error('Error al crear el comentario:', error);

@@ -14,6 +14,9 @@ export class GroupsService {
 
   constructor(private http: HttpClient) { }
 
+
+
+
   createGroup(name: string, description: string, coachId: number, profileImage: File): Observable<any> {
     const token = sessionStorage.getItem('token');
     if (!token) {

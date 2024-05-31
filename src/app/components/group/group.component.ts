@@ -10,6 +10,7 @@ import { UserService } from '../../services/user/user.service';
 import { User } from '../../services/user/User';
 import { Group } from '../../services/groups/Group';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { VariableBinding } from '@angular/compiler';
 @Component({
   selector: 'app-group',
   standalone: true,
@@ -26,6 +27,7 @@ export class GroupComponent implements AfterViewInit {
   public pageSize = 5;
   hasMoreMessages = true;
   user: any = {};
+  numero:number=0;
   mensaje!:GroupMessage;
   @ViewChild('messagesContainer') messagesContainer!: ElementRef;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
@@ -92,6 +94,7 @@ export class GroupComponent implements AfterViewInit {
       }
     });
     this.getUserData();
+   this.obtenerPersonas(this.groupId);
   }
 
   loadGroupMessages(): void {
@@ -164,5 +167,13 @@ export class GroupComponent implements AfterViewInit {
       img.classList.remove('zoomed-image');
     }
     this.zoomed = !this.zoomed;
+  }
+
+
+  obtenerPersonas(groupId:number):any{
+    this.groupService.getUsersCountInGroup(groupId).subscribe((response)=>{
+      this.numero=response;
+        return response;
+    })
   }
 }

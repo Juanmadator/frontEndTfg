@@ -207,6 +207,9 @@
     "GENDER_REQUIRED":"El género es obligatorio",
     "COUNTRY_REQUIRED":"El país es obligatorio",
     "LOADING_COUNTRIES":"Cargando...",
-    "SELECT_GENDER":"Selecciona un género"
+    "SELECT_GENDER":"Selecciona un género",
+    "USERS":"Usuarios unidos",
+    "SELECT_EJERCICIO":"Selecciona un ejercicio",
+    "ADDED_SUCCESSFULLY":"Añadido correctamente"
 }
 

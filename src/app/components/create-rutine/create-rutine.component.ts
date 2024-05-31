@@ -223,6 +223,36 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
   }
 
 
+  verificarEjercicio(): void {
+    if (this.currentPage === 3 && this.ejercicio < 0) {
+      // Solo mostrar el SweetAlert si la imagen seleccionada no es 3, 6 o 9
+      if (this.imagenSeleccionada !== 3 && this.imagenSeleccionada !== 6 && this.imagenSeleccionada !== 9) {
+        this.mostrarAlertaSeleccionarEjercicio();
+        this.currentPage--; // Retrocede si no se ha seleccionado un ejercicio válido
+      }
+    }
+  }
+
+  mostrarAlertaSeleccionarEjercicio(): void {
+    this.translate.get('SELECT_EJERCICIO').subscribe((translation: string) => {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "error",
+        title: translation
+      });
+    });
+  }
+
   nextStep() {
     console.log(this.imagenSeleccionada);
 
@@ -233,29 +263,7 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
         this.currentPage++;
       }
     }
-
-    if (this.currentPage === 3 && this.ejercicio < 0) {
-      // Solo mostrar el SweetAlert si la imagen seleccionada no es 3, 6 o 9
-      if (this.imagenSeleccionada !== 3 && this.imagenSeleccionada !== 6 && this.imagenSeleccionada !== 9) {
-        const Toast = Swal.mixin({
-          toast: true,
-          position: "top",
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.onmouseenter = Swal.stopTimer;
-            toast.onmouseleave = Swal.resumeTimer;
-          }
-        });
-        Toast.fire({
-          icon: "error",
-          title: "Selecciona un ejercicio"
-        });
-        this.currentPage--; // Retrocede si no se ha seleccionado un ejercicio válido
-      }
-    }
-
+   this.verificarEjercicio();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -489,21 +497,25 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
     }
 
     if (this.ejercicios.push(nuevoEjercicio)) {
-      const Toast = Swal.mixin({
-        toast: true,
-        position: "top",
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.onmouseenter = Swal.stopTimer;
-          toast.onmouseleave = Swal.resumeTimer;
-        }
+      this.translate.get('ADDED_SUCCESSFULLY').subscribe((translatedText: string) => {
+        Swal.fire({
+          icon: 'success',
+          title: '',
+          text: translatedText,
+          position: 'top',
+          showConfirmButton: false,
+          timer: 2500, // Tiempo en milisegundos que durará el mensaje
+          timerProgressBar: true, // Barra de progreso del temporizador
+        }).then(() => {
+          // Recargar la página
+       setTimeout(()=>{
+        this.obtenerRutinas();
+       })
+        });
       });
-      Toast.fire({
-        icon: "success",
-        title: "Agregado con éxito a la lista"
-      });
+
+
+
     }
 
     setTimeout(() => {

@@ -7,7 +7,7 @@
         <div class="header">
           <div>
             <h3 *ngIf="group">{{ group.name }}</h3>
-            <small>Número de personas</small>
+            <small>{{"USERS"|translate}} {{this.numero}}</small>
           </div>
           <div>
             <img *ngIf="group?.profileImage" [src]="'http://localhost:8080/images/' + group.profileImage" alt="" id="icono-grupo">

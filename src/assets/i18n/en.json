@@ -198,5 +198,8 @@
   "DELETE_POST_CONFIRMATION": "Do you want to remove this post from your favorites list?",
   "YES_DELETE": "Yes, delete",
   "CANCEL": "Cancel",
-  "USERNAME_ALREADY_EXISTS": "Username already exists."
+  "USERNAME_ALREADY_EXISTS": "Username already exists.",
+  "USERS":"Users joined",
+  "SELECT_EJERCICIO":"Select an excercise",
+  "ADDED_SUCCESSFULLY":"Added succesfully"
 }

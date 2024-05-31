@@ -5,60 +5,57 @@
     </h2>
 
     <div class="create">
-      @if(user.verified && user.coach){
-        <a  [routerLink]="['/create/group']">
-      <label class="btn btn-primary" for="create-post" [title]="'CREATE_GROUP'|translate">
-       <i class="fas fa-plus"></i>
-      </label>
-    </a>
-      }
-      @else if(user.verified && !user.coach){
+      <ng-container *ngIf="user.verified && user.coach">
+        <a [routerLink]="['/create/group']">
+          <label class="btn btn-primary" for="create-post" [title]="'CREATE_GROUP'|translate">
+            <i class="fas fa-plus"></i>
+          </label>
+        </a>
+      </ng-container>
+      <ng-container *ngIf="user.verified && !user.coach">
         <a [routerLink]="['/create/rutine']">
-        <label class="" for="create-post">
-         <i class="fas fa-plus"></i>
-        </label>
-      </a>
-        }
-
-      @else {
-      <a [routerLink]="['/register']">
-        <label class="" for="create-post">
-          {{ 'REGISTER' | translate }}
-        </label>
-      </a>
-      }
-
+          <label class="" for="create-post">
+            <i class="fas fa-plus"></i>
+          </label>
+        </a>
+      </ng-container>
+      <ng-container *ngIf="!user.verified">
+        <a [routerLink]="['/login']">
+          <label class="" for="create-post" id="reg">
+            {{ 'SIGN_IN' | translate }}
+          </label>
+        </a>
+      </ng-container>
 
       <div class="profile-photo">
-        @if(user.profilepicture){
-        <a [routerLink]="['/profile']">
-          <img [src]="'http://localhost:8080/profile-images/'+user.profilepicture" alt="Profile Picture" title={{user.username}}>
-        </a>
-        }
-         @else if(user.verified && !user.profilepicture){
-        <a [routerLink]="['/profile']">
-          <img src="assets/images/anonimo.png" alt="Anónimo" title={{user.username}}>
-        </a>
-        }
-        @else {
-        <a [routerLink]="['/login']"> <img src="assets/images/anonimo.png" alt="Anónimo" title="Inicia sesión"></a>
-        }
+        <ng-container *ngIf="user.profilepicture">
+          <a [routerLink]="['/profile']">
+            <img [src]="'http://localhost:8080/profile-images/' + user.profilepicture" alt="Profile Picture" [title]="user.username">
+          </a>
+        </ng-container>
+        <ng-container *ngIf="user.verified && !user.profilepicture">
+          <a [routerLink]="['/profile']">
+            <img src="assets/images/anonimo.png" alt="Anónimo" [title]="user.username">
+          </a>
+        </ng-container>
+        <ng-container *ngIf="!user.verified">
+          <a [routerLink]="['/login']">
+            <img src="assets/images/anonimo.png" alt="Anónimo" title="Inicia sesión">
+          </a>
+        </ng-container>
       </div>
 
-      <button (click)="cambiarIdioma()" class="idioma" title="Traducción ES-EN"><i class="fa-solid fa-earth-europe"></i></button>
+      <button (click)="cambiarIdioma()" class="idioma" title="Traducción ES-EN">
+        <i class="fa-solid fa-earth-europe"></i>
+      </button>
       <!-- Solo muestra el botón y el navbar en pantallas con una resolución menor o igual a 600px -->
-
-
-
-
     </div>
   </div>
   <button class="menu-toggle" (click)="toggleMenu()" [class.active]="showNavbar">
     <span class="icon">&#9776;</span>
   </button>
-
 </nav>
 
-  <div class="other-navbar" [ngClass]="{ 'display-none': showOtherNavbar }">
-    <app-navbar *ngIf="isSmallScreen && showNavbar" [showNavbar]="showNavbar"></app-navbar>
-  </div>
+<div class="other-navbar" [ngClass]="{ 'display-none': showOtherNavbar }">
+  <app-navbar *ngIf="isSmallScreen && showNavbar" [showNavbar]="showNavbar"></app-navbar>
+</div>
