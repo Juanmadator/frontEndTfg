@@ -466,7 +466,7 @@ p span {
   }
 
 .bajar{
-  width: 90%;
+  width: 60%;
   border-radius: 6px;
   background-color: var(--color-primary);
   color: white;
@@ -491,13 +491,18 @@ p span {
   padding: 20px;
   border-radius: 20px;
   transition: 0.3s all ease;
-  height: 580px;
+  height: 600px;
+}
+
+.imagen{
+  display: flex;
+  justify-content: center;
+  padding: 10px;
 }
 
 
-
 .card p{
-  height:50px;
+  font-size: 19px;
   overflow: hidden;
 }
 .botones-rutina{
@@ -533,9 +538,11 @@ gap: 20px;
 }
 
 .botones-finales{
+  position: absolute;
   display: grid;
   grid-template-columns: 1fr;
   gap: 10px;
+  bottom: 20px;
 }
 
 
@@ -589,3 +596,12 @@ gap: 20px;
   }
 }
 
+
+
+.hecho{
+  background-color: #4caf50;
+}
+
+.hecho:hover{
+  background-color: rgb(53, 184, 140);
+}

@@ -8,10 +8,9 @@
     <h1> {{ 'CREATE_GROUP' | translate }}</h1>
 
     <div *ngIf="paso === 1">
-      <h3>Paso 1: Título y descripción</h3>
+      <h3>{{"STEP_1"|translate}}</h3>
      <div class="info">
-      <span>Para crear el grupo debes incluir un título de máximo 10 caracteres, una descripción sobre el mismo y una
-        imagen de perfil para el grupo, ¡Deberás tratar de llamar la atención de los usuarios!</span>
+      <span>{{"GRUPO_INSTRUCCIONES"|translate}}</span>
      </div>
       <form class="paso-1">
         <mat-form-field>
@@ -31,7 +30,7 @@
     </div>
 
     <div *ngIf="paso === 2">
-      <h3>Paso 2: Foto de perfil</h3>
+      <h3>{{"STEP_2"|translate}}</h3>
       <form>
         <div *ngIf="imagenSeleccionada" class="imagen">
           <img [src]="imagenSeleccionada" alt="Imagen seleccionada" class="preview">
@@ -39,21 +38,21 @@
         <input type="file" #fileInput (change)="onFileSelected($event)">
         <br>
         <div *ngIf="!selectedFile">
-          <span><small>*Es obligatorio seleccionar una imagen*</small></span>
+          <span><small>{{"SELECT_IMAGE"|translate}}</small></span>
         </div>
       </form>
       <div class="botones">
         <button (click)="retrocederPaso()" class="anterior">Anterior</button>
-        <button (click)="crearGrupo()" class="siguiente" [disabled]="!imagenSeleccionada">Crear Grupo</button>
+        <button (click)="crearGrupo()" class="siguiente" [disabled]="!imagenSeleccionada">{{"CREATE"|translate}}</button>
       </div>
     </div>
 
   </div>
+ <div class="preview-grupo">
   <div class="scroll" (click)="scrollToGrupo()" [title]="'BAJAR'|translate"><i class="fa-solid fa-arrow-down"></i></div>
 
-
   <div class="grupo" #grupoElement>
-    <h3>Preview del grupo</h3>
+    <h3>{{"PREVIEW"|translate}}</h3>
 
     <article>
       <div class="article-wrapper">
@@ -80,6 +79,7 @@
       </div>
     </article>
   </div>
+ </div>
 </div>
 
 </div>

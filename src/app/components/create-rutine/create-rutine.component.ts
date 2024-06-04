@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
@@ -8,6 +8,9 @@ import jsPDF from 'jspdf';
 import confetti from 'canvas-confetti';
 import Swal from 'sweetalert2';
 import { RoutineService } from '../../services/routine/routine.service';
+import html2canvas from 'html2canvas';
+import { UserService } from '../../services/user/user.service';
+import { User } from '../../services/user/User';
 
 export interface Ejercicio {
   userId: number;
@@ -16,18 +19,18 @@ export interface Ejercicio {
   imagen: string;
   repeticiones: number;
   peso: number;
-  grupoMuscular:string;
+  grupoMuscular: string;
 }
 
 export interface Rutina {
-  id:number;
+  id: number;
   userId: number;
   name: string;
   description: string;
   repeticiones: number;
   peso: number;
-  routine:number;
-  grupoMuscular:string;
+  routine: number;
+  grupoMuscular: string;
 }
 
 
@@ -44,7 +47,9 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
   repeticiones: number = 10;
   pesoNumero: number = 20;
   rutinas: Rutina[] = [];
-
+  isGeneratingPDF: boolean = false;
+  user: any = {};
+  username!: string;
   addRoutine() {
     const routineId = this.generateRoutineId();
     this.ejercicios.forEach(exercise => {
@@ -57,8 +62,24 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
         exercise.grupoMuscular
       ).subscribe(
         (response: any) => {
-          console.log('Routine added successfully:', response);
           // Puedes realizar alguna acción adicional aquí después de agregar la rutina, si es necesario
+          this.translate.get('ADDED_SUCCESSFULLY').subscribe((translatedText: string) => {
+            Swal.fire({
+              icon: 'success',
+              title: '',
+              text: translatedText,
+              position: 'top',
+              showConfirmButton: false,
+              timer: 1000, // Tiempo en milisegundos que durará el mensaje
+              timerProgressBar: true, // Barra de progreso del temporizador
+            }).then(() => {
+              // Recargar la página
+              setTimeout(() => {
+                this.obtenerRutinas();
+              },1000)
+            });
+          });
+
         },
         (error: any) => {
           console.error('Error adding routine:', error);
@@ -68,11 +89,22 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
     });
   }
 
+  getUserData(): void {
+    this.userService.getUser().subscribe(
+      (user: User | null) => {
+        this.user = user;
+        this.username = this.user.username;
+      },
+      (error: any) => {
+        console.error('Error al obtener datos del usuario:', error);
+      }
+    );
+  }
+
 
   obtenerRutinas() {
     this.routineService.getRoutinesByUserId().subscribe((response) => {
       this.rutinas = response;
-      console.log(response);
     })
   }
 
@@ -143,8 +175,44 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
     "TRICEPS.FONDO", "TRICEPS.CURL_POLEA", "TRICEPS.ELEVACION_ESPALDA", "TRICEPS.ELEVACION", "TRICEPS.FLEXIONES"
   ];
 
-
-
+  // Mapear nombres de ejercicios a sus respectivas imágenes
+  exerciseImageMap: { [key: string]: string } = {
+    'BICEPS.CURL': 'assets/images/exercises/biceps/0.png',
+    'BICEPS.POLEA': 'assets/images/exercises/biceps/1.png',
+    'BICEPS.DOMINADAS': 'assets/images/exercises/back/5.png', // Dominadas se usa para biceps y back
+    'BICEPS.FLEXIONES': 'assets/images/exercises/triceps/4.png', // Flexiones se usa para biceps, chest y back
+    'ABDOMEN.COLGADO': 'assets/images/exercises/abdomen/0.png',
+    'ABDOMEN.RUSOS': 'assets/images/exercises/abdomen/1.png',
+    'ABDOMEN.ELEVACION': 'assets/images/exercises/abdomen/2.png',
+    'ABDOMEN.SENTADILLAS': 'assets/images/exercises/abdomen/3.png', // Sentadillas con barra se usa para abdomen y back
+    'BACK.REMO': 'assets/images/exercises/back/0.png',
+    'BACK.REMO_UNA_MANO': 'assets/images/exercises/back/1.png',
+    'BACK.SENTADILLAS': 'assets/images/exercises/back/2.png',
+    'BACK.CRUNCH_PESO': 'assets/images/exercises/back/3.png',
+    'BACK.FLEXIONES': 'assets/images/exercises/back/4.png',
+    'BACK.DOMINADAS': 'assets/images/exercises/back/5.png',
+    'CHEST.FLEXIONES': 'assets/images/exercises/chest/0.png',
+    'CHEST.PRESS_BANCA': 'assets/images/exercises/chest/1.png',
+    'CHEST.ELEVACION_MANCUERNAS': 'assets/images/exercises/chest/2.png',
+    'LEGS.PRESS': 'assets/images/exercises/legs/0.png',
+    'LEGS.ZANCADAS_MANCUERNAS': 'assets/images/exercises/legs/1.png',
+    'LEGS.SENTADILLAS': 'assets/images/exercises/legs/2.png',
+    'LEGS.SALTO_ALTURA': 'assets/images/exercises/legs/3.png',
+    'LEGS.PUNTILLAS': 'assets/images/exercises/legs/4.png',
+    'SHOULDERS.VUELO_CON_ANILLOS': 'assets/images/exercises/shoulders/0.png',
+    'SHOULDERS.ELEVACION_VERTICAL_MANCUERNAS': 'assets/images/exercises/shoulders/1.png',
+    'SHOULDERS.ELEVACION_MANCUERNAS_DIRECTA': 'assets/images/exercises/shoulders/2.png',
+    'SHOULDERS.DOMINADAS': 'assets/images/exercises/shoulders/3.png',
+    'SHOULDERS.FLEXIONES_INCLINADAS': 'assets/images/exercises/shoulders/4.png',
+    'TRICEPS.FONDO': 'assets/images/exercises/triceps/0.png',
+    'TRICEPS.CURL_POLEA': 'assets/images/exercises/triceps/1.png',
+    'TRICEPS.ELEVACION_ESPALDA': 'assets/images/exercises/triceps/2.png',
+    'TRICEPS.ELEVACION': 'assets/images/exercises/triceps/3.png',
+    'TRICEPS.FLEXIONES': 'assets/images/exercises/triceps/4.png',
+   'BICICLETA':'assets/images/4.png',
+    'CORRER':'assets/images/7.png',
+    'ANDAR':'assets/images/10.png'
+  };
 
   currentPage: number = 1;
   selectedHour: number | null = null;
@@ -154,7 +222,7 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
   personalNotes = '';
   ejercicio: number = -1;
   private langChangeSubscription!: Subscription;
-  constructor(private translate: TranslateService, private el: ElementRef, private routineService: RoutineService) {
+  constructor(private translate: TranslateService, private userService: UserService, private el: ElementRef, private routineService: RoutineService) {
   }
 
   scrollToLista() {
@@ -169,7 +237,7 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
     this.langChangeSubscription = this.translate.onLangChange.subscribe(() => {
       this.updateTranslations();
     });
-
+    this.getUserData();
     this.obtenerRutinas();
   }
 
@@ -193,7 +261,6 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
 
   //GUARDAR PDF CON EL EJERCICIO
   generarPDF() {
-
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -201,18 +268,72 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
+      confirmButtonText: "Yes, generate it!"
     }).then((result) => {
       if (result.isConfirmed) {
-        const doc = new jsPDF();
-        doc.text('Hello world!', 10, 10);
-        const fileName = `rutina_${this.getFormattedDate()}.pdf`;
-        doc.save(fileName);
+        this.isGeneratingPDF = true;
+
+        setTimeout(() => {
+          const content = document.getElementById('pdfContent');
+
+          if (content) {
+            html2canvas(content, {
+              scale: 2, // Increase scale for better resolution
+              useCORS: true, // Enable cross-origin resource sharing
+              logging: true // Enable logging for debugging
+            }).then(canvas => {
+              const imgData = canvas.toDataURL('image/png');
+              const doc = new jsPDF('portrait', 'mm', 'a4');
+              const pageWidth = doc.internal.pageSize.getWidth();
+              const pageHeight = doc.internal.pageSize.getHeight();
+              const margin = 10;
+              const imgWidth = pageWidth - 2 * margin;
+              const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+              let heightLeft = imgHeight;
+              let position = 20; // Start position below the header
+
+              // Function to add header and footer
+              const addHeaderFooter = (doc, pageNumber) => {
+                const totalPages = doc.internal.getNumberOfPages();
+                doc.setFontSize(10);
+                doc.text('FIT-TRACK', margin, 10); // Header text
+                doc.text(`Page ${pageNumber} of ${totalPages}`, margin, pageHeight - 10); // Footer text
+              };
+
+              let pageNumber = 1;
+
+              // Add the first page
+              doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
+              addHeaderFooter(doc, pageNumber);
+              heightLeft -= pageHeight - position - 20; // Adjust for header and footer height
+
+              // Add extra pages if the content is taller than a single page
+              while (heightLeft > 0) {
+                position = heightLeft - imgHeight;
+                doc.addPage();
+                pageNumber++;
+                doc.addImage(imgData, 'PNG', margin, 20, imgWidth, imgHeight); // Leave space for header and footer
+                addHeaderFooter(doc, pageNumber);
+                heightLeft -= pageHeight - 20; // Adjust for header and footer height
+              }
+
+              const fileName = `rutina_${this.getFormattedDate()}.pdf`;
+              doc.save(fileName);
+              this.isGeneratingPDF = false;
+            }).catch(error => {
+              console.error('Error generating canvas:', error);
+              this.isGeneratingPDF = false;
+            });
+          } else {
+            console.error('Element not found: pdfContent');
+            this.isGeneratingPDF = false;
+          }
+        }, 500); // A slight delay to ensure content is fully rendered
       }
     });
-
-
   }
+
 
   getFormattedDate() {
     const date = new Date();
@@ -254,7 +375,6 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
   }
 
   nextStep() {
-    console.log(this.imagenSeleccionada);
 
     if (this.currentPage < 3) {
       if (this.currentPage === 2 && (this.imagenSeleccionada === 3 || this.imagenSeleccionada === 6 || this.imagenSeleccionada === 9)) {
@@ -263,7 +383,7 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
         this.currentPage++;
       }
     }
-   this.verificarEjercicio();
+    this.verificarEjercicio();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -300,7 +420,6 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
 
   crearRutina(): void {
     this.addExercise();
-    console.log(this.ejercicios);
   }
 
   seleccionarImagen(index: number) {
@@ -364,6 +483,11 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
       'assets/images/exercises/triceps/4.png'
     ]
   };
+
+  getImageForExercise(exerciseName: string): string {
+    return this.exerciseImageMap[exerciseName] || 'assets/images/default.png'; // Ruta por defecto si no se encuentra el nombre
+  }
+
 
 
   getDescripcionEjercicioSeleccionado(): string {
@@ -483,8 +607,10 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
         repeticiones: this.repeticiones,
         peso: this.pesoNumero,
         imagen: this.imagenesEjercicios[this.imagenSeleccionada][this.ejercicio],
-        grupoMuscular:this.nombresImagenes[this.imagenSeleccionada],
+        grupoMuscular: this.nombresImagenes[this.imagenSeleccionada],
       };
+
+
     } else {
       nuevoEjercicio = {
         nombre: this.getName(),
@@ -492,9 +618,11 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
         repeticiones: this.repeticiones,
         peso: this.pesoNumero,
         imagen: this.imagenes[this.imagenSeleccionada],
-        grupoMuscular:this.nombresImagenes[this.imagenSeleccionada],
+        grupoMuscular: this.nombresImagenes[this.imagenSeleccionada],
       };
+
     }
+
 
     if (this.ejercicios.push(nuevoEjercicio)) {
       this.translate.get('ADDED_SUCCESSFULLY').subscribe((translatedText: string) => {
@@ -504,13 +632,13 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
           text: translatedText,
           position: 'top',
           showConfirmButton: false,
-          timer: 2500, // Tiempo en milisegundos que durará el mensaje
+          timer: 1000, // Tiempo en milisegundos que durará el mensaje
           timerProgressBar: true, // Barra de progreso del temporizador
         }).then(() => {
           // Recargar la página
-       setTimeout(()=>{
-        this.obtenerRutinas();
-       })
+          setTimeout(() => {
+            this.obtenerRutinas();
+          },1000)
         });
       });
 
@@ -524,7 +652,6 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
       this.imagenSeleccionada = -1;
     }, 500);
 
-    console.log(nuevoEjercicio);
   }
 
 
@@ -532,42 +659,69 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
     this.routineService.deleteRoutine(ejercicio.id)
       .subscribe(
         (response: string) => {
-          this.translate.get('DELETE_RUTINE').subscribe((translatedText: string) => {
+          this.translate.get('RUTINE_DONE').subscribe((translatedText: string) => {
             Swal.fire({
               icon: 'success',
               title: '',
               text: translatedText,
               position: 'top',
               showConfirmButton: false,
-              timer: 2500, // Tiempo en milisegundos que durará el mensaje
+              timer: 1000, // Tiempo en milisegundos que durará el mensaje
               timerProgressBar: true, // Barra de progreso del temporizador
             }).then(() => {
+              // Lanzar confeti
+              this.lanzarConfeti();
               // Recargar la página
-           setTimeout(()=>{
-            this.obtenerRutinas();
-           })
+              setTimeout(() => {
+                this.obtenerRutinas();
+              }, 500);
             });
           });
         },
         (error) => {
-          this.translate.get('DELETE_RUTINE').subscribe((translatedText: string) => {
+          this.translate.get('RUTINE_DONE').subscribe((translatedText: string) => {
+            this.lanzarConfeti();
             Swal.fire({
               icon: 'success',
               title: '',
               text: translatedText,
               position: 'top',
               showConfirmButton: false,
-              timer: 2500, // Tiempo en milisegundos que durará el mensaje
+              timer: 1000, // Tiempo en milisegundos que durará el mensaje
               timerProgressBar: true, // Barra de progreso del temporizador
             }).then(() => {
+              // Lanzar confeti
+
               // Recargar la página
-           setTimeout(()=>{
-            this.obtenerRutinas();
-           })
+              setTimeout(() => {
+                this.obtenerRutinas();
+              }, 500);
             });
           });
         }
       );
+  }
+
+  lanzarConfeti(): void {
+    var duration = 2 * 1000;
+    var animationEnd = Date.now() + duration;
+    var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+    function randomInRange(min: number, max: number) {
+      return Math.random() * (max - min) + min;
+    }
+
+    var interval: any = setInterval(function() {
+      var timeLeft = animationEnd - Date.now();
+
+      if (timeLeft <= 0) {
+        return clearInterval(interval);
+      }
+
+      var particleCount = 50 * (timeLeft / duration);
+      confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3) } }));
+      confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9) } }));
+    }, 250);
   }
 
 }

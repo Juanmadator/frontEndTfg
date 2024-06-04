@@ -40,12 +40,12 @@
         </ng-container>
         <ng-container *ngIf="!user.verified">
           <a [routerLink]="['/login']">
-            <img src="assets/images/anonimo.png" alt="Anónimo" title="Inicia sesión">
+            <img src="assets/images/anonimo.png" alt="Anónimo" [title]="'SIGN_IN'|translate">
           </a>
         </ng-container>
       </div>
 
-      <button (click)="cambiarIdioma()" class="idioma" title="Traducción ES-EN">
+      <button (click)="cambiarIdioma()" class="idioma" [title]="'TRANSLATE_ES'|translate">
         <i class="fa-solid fa-earth-europe"></i>
       </button>
       <!-- Solo muestra el botón y el navbar en pantallas con una resolución menor o igual a 600px -->

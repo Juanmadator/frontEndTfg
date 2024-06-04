@@ -1,4 +1,3 @@
-
 .bottom-text,
 .card {
   background: #243137;
@@ -135,7 +134,7 @@ article {
   background: #fff;
   transition: 0.4s ease-in-out;
   max-width: 500px;
-  cursor:default;
+  cursor: default;
 }
 article a::after {
   position: absolute;
@@ -201,10 +200,8 @@ article:has(:hover, :focus) {
   box-sizing: border-box;
 }
 
-
-.articles
-{
- display: flex;
+.articles {
+  display: flex;
   z-index: 20;
   display: flex;
   margin: 0 auto;
@@ -219,20 +216,19 @@ article:has(:hover, :focus) {
   display: block;
 }
 
-
-button{
+button {
   margin: 20px;
   border-radius: 10px;
   background-color: var(--color-primary);
 }
 
-.botones{
+.botones {
   display: grid;
   grid-template-columns: 1fr;
   width: 100%;
 }
 
-#unirte{
+#unirte {
   z-index: 50;
   padding: 10px 50px;
   margin-left: -24px;
@@ -242,12 +238,11 @@ button{
   margin-right: -24px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
-  border-bottom-right-radius:10px;
+  border-bottom-right-radius: 10px;
   background-color: var(--color-primary);
   color: white;
-
 }
-#salirte{
+#salirte {
   z-index: 50;
   padding: 10px 50px;
   margin-left: -24px;
@@ -257,26 +252,22 @@ button{
   margin-right: -24px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
-  border-bottom-right-radius:10px;
+  border-bottom-right-radius: 10px;
   background-color: rgb(201, 4, 4);
   color: white;
-
-
 }
 
-
-.articles{
+.articles {
   z-index: 20;
 }
 
-@media(min-width:1201px){
+@media (min-width: 1201px) {
   .other-navbar {
     width: 287px;
   }
 }
 
-
-.caja{
+.caja {
   width: 80%;
   display: grid;
   grid-template-columns: 1fr;
@@ -290,16 +281,14 @@ button{
   gap: 20px;
 }
 
-.titulo{
+.titulo {
   position: absolute;
 }
-article{
+article {
   width: 300px;
 }
 
-
-
-.grupos{
+.grupos {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -307,114 +296,103 @@ article{
   align-items: center;
 }
 
-.botones-guia{
+.botones-guia {
   display: flex;
   justify-content: center;
   gap: 20px;
-    padding-bottom: 60px;
-    width: 100%;
-    margin: 0 auto;
-    margin-top: -80px;
+  padding-bottom: 60px;
+  width: 100%;
+  margin: 0 auto;
+  margin-top: -80px;
 }
 
-@media(max-width:1650px){
-  .botones-guia{
+@media (max-width: 1650px) {
+  .botones-guia {
     margin-top: -10px;
   }
 }
 
-@media(min-width:1651px){
-  .botones-guia{
+@media (min-width: 1651px) {
+  .botones-guia {
     margin-top: -10px;
   }
 }
 
-
-.boton-guia{
+.boton-guia {
   padding: 10px 15px;
   border-radius: 50%;
   transition: 0.3s all ease;
   background-color: var(--color-primary);
-color: white;
+  color: white;
 }
 
-.boton-guia:hover{
+.boton-guia:hover {
   transform: scale(1.2);
 }
 
-
-.articles{
+.articles {
   padding-bottom: 20px;
 }
 
-
-@media (max-width:600px){
-  .other-navbar{
+@media (max-width: 600px) {
+  .other-navbar {
     display: none;
   }
 }
 
-@media(max-width:769px){
-.articles{
-  display: grid;
-  grid-template-columns: 1fr ;
-}
+@media (max-width: 769px) {
+  .articles {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
 }
 
-@media (min-width:993px){
-  .caja{
+@media (min-width: 993px) {
+  .caja {
     display: grid;
     grid-template-columns: 1fr 2fr;
   }
 
-  .articles{
+  .articles {
     margin-left: -80px;
   }
 }
 
-@media (min-width:1201px){
-  .articles{
+@media (min-width: 1201px) {
+  .articles {
     display: grid;
-    grid-template-columns: 1fr 1fr ;
+    grid-template-columns: 1fr 1fr;
     margin-left: 60px;
   }
-
-
 }
 
-@media (min-width:1400px){
-  .articles{
+@media (min-width: 1400px) {
+  .articles {
     display: grid;
-    grid-template-columns: 1fr 1fr ;
+    grid-template-columns: 1fr 1fr;
     margin-right: 25px;
   }
-
 }
 
-
-@media (min-width:1650px){
-  .articles{
+@media (min-width: 1650px) {
+  .articles {
     display: grid;
-    grid-template-columns: repeat(3,1fr);
-    margin-left: 0;
-    margin-right:8%;
+    grid-template-columns: repeat(3, 1fr);
+    margin-left: 50px;
   }
 
-  .article{
+  .article {
     width: 500px;
   }
 }
 
-@media (min-width:1800px) {
-  .articles{
-    grid-template-columns: repeat(4,1fr);
-    margin-right:10%;
-
+@media (min-width: 1900px) {
+  .articles {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
-
-.boton-login #login{
+.boton-login #login {
   display: grid;
   margin-left: 0;
   margin-bottom: 0;
@@ -422,44 +400,96 @@ color: white;
   padding: 10px;
 }
 
-#login a{
+#login a {
   display: block;
   color: white;
 }
 
-input{
+input {
   padding-top: 200px;
-  width: 300px;
+  min-width: 300px;
 }
 
-.titulo{
-text-align: center;
+.titulo {
+  text-align: center;
   padding-top: 100px;
 }
 
-
-@media(max-width:600px){
-  .articles{
+@media (max-width: 600px) {
+  .articles {
     margin-top: 50px;
   }
 }
 
-
-@media(min-width:993px){
-  .articles{
+@media (min-width: 993px) {
+  .articles {
     margin-top: 50px;
   }
 }
 
-
-.description{
+.description {
   padding: 0;
 }
 
-.grupos{
- margin-top: 20px;
+.grupos {
+  margin-top: 20px;
 }
 
+.barra {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 1200px;
+  height: fit-content;
+  margin: 0 auto;
+  margin-bottom: 10px;
+}
+
+.page-link{
+  cursor: pointer;
+}
+
+.barra i {
+  margin-left: -80px;
+  font-weight: bold;
+  background-color: var(--color-secondary);
+  justify-self: center;
+  padding: 13px 13px;
+  border-radius: 25px;
+}
+
+@media (min-width: 601px) {
+  .barra {
+    width: 80%;
+  }
+}
+
+.busqueda {
+  margin-left: -50px;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.hidden {
+  transform: translateY(-50px);
+  opacity: 0;
+}
+
+.barra input {
+  width: 100%;
+}
+
+.other-navbar {
+  z-index: 50;
+}
+
+.contenido {
+  margin-bottom: 50px;
+}
+
+button a {
+  text-decoration: none;
+  color: white;
+}
 .filtro {
   width: 80%;
   padding: 20px;
@@ -467,40 +497,5 @@ text-align: center;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Añade una sombra con desplazamiento x=0, y=0, desenfoque 10px y color rgba(0, 0, 0, 0.1) */
   margin: 0 auto;
   margin-bottom: 40px;
-}
-
-
-.barra{
-  width: 100%;
-height: fit-content;
-}
-
-.busqueda{
-  margin-left: -50px;
-  transition: transform 0.5s ease, opacity 0.5s ease;
-
-}
-
-
-.hidden {
-  transform: translateY(-50px);
-  opacity: 0;
-}
-
-.barra input{
-  width: 100%;
-}
-
-.other-navbar{
-  z-index: 50;
-}
-
-
-.contenido{
-margin-bottom: 50px;
-}
-
-button a{
-  text-decoration: none;
-  color: white;
+  margin: 0 auto;
 }

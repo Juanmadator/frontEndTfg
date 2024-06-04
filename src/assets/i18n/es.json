@@ -69,7 +69,7 @@
     },
     "CHEST": {
       "FLEXIONES": "Flexiones estilo diamante",
-      "PRESS_BANCA": "Elevación de barra en banca",
+      "PRESS_BANCA": "Elevación de barra",
       "ELEVACION_MANCUERNAS": "Elevación de mancuernas con inclinación",
       "DESCRIPCION": {
         "FLEXIONES": "Apoya las manos cerca una de la otra formando un diamante, baja el cuerpo flexionando los codos y luego empuja hacia arriba.",
@@ -210,6 +210,17 @@
     "SELECT_GENDER":"Selecciona un género",
     "USERS":"Usuarios unidos",
     "SELECT_EJERCICIO":"Selecciona un ejercicio",
-    "ADDED_SUCCESSFULLY":"Añadido correctamente"
+    "ADDED_SUCCESSFULLY":"Añadido correctamente",
+    "EJERCICIOS":"Ejercicios",
+    "SUPERADO":"Marcar como superado",
+    "RUTINE_DONE":"¡Enhorabuena!",
+    "404_ERROR_TITULO":"Ha ocurrido un error",
+    "404_ERROR":"Página no encontrada",
+    "SELECT_IMAGE":"*Es obligatorio seleccionar una imagen*",
+    "GRUPO_INSTRUCCIONES":"Para crear el grupo debes incluir un título de máximo 10 caracteres, una descripción sobre el mismo y una imagen de perfil para el grupo, ¡Deberás tratar de llamar la atención de los usuarios!",
+    "STEP_1":"Paso 1: Título y descripción",
+    "STEP_2":"Paso 2: Foto de perfil",
+    "PREVIEW":"Vista previa",
+    "TRANSLATE_ES":"Traducción Es-En"
 }
 

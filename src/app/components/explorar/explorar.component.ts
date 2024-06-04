@@ -61,7 +61,9 @@ export class ExplorarComponent implements OnInit {
         this.filterGroups(); // Llama a filterGroups() después de cargar los grupos
         this.totalPages = this.calculateTotalPages();
         this.updatePaginatedGroups();
+      if(this.user){
         this.checkMemberships();
+      }
       },
       (error: any) => {
         console.error('Error al cargar grupos:', error);
