@@ -7,7 +7,6 @@ body {
   background-color: var(--color-terciary);
   width: 40%;
   margin: 0 auto;
-  margin-top: 50px;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   padding: 20px;
@@ -79,6 +78,8 @@ body {
 
 .cajas {
   width: 100%;
+  display: grid;
+  grid-template-columns: 5fr 1fr;
 }
 
 .contenido p {
@@ -259,11 +260,7 @@ form input {
   }
 }
 
-@media (min-width: 1201px) {
-  .cajas {
-    margin-left: 100px;
-  }
-}
+
 
 .header {
   width: 100%;
@@ -371,7 +368,6 @@ form input {
   grid-template-columns: 1fr 1fr 1fr;
   text-align: center;
   justify-content: center;
-  gap: 40px;
   height: 100px;
   margin-bottom: 50px;
   display: none;
@@ -398,3 +394,36 @@ form input {
 }
 
 
+
+
+
+/* Estilos para cerrar el modal */
+.close {
+  color: white;
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+
+
+.grupos-2{
+  display: none;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+  text-align: center;
+  justify-content: center;
+  height: 100px;
+  margin-bottom: 50px;
+  width: 200px;
+}
+
+
+@media(min-width:993px){
+  .grupos-2{
+    display: grid;
+    gap:20px;
+  }
+}

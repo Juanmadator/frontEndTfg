@@ -747,7 +747,11 @@ input[type="text"]:focus {
 
 .comentarios{
   max-height: 500px;
-  overflow-y: scroll;
+  overflow-y: auto;
+}
+
+.comentarios::-webkit-scrollbar {
+  width: 0; /* Oculta el scrollbar en navegadores WebKit */
 }
 
 .comment p {

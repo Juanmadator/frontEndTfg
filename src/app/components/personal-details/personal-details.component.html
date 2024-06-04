@@ -11,7 +11,7 @@
       </div>
 
       <div class="d-flex">
-        <input id="file-input" type="file" name="imagen" accept="image/*" style="display: none;" (change)="onFileInputChange($event)">
+        <input id="file-input" type="file" name="imagen" accept="image/*" (ngModelChange)="detectChanges()" style="display: none;" (change)="onFileInputChange($event)">
       </div>
       <div class="name-lastname">
         <div class="name">

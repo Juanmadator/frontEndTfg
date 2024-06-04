@@ -260,7 +260,7 @@ export class HomeComponent implements OnInit  {
         this.postContent = '';
         this.selectedFile = null;
         const newPost: Post = response;
-        this.posts.unshift(newPost);
+        // this.posts.unshift(newPost);
         location.reload();
       },
       (error: any) => { }

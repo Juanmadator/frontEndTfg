@@ -3,6 +3,7 @@
     <app-navbar></app-navbar>
   </div>
   <div class="cajas">
+   <div class="primero">
     <div class="contenedor">
       <div class="header">
         <div>
@@ -18,7 +19,7 @@
 
     <div class="messages" #messagesContainer>
       <div *ngFor="let message of groupMessages" class="message">
-        <div class=" mensaje-contenido">
+        <div class="mensaje-contenido">
           <div class="super-content">
             <img [src]="'http://localhost:8080/profile-images/'+this.user.profilepicture" alt="" class="perfil"
               [title]="this.user.username">
@@ -29,9 +30,13 @@
                 </a>
               </ng-container>
               <img *ngIf="message.fileUrl && !message.fileUrl.endsWith('.pdf')"
-                [src]="'http://localhost:8080/images/' + message.fileUrl" alt="Imagen" (click)="zoomImage($event)">
+              [src]="'http://localhost:8080/images/' + message.fileUrl"
+              alt="Imagen" id="imageModal"
+             >
             </p>
           </div>
+
+
         </div>
       </div>
     </div>
@@ -68,6 +73,23 @@
         </div>
       </form>
     </div>
+   </div>
+   <div class="segundo">
+    <div class="grupos-2">
+      <div *ngFor="let grupo of groups">
+        <div class="content">
+          <div class="tooltip-container">
+           <a [routerLink]="'/group/'+grupo.id">
+            <img [src]="'http://localhost:8080/images/'+grupo.profileImage" alt="">
+            <span class="tooltip-text">{{grupo.name}}</span>
+           </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+   </div>
+
   </div>
 
   <div class="grupos">

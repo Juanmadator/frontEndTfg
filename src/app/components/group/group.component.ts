@@ -172,17 +172,7 @@ export class GroupComponent implements AfterViewInit {
     }
   }
 
-  zoomed = false;
 
-  zoomImage(event: any): void {
-    const img = event.target;
-    if (!this.zoomed) {
-      img.classList.add('zoomed-image');
-    } else {
-      img.classList.remove('zoomed-image');
-    }
-    this.zoomed = !this.zoomed;
-  }
 
 
   obtenerPersonas(groupId: number): any {
@@ -191,4 +181,5 @@ export class GroupComponent implements AfterViewInit {
       return response;
     })
   }
+
 }

@@ -67,8 +67,10 @@ export class UserService {
   }
 
   getCountries(): Observable<any[]> {
-    return this.http.get<any[]>('https://restcountries.com/v3.1/all');
-  }
+    return this.http.get<any[]>('https://countriesnow.space/api/v0.1/countries');
+}
+
+
 
 
 }

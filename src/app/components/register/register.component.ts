@@ -7,11 +7,12 @@ import { User } from '../../services/user/User';
 import { RegisterService } from '../../services/register/register.service';
 import { UserService } from '../../services/user/user.service';
 import { SpinnerComponent } from '../spinner/spinner.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FormsModule, CommonModule, ReactiveFormsModule,SpinnerComponent,RouterLink],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule,SpinnerComponent,RouterLink,TranslateModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })

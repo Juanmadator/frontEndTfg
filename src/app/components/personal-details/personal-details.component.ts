@@ -21,7 +21,7 @@ import { RegisterService } from '../../services/register/register.service';
   styleUrl: './personal-details.component.css'
 })
 export class PersonalDetailsComponent implements OnInit {
-  constructor(private http: HttpClient, private translate: TranslateService, private registerService:RegisterService,private userService: UserService, private router: Router, private authService: LoginServiceAuth) { }
+  constructor(private http: HttpClient, private translate: TranslateService, private registerService: RegisterService, private userService: UserService, private router: Router, private authService: LoginServiceAuth) { }
 
   @ViewChild('selectPais') selectPais!: ElementRef<HTMLSelectElement>;
   @ViewChild('usernameModel') usernameModel!: NgModel;
@@ -40,7 +40,7 @@ export class PersonalDetailsComponent implements OnInit {
   profilePictureUrl: string | ArrayBuffer | null = 'assets/images/anonimo.png';
   formChanges = false;
   selectedFile: File | null = null;
-  pillado:boolean=false;
+  pillado: boolean = false;
   originalUsername!: string;
   ngOnInit(): void {
     if (sessionStorage.getItem("userId")) {
@@ -60,7 +60,7 @@ export class PersonalDetailsComponent implements OnInit {
         } else {
           this.selectedCountry = this.countries.length > 0 ? this.countries[0].name.common : '';
         }
-      }, error => {}
+      }, error => { }
     );
   }
 
@@ -75,7 +75,7 @@ export class PersonalDetailsComponent implements OnInit {
         if (isAvailable) {
           if (this.formChanges) {
             this.updateUser();
-            this.pillado=false;
+            this.pillado = false;
           }
         } else {
           this.translate.get('USERNAME_ALREADY_EXISTS').subscribe((translatedText: string) => {
@@ -127,7 +127,16 @@ export class PersonalDetailsComponent implements OnInit {
         this.profilePictureUrl = e.target.result;
       };
       reader.readAsDataURL(file);
+      this.detectChanges();
     }
+  }
+
+  detectChanges() {
+    console.log(this.selectedFile);
+    if (this.selectedFile!=null && this.selectedFile.name) {
+      this.formChanges = true;
+    }
+    this.formChanges = true;
   }
 
   updateUser(): void {
@@ -149,7 +158,7 @@ export class PersonalDetailsComponent implements OnInit {
               const decryptedPassword = CryptoJS.AES.decrypt(encryptedPassword, 'your-secret-key').toString(CryptoJS.enc.Utf8);
               sessionStorage.removeItem('token');
               this.authService.login(this.user.username, decryptedPassword, 'Cambios efectuados correctamente').subscribe(
-                () => {},
+                () => { },
                 (error: any) => {
                   console.error('Error al iniciar sesión después de actualizar el usuario:', error);
                 }
@@ -205,16 +214,16 @@ export class PersonalDetailsComponent implements OnInit {
   checkUsername(): Promise<boolean> {
     return new Promise((resolve, reject) => {
       if (this.user.username === this.originalUsername) {
-        this.pillado=false;
+        this.pillado = false;
         resolve(true);
       } else if (this.user.username) {
         this.registerService.checkUsernameAvailability(this.user.username).subscribe(
           available => {
             if (!available) {
-            this.pillado=false;
+              this.pillado = false;
               resolve(true);
             } else {
-              this.pillado=true;
+              this.pillado = true;
 
               resolve(false);
             }
@@ -235,9 +244,7 @@ export class PersonalDetailsComponent implements OnInit {
     this.formChanges = true;
   }
 
-  detectChanges() {
-    this.formChanges = true;
-  }
+
 
   handleCountryChange(event: Event): void {
     const selectedCountryName = (event.target as HTMLSelectElement).value;

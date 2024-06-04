@@ -146,9 +146,14 @@
       "SEARCH_GROUP":"Busca un grupo",
       "GROUP_TITLE_PLACEHOLDER":"Nombre del grupo",
       "GROUP_DESCRIPTION_PLACEHOLDER":"¡Identifica a tu grupo!",
-      "CREATE_GROUP":"Crea tu grupo"
+      "CREATE_GROUP":"Crea tu grupo",
+      "PASSWORD":"Contraseña",
+      "USERNAME":"Usuario",
+      "NAME":"Nombre",
+      "LASTNAME":"Apellidos"
 
     },
+    "REMEMBER":"Recordar credenciales",
     "TITLES": {
       "HOME": "Home",
       "EXPLORE":"Explorar",
@@ -222,6 +227,8 @@
     "STEP_2":"Paso 2: Foto de perfil",
     "PREVIEW":"Vista previa",
     "TRANSLATE_ES":"Traducción Es-En",
-    "LIST":"Añade ejercicios"
+    "LIST":"Añade ejercicios",
+    "WELCOME":"Bienvenido a Fit-Track",
+    "NOT_ACCOUNT":"¿Aun no tienes una cuenta?"
 }
 

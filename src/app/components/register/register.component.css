@@ -127,12 +127,12 @@ small {
   color: rgb(255, 0, 0);
 }
 
-.fin{
+.fin {
   display: grid;
 }
 
 @media (max-width: 967px) {
-  .fin{
+  .fin {
     margin-top: -20px;
   }
 }
@@ -143,24 +143,29 @@ small {
   form {
     width: 100%;
   }
-  .formulario{
+  .formulario {
     background-color: white;
-width: 90%;
-margin: 0 auto;
+    margin: 0 auto;
+    border-radius: 0;
+    padding-bottom: 50px;
   }
 
+  .formulario h1{
+    padding-top: 30px;
+
+  }
 }
 
-@media (max-width:967px) {
+@media (max-width: 967px) {
   .fin {
     display: none;
-      }
+  }
 
-      .formulario{
-        margin-top: 20px;
-      }
+  .formulario {
+    margin-top: 20px;
+  }
 }
-.edad-username{
+.edad-username {
   color: black;
 }
 
@@ -172,21 +177,38 @@ margin: 0 auto;
   justify-content: center;
 }
 
-.cuenta{
+.cuenta {
   color: rgb(49, 49, 226);
   text-decoration: none;
 }
-
-
 nav {
-  top: 0;
   width: 100%;
-  position: fixed;
   z-index: 200;
-  background-color: white; /* Color de fondo del nav */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra: offsetX offsetY blurRadius color */
 }
 
-nav a{
+nav a {
   text-decoration: none;
+  display: flex;
+  justify-content: center;
+  transition: 0.3s all ease;
+  margin: 0;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+nav a:hover {
+  transform: scale(1.1);
+}
+
+.icono {
+  align-self: center;
+  width: 70px;
+  margin-bottom: 30px; /* Este margen no afectará a otros elementos debido a position: absolute */
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+@media(max-width: 1500px) {
+  .contenedor {
+    margin-top: -50px;
+  }
 }

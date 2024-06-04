@@ -1,8 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { UserService } from '../../services/user/user.service';
 import { User } from '../../services/user/User';
-import { Router, RouterLink } from '@angular/router';
+import {  Router, RouterLink } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { CommonModule } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
