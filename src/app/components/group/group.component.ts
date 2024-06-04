@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -14,7 +14,7 @@ import { VariableBinding } from '@angular/compiler';
 @Component({
   selector: 'app-group',
   standalone: true,
-  imports: [NavbarComponent, CommonModule, FormsModule,TranslateModule],
+  imports: [NavbarComponent, CommonModule, FormsModule, TranslateModule,RouterLink],
   templateUrl: './group.component.html',
   styleUrls: ['./group.component.css']
 })
@@ -27,8 +27,10 @@ export class GroupComponent implements AfterViewInit {
   public pageSize = 5;
   hasMoreMessages = true;
   user: any = {};
-  numero:number=0;
-  mensaje!:GroupMessage;
+  numero: number = 0;
+  mensaje!: GroupMessage;
+  groups: Group[] = [];
+  id!:number;
   @ViewChild('messagesContainer') messagesContainer!: ElementRef;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
@@ -94,7 +96,17 @@ export class GroupComponent implements AfterViewInit {
       }
     });
     this.getUserData();
-   this.obtenerPersonas(this.groupId);
+    this.obtenerPersonas(this.groupId);
+
+
+
+  }
+
+  obtenerGruposCoach() {
+    this.id=this.user.id;
+    this.groupService.getGroupsByCoach(this.id).subscribe((response) => {
+      this.groups = response;
+    })
   }
 
   loadGroupMessages(): void {
@@ -129,6 +141,9 @@ export class GroupComponent implements AfterViewInit {
     this.userService.getUser().subscribe(
       (user: User | null) => {
         this.user = user;
+          if (this.user) {
+            this.obtenerGruposCoach();
+          }
       },
       error => {
         console.error('Error al obtener datos del usuario:', error);
@@ -170,10 +185,10 @@ export class GroupComponent implements AfterViewInit {
   }
 
 
-  obtenerPersonas(groupId:number):any{
-    this.groupService.getUsersCountInGroup(groupId).subscribe((response)=>{
-      this.numero=response;
-        return response;
+  obtenerPersonas(groupId: number): any {
+    this.groupService.getUsersCountInGroup(groupId).subscribe((response) => {
+      this.numero = response;
+      return response;
     })
   }
 }

@@ -44,7 +44,7 @@ export class HomeComponent implements OnInit  {
     private groupService: GroupsService
   ) { }
 
-
+  @ViewChild('modal') modal!: ElementRef;
   postContent: string = '';
   selectedFile!: File | null;
   user: any = {};
@@ -85,6 +85,8 @@ export class HomeComponent implements OnInit  {
    if(this.user){
     this.loadGroupsUser();
    }
+
+
   }
 
 
@@ -438,6 +440,13 @@ export class HomeComponent implements OnInit  {
     }
   }
 
+  toggleDeleteConfirmation(postId: number) {
+    const index = this.posts.findIndex(post => post.id === postId);
+    if (index !== -1) {
+      this.posts[index].showConfirmation = !this.posts[index].showConfirmation;
+    }
+  }
+
   deletePost(postId: number, userId: number) {
     this.postsService.deletePost(postId, userId).subscribe(() => {
       const index = this.posts.findIndex(post => post.id === postId);
@@ -496,10 +505,18 @@ export class HomeComponent implements OnInit  {
       if (this.messagesContainer && this.messagesContainer.nativeElement) {
         this.messagesContainer.nativeElement.scrollTop = this.messagesContainer.nativeElement.scrollHeight;
       } else {
-        console.log("Error: No se pudo encontrar el contenedor de mensajes o el elemento nativo.");
       }
     }, 100);
   }
+
+  onClickOutside(event: Event, postId: number) {
+    const target = event.target as HTMLElement;
+    const confirmationBox = document.querySelector('.delete-confirmation');
+    if (confirmationBox && !confirmationBox.contains(target)) {
+      this.hideDeleteConfirmation(postId);
+    }
+  }
+
 
   userGroups: Group[] = [];
   unirte(grupoId: number) {
@@ -526,7 +543,6 @@ export class HomeComponent implements OnInit  {
     const usuarioUnido = this.userGroups.some(group => group.id === grupoId);
 
     if (!usuarioUnido) {
-      console.log('El usuario no está unido al grupo');
       return;
     }
 
@@ -536,14 +552,12 @@ export class HomeComponent implements OnInit  {
     };
 
     this.groupService.deleteUserGroup(userGroup).subscribe(() => {
-      console.log('El usuario se ha eliminado correctamente del grupo');
       const index = this.userGroups.findIndex(group => group.id === grupoId);
       if (index !== -1) {
         this.userGroups.splice(index, 1);
         this.userGroups = this.userGroups.filter(userGroup => userGroup.id !== grupoId);
       }
     }, (error) => {
-      console.error('Error al eliminar el usuario del grupo:', error);
     });
   }
 

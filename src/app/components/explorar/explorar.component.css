@@ -201,6 +201,7 @@ article:has(:hover, :focus) {
 }
 
 .articles {
+  width: 90%;
   display: flex;
   z-index: 20;
   display: flex;
@@ -208,8 +209,8 @@ article:has(:hover, :focus) {
   gap: 10px;
   justify-content: center;
   padding-bottom: 100px;
-  max-width: fit-content;
   min-height: 422px;
+  place-items: center;
 }
 
 .articles a {
@@ -436,10 +437,9 @@ input {
 }
 
 .barra {
-  display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 1200px;
+  max-width: 1200px;
   height: fit-content;
   margin: 0 auto;
   margin-bottom: 10px;

@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PostsService } from '../../services/posts/posts.service';
 import { Post } from '../../services/posts/Post';
 import { CommonModule } from '@angular/common';
@@ -8,10 +8,14 @@ import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { FixedMessageComponent } from '../../fixed-message/fixed-message.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { forkJoin } from 'rxjs';
+import { UserService } from '../../services/user/user.service';
+import { User } from '../../services/user/User';
+
 @Component({
   selector: 'app-favoritos',
   standalone: true,
-  imports: [CommonModule, InfiniteScrollModule,NavbarComponent,FixedMessageComponent,TranslateModule],
+  imports: [CommonModule, InfiniteScrollModule, NavbarComponent, FixedMessageComponent, TranslateModule],
   templateUrl: './favoritos.component.html',
   styleUrl: './favoritos.component.css'
 })
@@ -21,7 +25,8 @@ export class FavoritosComponent implements OnInit {
   private pageNumber: number = 0;
   private pageSize: number = 20;
   isLoading: boolean = false;
-  constructor(private postService: PostsService,private router :Router,private translate: TranslateService) { }
+
+  constructor(private postService: PostsService,private userService:UserService ,private router: Router, private translate: TranslateService) { }
 
   ngOnInit(): void {
     this.getPosts();
@@ -29,21 +34,32 @@ export class FavoritosComponent implements OnInit {
 
   getPosts(): void {
     this.isLoading = true; // Se inicia la carga de posts
-    // Lógica para obtener los posts
     if (sessionStorage.getItem("userId")) {
       let userId: string | null = sessionStorage.getItem("userId"); // Obtener el userId
       let userIdFinal: number = userId ? parseInt(userId) : 0;
       this.postService.getUserFavourites(userIdFinal, this.pageNumber, this.pageSize).subscribe(
         (posts: Post[]) => {
-          if (posts != null && posts != undefined) {
+          if (posts && posts.length > 0) {
             this.pageNumber++;
-            if (posts && posts.length > 0) {
-              // Agregar los nuevos posts al final de la lista existente
-              this.posts = this.posts.concat(posts.map(post => ({ ...post, loading: false })));
-              this.startImageLoadingTimer();
-            }
+            // Obtener los detalles de los usuarios para cada post
+            const userRequests = posts.map(post => this.userService.getUserById(post.userId));
+            forkJoin(userRequests).subscribe(
+              (users: User[]) => {
+                posts.forEach((post, index) => {
+                  post.userData = users[index]; // Asignar los datos del usuario al post
+                });
+                this.posts = this.posts.concat(posts.map(post => ({ ...post, loading: false })));
+                this.startImageLoadingTimer();
+                this.isLoading = false; // Se completa la carga de posts
+              },
+              (error: any) => {
+                console.error('Error al obtener los usuarios:', error);
+                this.isLoading = false; // Se completa la carga de posts (en caso de error)
+              }
+            );
+          } else {
+            this.isLoading = false; // No hay más posts
           }
-          this.isLoading = false; // Se completa la carga de posts
         },
         (error: any) => {
           console.error('Error al obtener los posts favoritos:', error);
@@ -52,7 +68,6 @@ export class FavoritosComponent implements OnInit {
       );
     }
   }
-
 
   onScroll(): void {
     if (!this.isLoading) {
@@ -72,7 +87,6 @@ export class FavoritosComponent implements OnInit {
       }
     });
   }
-
 
   show(post: Post) {
     this.translate.get(['DELETE_FROM_LIST', 'DELETE_POST_CONFIRMATION', 'YES_DELETE', 'CANCEL']).subscribe(translations => {
@@ -101,5 +115,4 @@ export class FavoritosComponent implements OnInit {
       });
     });
   }
-
 }

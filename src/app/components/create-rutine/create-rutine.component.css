@@ -302,10 +302,13 @@ p span {
 
 .descripcion p {
   line-height: 30px;
-  font-size: 20px;
   text-align: center;
 }
 
+.PB-range-slider-div{
+  display: grid;
+  align-items: center;
+}
 .ejercicio-final {
   width: 200px;
   height: 200px;
@@ -406,6 +409,10 @@ p span {
   gap: 1rem;
   padding: 1rem;
   border-radius: 6px;
+}
+
+.PB-range-slider-div p{
+  margin-bottom: 0;
 }
 
 .PB-range-slidervalue {
@@ -604,4 +611,9 @@ gap: 20px;
 
 .hecho:hover{
   background-color: rgb(53, 184, 140);
+}
+
+
+.guardar:hover{
+  background-color: var(--color-terciary);
 }

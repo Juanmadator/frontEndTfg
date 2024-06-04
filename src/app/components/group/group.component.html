@@ -1,63 +1,86 @@
-  <div class="contenido principal">
-    <div class="other-navbar">
-      <app-navbar></app-navbar>
+<div class="contenido principal">
+  <div class="other-navbar">
+    <app-navbar></app-navbar>
+  </div>
+  <div class="cajas">
+    <div class="contenedor">
+      <div class="header">
+        <div>
+          <h3 *ngIf="group">{{ group.name }}</h3>
+          <small>{{"USERS"|translate}} {{this.numero}}</small>
+        </div>
+        <div>
+          <img *ngIf="group?.profileImage" [src]="'http://localhost:8080/images/' + group.profileImage" alt=""
+            id="icono-grupo">
+        </div>
+      </div>
     </div>
-    <div class="cajas">
-      <div class="contenedor">
-        <div class="header">
-          <div>
-            <h3 *ngIf="group">{{ group.name }}</h3>
-            <small>{{"USERS"|translate}} {{this.numero}}</small>
-          </div>
-          <div>
-            <img *ngIf="group?.profileImage" [src]="'http://localhost:8080/images/' + group.profileImage" alt="" id="icono-grupo">
-          </div>
-        </div>
-      </div>
 
-      <div class="messages" #messagesContainer>
-        <div *ngFor="let message of groupMessages" class="message">
-          <div class=" mensaje-contenido">
-            <div class="super-content">
-              <img [src]="'http://localhost:8080/profile-images/'+this.user.profilepicture" alt="" class="perfil" [title]="this.user.username">
-              <p>{{ message.message }}
-                <ng-container *ngIf="message.fileUrl && message.fileUrl.endsWith('.pdf')">
-                  <a [href]="'http://localhost:8080/images/' + message.fileUrl" target="_blank">
-                    <br> <span>Ver PDF <i class="fa-regular fa-file-pdf"></i></span>
-                  </a>
-                </ng-container>
-                <img *ngIf="message.fileUrl && !message.fileUrl.endsWith('.pdf')" [src]="'http://localhost:8080/images/' + message.fileUrl" alt="Imagen" (click)="zoomImage($event)">
-              </p>
-            </div>
+    <div class="messages" #messagesContainer>
+      <div *ngFor="let message of groupMessages" class="message">
+        <div class=" mensaje-contenido">
+          <div class="super-content">
+            <img [src]="'http://localhost:8080/profile-images/'+this.user.profilepicture" alt="" class="perfil"
+              [title]="this.user.username">
+            <p>{{ message.message }}
+              <ng-container *ngIf="message.fileUrl && message.fileUrl.endsWith('.pdf')">
+                <a [href]="'http://localhost:8080/images/' + message.fileUrl" target="_blank">
+                  <br> <span>Ver PDF <i class="fa-regular fa-file-pdf"></i></span>
+                </a>
+              </ng-container>
+              <img *ngIf="message.fileUrl && !message.fileUrl.endsWith('.pdf')"
+                [src]="'http://localhost:8080/images/' + message.fileUrl" alt="Imagen" (click)="zoomImage($event)">
+            </p>
           </div>
         </div>
       </div>
+    </div>
 
 
 
-      <div class="formulario">
-        <form (submit)="sendMessage(message)">
-          <div class="messageBox">
-            <div class="fileUploadWrapper">
-              <label for="file">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 337 337">
-                  <circle stroke-width="20" stroke="#6c6c6c" fill="none" r="158.5" cy="168.5" cx="168.5"></circle>
-                  <path stroke-linecap="round" stroke-width="25" stroke="#6c6c6c" d="M167.759 79V259"></path>
-                  <path stroke-linecap="round" stroke-width="25" stroke="#6c6c6c" d="M79 167.138H259"></path>
-                </svg>
-                <span class="tooltip">Add an image</span>
-              </label>
-              <input type="file" id="file" name="file" #fileInput [disabled]="!user?.coach" />
-            </div>
-            <input [(ngModel)]="message" [ngModelOptions]="{ standalone: true }"[placeholder]="'MANDAR_MENSAJE'|translate" type="text" id="messageInput" autocomplete="off" [disabled]="!user?.coach" />
-            <button id="sendButton" type="submit">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 664 663">
-                <path fill="none" d="M646.293 331.888L17.7538 17.6187L155.245 331.888M646.293 331.888L17.753 646.157L155.245 331.888M646.293 331.888L318.735 330.228L155.245 331.888"></path>
-                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="33.67" stroke="#6c6c6c" d="M646.293 331.888L17.7538 17.6187L155.245 331.888M646.293 331.888L17.753 646.157L155.245 331.888M646.293 331.888L318.735 330.228L155.245 331.888"></path>
+    <div class="formulario">
+      <form (submit)="sendMessage(message)">
+        <div class="messageBox">
+          <div class="fileUploadWrapper">
+            <label for="file">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 337 337">
+                <circle stroke-width="20" stroke="#6c6c6c" fill="none" r="158.5" cy="168.5" cx="168.5"></circle>
+                <path stroke-linecap="round" stroke-width="25" stroke="#6c6c6c" d="M167.759 79V259"></path>
+                <path stroke-linecap="round" stroke-width="25" stroke="#6c6c6c" d="M79 167.138H259"></path>
               </svg>
-            </button>
+              <span class="tooltip">Add an image</span>
+            </label>
+            <input type="file" id="file" name="file" #fileInput [disabled]="!user?.coach" />
           </div>
-        </form>
-      </div>
+          <input [(ngModel)]="message" [ngModelOptions]="{ standalone: true }"
+            [placeholder]="'MANDAR_MENSAJE'|translate" type="text" id="messageInput" autocomplete="off"
+            [disabled]="!user?.coach" />
+          <button id="sendButton" type="submit">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 664 663">
+              <path fill="none"
+                d="M646.293 331.888L17.7538 17.6187L155.245 331.888M646.293 331.888L17.753 646.157L155.245 331.888M646.293 331.888L318.735 330.228L155.245 331.888">
+              </path>
+              <path stroke-linejoin="round" stroke-linecap="round" stroke-width="33.67" stroke="#6c6c6c"
+                d="M646.293 331.888L17.7538 17.6187L155.245 331.888M646.293 331.888L17.753 646.157L155.245 331.888M646.293 331.888L318.735 330.228L155.245 331.888">
+              </path>
+            </svg>
+          </button>
+        </div>
+      </form>
     </div>
   </div>
+
+  <div class="grupos">
+    <div *ngFor="let grupo of groups">
+      <div class="content">
+        <div class="tooltip-container">
+         <a [routerLink]="'/group/'+grupo.id">
+          <img [src]="'http://localhost:8080/images/'+grupo.profileImage" alt="">
+          <span class="tooltip-text">{{grupo.name}}</span>
+         </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

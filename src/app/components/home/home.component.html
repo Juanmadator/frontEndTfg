@@ -74,15 +74,15 @@
                 </div>
               </div>
               @if(user!=null && user.id===post.userId){
-              <div class="eliminacion">
-                <button class="edit" (click)="showDeleteConfirmation(post.id)">
+              <div class="eliminacion" #modal >
+                <button class="edit" (click)="toggleDeleteConfirmation(post.id)">
                   <i class="uil uil-ellipsis-h"></i>
                 </button>
-                <div class="delete-confirmation" *ngIf="post.showConfirmation">
+                <div class="delete-confirmation" *ngIf="post.showConfirmation" >
                   <p>{{"DELETE_POST"|translate}}</p>
                   <div class="botones-de-confirmacion">
-                    <button (click)="deletePost(post.id, post.userId)"><i class="fa-solid fa-check"></i></button>
-                    <button (click)="hideDeleteConfirmation(post.id)"><i class="fa-solid fa-xmark"></i></button>
+                    <button (click)="deletePost(post.id, post.userId)" class="si"><i class="fa-solid fa-check"></i></button>
+                    <button (click)="hideDeleteConfirmation(post.id)" class="no"><i class="fa-solid fa-xmark"></i></button>
                   </div>
                 </div>
               </div>
@@ -131,19 +131,24 @@
                   <div *ngIf="comments.length > 0; else noComments">
                     <div class="comentarios" #messagesContainer>
                       <div *ngFor="let comment of comments" class="comment">
+                        <div>
+                          {{comment.userData?.username}}
+                        </div>
+                      <div class="caja-comentario">
                         <img *ngIf="comment.userData?.profilepicture"
-                             [src]="'http://localhost:8080/profile-images/' + comment.userData?.profilepicture"
-                             alt="User photo">
-                        <img *ngIf="!comment.userData?.profilepicture"
-                             src="assets/images/anonimo.png"
-                             alt="User photo">
-                        <p>{{ comment.content }}</p>
+                        [src]="'http://localhost:8080/profile-images/' + comment.userData?.profilepicture"
+                        alt="User photo">
+                   <img *ngIf="!comment.userData?.profilepicture"
+                        src="assets/images/anonimo.png"
+                        alt="User photo">
+                   <p>{{ comment.content }}</p>
+                      </div>
                       </div>
                     </div>
                   </div>
                   <ng-template #noComments>
                     <div class="comment primero">
-                      <i class="fa-regular fa-comments fa-10x"></i>
+                      <i class="fa-regular fa-comments "></i>
                       <h1>{{"NO_COMMENTS"|translate}}</h1>
                     </div>
                   </ng-template>

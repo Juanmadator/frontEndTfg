@@ -165,6 +165,7 @@
 
 @if(ejercicios.length>0){
   <div id="pdfContent">
+    <div class="bajar"><p>{{"LIST"|translate}}</p></div>
       <div id="lista" class="lista">
         <div *ngFor="let ejercicio of ejercicios; let i = index" class="card">
           <img [src]="ejercicio.imagen" class="card-img-top" alt="ejercicio">
@@ -196,7 +197,7 @@
 
 <div class="botones-rutina">
   <!-- <button (click)="generarPDF()">{{"GENERAR"|translate}}</button> -->
-  <button (click)="addRoutine()">{{"SAVE"|translate}}</button>
+  <button class="guardar" (click)="addRoutine()">{{"SAVE"|translate}}</button>
 </div>
 <div class="apoyo"></div>
 
