@@ -8,7 +8,7 @@ import { Observable, of } from 'rxjs';
 export class RoutineService {
 
 
-  private apiUrl = 'https://juanmadatortfg.onrender.com/api'; // Reemplaza esto con la URL de tu endpoint
+  private apiUrl = 'http://backend-production-81e3.up.railway.app/api'; // Reemplaza esto con la URL de tu endpoint
 
   constructor(private http: HttpClient) { }
 

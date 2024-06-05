@@ -237,7 +237,7 @@ export class HomeComponent implements OnInit  {
       img.onerror = () => {
         post.loading = false;
       };
-      img.src = 'https://juanmadatortfg.onrender.com/images/' + post.imageUrl;
+      img.src = 'http://backend-production-81e3.up.railway.app/images/' + post.imageUrl;
     });
   }
 

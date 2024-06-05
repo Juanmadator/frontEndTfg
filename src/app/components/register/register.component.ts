@@ -58,7 +58,7 @@ export class RegisterComponent implements OnInit {
         .set('Content-Type', 'application/json');
 
       this.showSpinner = true; // Mostrar spinner antes de realizar la solicitud
-      this.http.post('https://juanmadatortfg.onrender.com/auth/register', value, { headers }).subscribe(
+      this.http.post('http://backend-production-81e3.up.railway.app/auth/register', value, { headers }).subscribe(
         (response: any) => {
           this.showMessage = true;
           sessionStorage.setItem('showModal','true');

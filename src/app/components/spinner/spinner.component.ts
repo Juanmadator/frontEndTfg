@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-spinner',
@@ -8,6 +9,14 @@ import { Component, Input } from '@angular/core';
   templateUrl: './spinner.component.html',
   styleUrl: './spinner.component.css'
 })
-export class SpinnerComponent {
-  
+export class SpinnerComponent implements OnInit{
+  isLoading: boolean = false;
+
+  constructor(private loadingService: LoadingService) {}
+
+  ngOnInit(): void {
+    this.loadingService.loading$.subscribe((isLoading) => {
+      this.isLoading = isLoading;
+    });
+  }
 }
