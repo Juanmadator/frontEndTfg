@@ -27,6 +27,7 @@ export class GroupComponent implements AfterViewInit {
   public pageSize = 5;
   hasMoreMessages = true;
   user: any = {};
+  coach: any = {};
   numero: number = 0;
   mensaje!: GroupMessage;
   groups: Group[] = [];
@@ -69,7 +70,7 @@ export class GroupComponent implements AfterViewInit {
           // Si el mensaje incluye una imagen, agregarla al contenedor de mensajes
           if (newMessage.fileUrl && !newMessage.fileUrl.endsWith('.pdf')) {
             const imgElement = this.renderer.createElement('img');
-            this.renderer.setAttribute(imgElement, 'src', `http://localhost:8080/images/${newMessage.fileUrl}`);
+            this.renderer.setAttribute(imgElement, 'src', `https://juanmadatortfg.onrender.com/images/${newMessage.fileUrl}`);
             this.renderer.appendChild(this.messagesContainer.nativeElement, imgElement);
           }
           this.loadGroupMessages();
@@ -97,14 +98,18 @@ export class GroupComponent implements AfterViewInit {
     });
     this.getUserData();
     this.obtenerPersonas(this.groupId);
-
-
-
   }
 
   obtenerGruposCoach() {
-    this.id=this.user.id;
+    this.id=this.coach.id;
     this.groupService.getGroupsByCoach(this.id).subscribe((response) => {
+      this.groups = response;
+    })
+  }
+
+  obtenerGruposUser() {
+    this.id=this.user.id;
+    this.groupService.getGroupsByNormalUser(this.id).subscribe((response) => {
       this.groups = response;
     })
   }
@@ -130,6 +135,8 @@ export class GroupComponent implements AfterViewInit {
     this.groupService.getGroupInfo(this.groupId).subscribe(
       group => {
         this.group = group;
+       this.getCoach(this.group.coachId);
+
       },
       error => {
         console.error('Error al cargar la información del grupo:', error);
@@ -141,7 +148,25 @@ export class GroupComponent implements AfterViewInit {
     this.userService.getUser().subscribe(
       (user: User | null) => {
         this.user = user;
-          if (this.user) {
+          if (this.user && this.user.coach) {
+            this.obtenerGruposCoach();
+          }
+          if (this.user && !this.user.coach) {
+            this.obtenerGruposUser();
+          }
+      },
+      error => {
+        console.error('Error al obtener datos del usuario:', error);
+      }
+    );
+  }
+
+
+  getCoach(coachId:number): void {
+    this.userService.getUserById(coachId).subscribe(
+      (user: User | null) => {
+        this.coach = user;
+          if (this.coach) {
             this.obtenerGruposCoach();
           }
       },

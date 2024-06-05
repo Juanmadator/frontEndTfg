@@ -1,4 +1,4 @@
-import { Component, HostListener, NgModule, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router, RouterOutlet } from '@angular/router';
 import { CommonHeaderComponent } from './components/common-header/common-header.component';
 import { CommonFooterComponent } from './components/common-footer/common-footer.component';

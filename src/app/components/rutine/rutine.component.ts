@@ -12,6 +12,7 @@ import { Group } from '../../services/groups/Group';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { FixedMessageComponent } from '../../fixed-message/fixed-message.component';
 
 @Component({
   selector: 'app-rutine',
@@ -21,7 +22,7 @@ import { TranslateModule } from '@ngx-translate/core';
     FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatInputModule, CommonModule, NavbarComponent, RouterLink,TranslateModule],
+    MatInputModule, CommonModule, NavbarComponent, RouterLink,TranslateModule,FixedMessageComponent],
   templateUrl: './rutine.component.html',
   styleUrl: './rutine.component.css'
 })

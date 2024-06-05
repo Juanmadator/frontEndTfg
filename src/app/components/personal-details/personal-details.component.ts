@@ -45,8 +45,9 @@ export class PersonalDetailsComponent implements OnInit {
   ngOnInit(): void {
     if (sessionStorage.getItem("userId")) {
       this.getUserData();
+      this.cargarPaises();
     }
-    this.cargarPaises();
+
   }
 
   cargarPaises() {
@@ -158,7 +159,9 @@ export class PersonalDetailsComponent implements OnInit {
               const decryptedPassword = CryptoJS.AES.decrypt(encryptedPassword, 'your-secret-key').toString(CryptoJS.enc.Utf8);
               sessionStorage.removeItem('token');
               this.authService.login(this.user.username, decryptedPassword, 'Cambios efectuados correctamente').subscribe(
-                () => { },
+                () => {
+                  location.reload();
+                },
                 (error: any) => {
                   console.error('Error al iniciar sesión después de actualizar el usuario:', error);
                 }
@@ -258,7 +261,7 @@ export class PersonalDetailsComponent implements OnInit {
           this.originalUsername = user.username;
           this.user = user;
           this.profilePictureUrl = this.user.profilepicture
-            ? `http://localhost:8080/profile-images/${this.user.profilepicture}`
+            ? `https://juanmadatortfg.onrender.com/profile-images/${this.user.profilepicture}`
             : 'assets/images/anonimo.png';
           if (this.user.age) {
             const dateOfBirth = new Date(this.user.age);

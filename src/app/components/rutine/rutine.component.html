@@ -2,12 +2,12 @@
   <div class="other-navbar">
     <app-navbar></app-navbar>
   </div>
-  <section class="articles">
+  <section *ngIf="groups.length>0" class="articles">
     <article *ngFor="let grupo of groups">
       <a [routerLink]="'/group/' + grupo.id">
       <div class="article-wrapper">
           <figure>
-            <img [src]="'http://localhost:8080/images/'+grupo.profileImage" alt="" />
+            <img [src]="'https://juanmadatortfg.onrender.com/images/'+grupo.profileImage" alt="" />
           </figure>
 
         <div class="article-body">
@@ -23,14 +23,19 @@
                 clip-rule="evenodd" />
             </svg>
           </a>
+          @if(grupo.coachId==this.user.id){
+            <button class="delete">{{"DELETE"|translate}}</button>
+          }
         </div>
       </div>
     </a>
     </article>
-
-
   </section>
 
+    <div *ngIf="groups.length<=0">
+      <app-fixed-message
+      message="{{'NO_GROUPS_TIENES'|translate}}"></app-fixed-message>
+    </div>
 
 
 

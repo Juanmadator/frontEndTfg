@@ -1,10 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { MatIconModule } from '@angular/material/icon';
-import {  MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatChipEditedEvent, MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { COMMA, ENTER, F } from '@angular/cdk/keycodes';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
@@ -13,25 +13,37 @@ import { User } from '../../services/user/User';
 import { UserService } from '../../services/user/user.service';
 import Swal from 'sweetalert2';
 import { RouterLink } from '@angular/router';
-import {  TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 export interface Value {
   name: string;
 }
+
 @Component({
   selector: 'app-create-group',
   standalone: true,
-  imports: [NavbarComponent,TranslateModule,MatFormFieldModule,TranslateModule,RouterLink, MatInputModule, MatIconModule, MatChipsModule, FormsModule, CommonModule],
+  imports: [
+    NavbarComponent,
+    TranslateModule,
+    MatFormFieldModule,
+    RouterLink,
+    MatInputModule,
+    MatIconModule,
+    MatChipsModule,
+    FormsModule,
+    CommonModule
+  ],
   templateUrl: './create-group.component.html',
-  styleUrl: './create-group.component.css'
+  styleUrls: ['./create-group.component.css']
 })
 export class CreateGroupComponent implements OnInit {
 
-  constructor(private groupService: GroupsService, private userService: UserService,private translate: TranslateService) { };
+  constructor(private groupService: GroupsService, private userService: UserService, private translate: TranslateService) { }
+
   addOnBlur = true;
   paso = 1;
-  tituloEjemplo='Título 353'
-  descripcionEjemplo='En este grupo obtendrás información limitada y única, donde daré consejos sobre las rutinas y recetas que estén de moda en Fit-Track'
+  tituloEjemplo = 'Título 353';
+  descripcionEjemplo = 'En este grupo obtendrás información limitada y única, donde daré consejos sobre las rutinas y recetas que estén de moda en Fit-Track';
   tituloGrupo: string = '';
   descripcionGrupo: string = '';
   imagen!: File;
@@ -65,6 +77,7 @@ export class CreateGroupComponent implements OnInit {
       }
     );
   }
+
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
     // Add our fruit
@@ -95,7 +108,6 @@ export class CreateGroupComponent implements OnInit {
 
     if (index >= 0) {
       this.fruits.splice(index, 1);
-
       this.announcer.announce(`Removed ${fruit}`);
     }
   }
@@ -121,10 +133,10 @@ export class CreateGroupComponent implements OnInit {
   }
 
   check() {
-    if (this.tituloGrupo && this.tituloGrupo.length<=10&& this.descripcionGrupo ) {
+    if (this.tituloGrupo && this.tituloGrupo.length <= 10 && this.descripcionGrupo) {
       this.comprobados = true;
-    }else{
-      this.comprobados=false;
+    } else {
+      this.comprobados = false;
     }
   }
 
@@ -135,7 +147,6 @@ export class CreateGroupComponent implements OnInit {
   crearGrupo(): void {
     this.groupService.createGroup(this.tituloGrupo, this.descripcionGrupo, this.user.id, this.imagen).subscribe((response: any) => {
       setTimeout(() => {
-
         this.translate.get('ADD_GROUP').subscribe((translatedText: string) => {
           Swal.fire({
             icon: 'success',
@@ -149,13 +160,8 @@ export class CreateGroupComponent implements OnInit {
             // Recargar la página
             window.location.reload();
           });
-
         });
-
-
-        // Mostrar Sweet Alert de éxito
-
       }, 200);
-    })
+    });
   }
 }

@@ -10,11 +10,11 @@
   </div>
 
 
-  <section class="articles">
+  <section *ngIf="paginatedGroups.length>0" class="articles">
     <article *ngFor="let grupo of paginatedGroups" class="swiper-slide">
       <div class="article-wrapper">
         <figure>
-          <img [srcset]="'http://localhost:8080/images/'+grupo.profileImage" alt="" />
+          <img [srcset]="'https://juanmadatortfg.onrender.com/images/'+grupo.profileImage" alt="" />
         </figure>
 
         <div class="article-body">
@@ -50,7 +50,12 @@
     </article>
   </section>
 
-  <nav aria-label="Page navigation example">
+  <div *ngIf="paginatedGroups.length<=0">
+    <app-fixed-message
+    message="{{'NO_GROUPS'|translate}}"></app-fixed-message>
+  </div>
+
+  <nav *ngIf="paginatedGroups.length>0"  aria-label="Page navigation example">
     <ul class="pagination justify-content-center text-center"> <!-- Agrega la clase 'text-center' aquí -->
       <li class="page-item" [class.disabled]="currentPage === 1">
         <a class="page-link" (click)="previousPage()" tabindex="-1">{{"BEFORE"|translate}}</a>

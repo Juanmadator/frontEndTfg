@@ -8,7 +8,7 @@ import { User } from './User';
 export class UserService {
   constructor(private http: HttpClient) { }
 
- private urlApi:string='http://localhost:8080/api/v1'
+ private urlApi:string='https://juanmadatortfg.onrender.com/api/v1'
   getUser(): Observable<User|null> {
     const idUser = sessionStorage.getItem("userId");
     if (idUser) {
@@ -29,10 +29,8 @@ export class UserService {
 
   private handleError(error: HttpErrorResponse) {
     if (error.status === 0) {
-      console.log("Se ha producido un error", error.error);
     }
     else{
-      console.log("Backend devolvió un código de error ",error.status,error.error);
     }
     return throwError(()=>new Error("Algo falló. Por favor vuelve a intentarlo más tarde"))
   }
@@ -67,7 +65,7 @@ export class UserService {
   }
 
   getCountries(): Observable<any[]> {
-    return this.http.get<any[]>('https://countriesnow.space/api/v0.1/countries');
+    return this.http.get<any[]>('https://restcountries.com/v3.1/all');
 }
 
 

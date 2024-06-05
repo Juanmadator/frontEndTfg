@@ -8,11 +8,12 @@ import { UserService } from '../../services/user/user.service';
 import { User } from '../../services/user/User';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { FixedMessageComponent } from '../../fixed-message/fixed-message.component';
 
 @Component({
   selector: 'app-explorar',
   standalone: true,
-  imports: [RouterLink, CommonModule, NavbarComponent,FormsModule,TranslateModule ],
+  imports: [RouterLink, CommonModule, NavbarComponent,FormsModule,TranslateModule ,FixedMessageComponent],
   templateUrl: './explorar.component.html',
   styleUrl: './explorar.component.css',
 })
