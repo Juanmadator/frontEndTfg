@@ -11,7 +11,7 @@
           <small>{{"USERS"|translate}} {{this.numero}}</small>
         </div>
         <div>
-          <img *ngIf="group?.profileImage" [src]="'https://backend-production-81e3.up.railway.app/images/' + group.profileImage" alt=""
+          <img *ngIf="group?.profileImage" [src]="'https://juanmadatortfg.onrender.com/images/' + group.profileImage" alt=""
             id="icono-grupo">
         </div>
       </div>
@@ -22,20 +22,20 @@
         <div class="mensaje-contenido">
           <div class="super-content">
            @if(this.user.coach){
-            <img [src]="'https://backend-production-81e3.up.railway.app/profile-images/'+this.coach.profilepicture" alt="" class="perfil"
+            <img [src]="'https://juanmadatortfg.onrender.com/profile-images/'+this.coach.profilepicture" alt="" class="perfil"
             [title]="this.user.username">
            }@else {
-            <img [src]="'https://backend-production-81e3.up.railway.app/profile-images/'+this.coach.profilepicture" alt="" class="perfil"
+            <img [src]="'https://juanmadatortfg.onrender.com/profile-images/'+this.coach.profilepicture" alt="" class="perfil"
             [title]="this.user.username">
            }
             <p>{{ message.message }}
               <ng-container *ngIf="message.fileUrl && message.fileUrl.endsWith('.pdf')">
-                <a [href]="'https://backend-production-81e3.up.railway.app/images/' + message.fileUrl" target="_blank">
+                <a [href]="'https://juanmadatortfg.onrender.com/images/' + message.fileUrl" target="_blank">
                   <br> <span>Ver PDF <i class="fa-regular fa-file-pdf"></i></span>
                 </a>
               </ng-container>
               <img *ngIf="message.fileUrl && !message.fileUrl.endsWith('.pdf')"
-              [src]="'https://backend-production-81e3.up.railway.app/images/' + message.fileUrl"
+              [src]="'https://juanmadatortfg.onrender.com/images/' + message.fileUrl"
               alt="Imagen" id="imageModal"
              >
             </p>
@@ -85,7 +85,7 @@
         <div class="content">
           <div class="tooltip-container">
            <a [routerLink]="'/group/'+grupo.id">
-            <img [src]="'https://backend-production-81e3.up.railway.app/images/'+grupo.profileImage" alt="">
+            <img [src]="'https://juanmadatortfg.onrender.com/images/'+grupo.profileImage" alt="">
             <span class="tooltip-text">{{grupo.name}}</span>
            </a>
           </div>
@@ -102,7 +102,7 @@
       <div class="content">
         <div class="tooltip-container">
          <a [routerLink]="'/group/'+grupo.id">
-          <img [src]="'https://backend-production-81e3.up.railway.app/images/'+grupo.profileImage" alt="">
+          <img [src]="'https://juanmadatortfg.onrender.com/images/'+grupo.profileImage" alt="">
           <span class="tooltip-text">{{grupo.name}}</span>
          </a>
         </div>

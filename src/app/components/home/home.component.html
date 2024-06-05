@@ -63,7 +63,7 @@
               <div class="user">
                 <div class="profile-photo">
                   @if(post.userData?.profilepicture!=null && post.userData?.profilepicture!=undefined){
-                  <img [src]="'https://backend-production-81e3.up.railway.app/profile-images/'+post.userData?.profilepicture" alt="User photo">
+                  <img [src]="'https://juanmadatortfg.onrender.com/profile-images/'+post.userData?.profilepicture" alt="User photo">
                   }@else {
                   <img src="assets/images/anonimo.png" alt="User photo">
                   }
@@ -100,7 +100,7 @@
             </div>
             }@else {
             <div class="photo">
-              <img [src]="'https://backend-production-81e3.up.railway.app/images/'+post.imageUrl" [id]="'post-image-' + post.id" alt="User photo"
+              <img [src]="'https://juanmadatortfg.onrender.com/images/'+post.imageUrl" [id]="'post-image-' + post.id" alt="User photo"
                 class="post-image">
             </div>
             }
@@ -136,7 +136,7 @@
                         </div>
                       <div class="caja-comentario">
                         <img *ngIf="comment.userData?.profilepicture"
-                        [src]="'https://backend-production-81e3.up.railway.app/profile-images/' + comment.userData?.profilepicture"
+                        [src]="'https://juanmadatortfg.onrender.com/profile-images/' + comment.userData?.profilepicture"
                         alt="User photo">
                    <img *ngIf="!comment.userData?.profilepicture"
                         src="assets/images/anonimo.png"
@@ -198,7 +198,7 @@
 
               <div class="mensaje-arriba">
                 <div class="profile-photo">
-                  <img [src]="'https://backend-production-81e3.up.railway.app/images/'+grupo.profileImage" alt="Imagen usuario">
+                  <img [src]="'https://juanmadatortfg.onrender.com/images/'+grupo.profileImage" alt="Imagen usuario">
                 </div>
                 <h5>{{grupo.name}}</h5>
 

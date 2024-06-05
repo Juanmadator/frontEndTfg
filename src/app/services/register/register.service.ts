@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class RegisterService {
 
-private baseUrl:string="https://backend-production-81e3.up.railway.app/auth";
+private baseUrl:string="https://juanmadatortfg.onrender.com/auth";
 
   constructor(private http: HttpClient) { }
 

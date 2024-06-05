@@ -261,7 +261,7 @@ export class PersonalDetailsComponent implements OnInit {
           this.originalUsername = user.username;
           this.user = user;
           this.profilePictureUrl = this.user.profilepicture
-            ? `https://backend-production-81e3.up.railway.app/profile-images/${this.user.profilepicture}`
+            ? `https://juanmadatortfg.onrender.com/profile-images/${this.user.profilepicture}`
             : 'assets/images/anonimo.png';
           if (this.user.age) {
             const dateOfBirth = new Date(this.user.age);
