@@ -8,7 +8,7 @@ import { User } from './User';
 export class UserService {
   constructor(private http: HttpClient) { }
 
- private urlApi:string='http://backend-production-81e3.up.railway.app/api/v1'
+ private urlApi:string='https://backend-production-81e3.up.railway.app/api/v1'
   getUser(): Observable<User|null> {
     const idUser = sessionStorage.getItem("userId");
     if (idUser) {

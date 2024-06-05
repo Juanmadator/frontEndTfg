@@ -70,7 +70,7 @@ export class GroupComponent implements AfterViewInit {
           // Si el mensaje incluye una imagen, agregarla al contenedor de mensajes
           if (newMessage.fileUrl && !newMessage.fileUrl.endsWith('.pdf')) {
             const imgElement = this.renderer.createElement('img');
-            this.renderer.setAttribute(imgElement, 'src', `http://backend-production-81e3.up.railway.app/images/${newMessage.fileUrl}`);
+            this.renderer.setAttribute(imgElement, 'src', `https://backend-production-81e3.up.railway.app/images/${newMessage.fileUrl}`);
             this.renderer.appendChild(this.messagesContainer.nativeElement, imgElement);
           }
           this.loadGroupMessages();

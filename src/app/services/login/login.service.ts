@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
 })
 export class LoginServiceAuth {
 
-  private baseUrl: string = 'http://backend-production-81e3.up.railway.app/auth/';
+  private baseUrl: string = 'https://backend-production-81e3.up.railway.app/auth/';
 
   constructor(private http: HttpClient, private router: Router) { }
 
