@@ -14,6 +14,7 @@ import { UserService } from '../../services/user/user.service';
 import Swal from 'sweetalert2';
 import { RouterLink } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { SpinnerService } from '../../services/spinner/spinner.service';
 
 export interface Value {
   name: string;
@@ -38,7 +39,12 @@ export interface Value {
 })
 export class CreateGroupComponent implements OnInit {
 
-  constructor(private groupService: GroupsService, private userService: UserService, private translate: TranslateService) { }
+  constructor(
+    private groupService: GroupsService,
+    private userService: UserService,
+    private translate: TranslateService,
+    private spinnerService: SpinnerService // Inyecta el SpinnerService
+  ) { }
 
   addOnBlur = true;
   paso = 1;
@@ -68,12 +74,15 @@ export class CreateGroupComponent implements OnInit {
   }
 
   getUserData(): void {
+    this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
     this.userService.getUser().subscribe(
       (user: User | null) => {
         this.user = user;
+        this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
       },
       (error: any) => {
         console.error('Error al obtener datos del usuario:', error);
+        this.spinnerService.hide(); // Ocultar spinner si hay un error
       }
     );
   }
@@ -145,23 +154,31 @@ export class CreateGroupComponent implements OnInit {
   }
 
   crearGrupo(): void {
-    this.groupService.createGroup(this.tituloGrupo, this.descripcionGrupo, this.user.id, this.imagen).subscribe((response: any) => {
-      setTimeout(() => {
-        this.translate.get('ADD_GROUP').subscribe((translatedText: string) => {
-          Swal.fire({
-            icon: 'success',
-            title: '',
-            text: translatedText,
-            position: 'top',
-            showConfirmButton: false,
-            timer: 2500, // Tiempo en milisegundos que durará el mensaje
-            timerProgressBar: true, // Barra de progreso del temporizador
-          }).then(() => {
-            // Recargar la página
-            window.location.reload();
+    this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
+    this.groupService.createGroup(this.tituloGrupo, this.descripcionGrupo, this.user.id, this.imagen).subscribe(
+      (response: any) => {
+        this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
+        setTimeout(() => {
+          this.translate.get('ADD_GROUP').subscribe((translatedText: string) => {
+            Swal.fire({
+              icon: 'success',
+              title: '',
+              text: translatedText,
+              position: 'top',
+              showConfirmButton: false,
+              timer: 2500, // Tiempo en milisegundos que durará el mensaje
+              timerProgressBar: true, // Barra de progreso del temporizador
+            }).then(() => {
+              // Recargar la página
+              window.location.reload();
+            });
           });
-        });
-      }, 200);
-    });
+        }, 200);
+      },
+      (error: any) => {
+        console.error('Error al crear el grupo:', error);
+        this.spinnerService.hide(); // Ocultar spinner si hay un error
+      }
+    );
   }
 }

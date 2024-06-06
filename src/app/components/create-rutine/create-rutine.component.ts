@@ -11,6 +11,7 @@ import { RoutineService } from '../../services/routine/routine.service';
 import html2canvas from 'html2canvas';
 import { UserService } from '../../services/user/user.service';
 import { User } from '../../services/user/User';
+import { SpinnerService } from '../../services/spinner/spinner.service';
 
 export interface Ejercicio {
   userId: number;
@@ -50,9 +51,11 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
   isGeneratingPDF: boolean = false;
   user: any = {};
   username!: string;
-  addRoutine() {
+
+  addRoutine(): void {
     const routineId = this.generateRoutineId();
-    this.ejercicios.forEach(exercise => {
+    this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
+    const requests = this.ejercicios.map(exercise =>
       this.routineService.createRoutine(
         exercise.nombre,
         exercise.descripcion,
@@ -60,52 +63,63 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
         exercise.peso,
         routineId,
         exercise.grupoMuscular
-      ).subscribe(
-        (response: any) => {
-          // Puedes realizar alguna acción adicional aquí después de agregar la rutina, si es necesario
-          this.translate.get('ADDED_SUCCESSFULLY').subscribe((translatedText: string) => {
-            Swal.fire({
-              icon: 'success',
-              title: '',
-              text: translatedText,
-              position: 'top',
-              showConfirmButton: false,
-              timer: 1000, // Tiempo en milisegundos que durará el mensaje
-              timerProgressBar: true, // Barra de progreso del temporizador
-            }).then(() => {
-              // Recargar la página
-              setTimeout(() => {
-                this.obtenerRutinas();
-              },1000)
-            });
-          });
+      ).toPromise() // Convertimos cada llamada a Promise
+    );
 
-        },
-        (error: any) => {
-          console.error('Error adding routine:', error);
-          // Maneja el error de acuerdo a tus necesidades
-        }
-      );
+    Promise.all(requests).then(
+      (responses) => {
+        this.spinnerService.hide(); // Ocultar spinner cuando se completan todas las solicitudes
+        this.translate.get('ADDED_SUCCESSFULLY').subscribe((translatedText: string) => {
+          Swal.fire({
+            icon: 'success',
+            title: '',
+            text: translatedText,
+            position: 'top',
+            showConfirmButton: false,
+            timer: 1000, // Tiempo en milisegundos que durará el mensaje
+            timerProgressBar: true, // Barra de progreso del temporizador
+          }).then(() => {
+            // Recargar la página
+            setTimeout(() => {
+              this.obtenerRutinas();
+            }, 1000);
+          });
+        });
+      }
+    ).catch((error) => {
+      console.error('Error adding routine:', error);
+      this.spinnerService.hide(); // Ocultar spinner si hay un error
     });
   }
 
   getUserData(): void {
+    this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
     this.userService.getUser().subscribe(
       (user: User | null) => {
         this.user = user;
         this.username = this.user.username;
+        this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
       },
       (error: any) => {
         console.error('Error al obtener datos del usuario:', error);
+        this.spinnerService.hide(); // Ocultar spinner si hay un error
       }
     );
   }
 
 
-  obtenerRutinas() {
-    this.routineService.getRoutinesByUserId().subscribe((response) => {
-      this.rutinas = response;
-    })
+  obtenerRutinas(): void {
+    this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
+    this.routineService.getRoutinesByUserId().subscribe(
+      (response) => {
+        this.rutinas = response;
+        this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
+      },
+      (error: any) => {
+        console.error('Error al obtener rutinas:', error);
+        this.spinnerService.hide(); // Ocultar spinner si hay un error
+      }
+    );
   }
 
 
@@ -222,7 +236,7 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
   personalNotes = '';
   ejercicio: number = -1;
   private langChangeSubscription!: Subscription;
-  constructor(private translate: TranslateService, private userService: UserService, private el: ElementRef, private routineService: RoutineService) {
+  constructor(private translate: TranslateService,   private spinnerService: SpinnerService,private userService: UserService, private el: ElementRef, private routineService: RoutineService) {
   }
 
   scrollToLista() {
@@ -656,9 +670,11 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
 
 
   eliminarRutina(ejercicio: Rutina): void {
+    this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
     this.routineService.deleteRoutine(ejercicio.id)
       .subscribe(
         (response: string) => {
+          this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
           this.translate.get('RUTINE_DONE').subscribe((translatedText: string) => {
             Swal.fire({
               icon: 'success',
@@ -679,6 +695,7 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
           });
         },
         (error) => {
+          this.spinnerService.hide(); // Ocultar spinner si hay un error
           this.translate.get('RUTINE_DONE').subscribe((translatedText: string) => {
             this.lanzarConfeti();
             Swal.fire({
@@ -690,8 +707,6 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
               timer: 1000, // Tiempo en milisegundos que durará el mensaje
               timerProgressBar: true, // Barra de progreso del temporizador
             }).then(() => {
-              // Lanzar confeti
-
               // Recargar la página
               setTimeout(() => {
                 this.obtenerRutinas();
