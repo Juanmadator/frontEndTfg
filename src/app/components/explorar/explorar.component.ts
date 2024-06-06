@@ -9,6 +9,7 @@ import { User } from '../../services/user/User';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { FixedMessageComponent } from '../../fixed-message/fixed-message.component';
+import { SpinnerService } from '../../services/spinner/spinner.service';
 
 @Component({
   selector: 'app-explorar',
@@ -33,7 +34,8 @@ export class ExplorarComponent implements OnInit {
   constructor(
     private groupService: GroupsService,
     private userService: UserService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private spinnerService: SpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -42,32 +44,39 @@ export class ExplorarComponent implements OnInit {
   }
 
   getUserData(): void {
+    this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
     this.userService.getUser().subscribe(
       (user: User | null) => {
         this.user = user;
         if (this.user) {
           this.loadGroups();
         }
+        this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
       },
       (error: any) => {
         console.error('Error al obtener datos del usuario:', error);
+        this.spinnerService.hide(); // Ocultar spinner si hay un error
       }
     );
   }
 
+
   loadGroups(): void {
+    this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
     this.groupService.getAllGroups().subscribe(
       (groups: Group[]) => {
         this.groups = groups;
         this.filterGroups(); // Llama a filterGroups() después de cargar los grupos
         this.totalPages = this.calculateTotalPages();
         this.updatePaginatedGroups();
-      if(this.user){
-        this.checkMemberships();
-      }
+        if (this.user) {
+          this.checkMemberships();
+        }
+        this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
       },
       (error: any) => {
         console.error('Error al cargar grupos:', error);
+        this.spinnerService.hide(); // Ocultar spinner si hay un error
       }
     );
   }
@@ -129,16 +138,26 @@ export class ExplorarComponent implements OnInit {
   }
 
   checkMemberships(): void {
-   if(this.groups){
-    this.groups.forEach(group => {
-      this.groupService.checkUserMembership(group.id, this.user!.id)
-        .subscribe((response: boolean) => {
-          if (response) {
-            this.userGroups.push(group);
-          }
-        });
-    });
-   }
+    if (this.groups) {
+      this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
+      const requests = this.groups.map(group =>
+        this.groupService.checkUserMembership(group.id, this.user!.id).toPromise()
+      );
+
+      Promise.all(requests).then(
+        (responses) => {
+          responses.forEach((response, index) => {
+            if (response) {
+              this.userGroups.push(this.groups[index]);
+            }
+          });
+          this.spinnerService.hide(); // Ocultar spinner cuando se completan todas las solicitudes
+        }
+      ).catch((error) => {
+        console.error('Error al verificar membresías:', error);
+        this.spinnerService.hide(); // Ocultar spinner si hay un error
+      });
+    }
   }
 
   isMember(group: Group): boolean {
@@ -163,12 +182,20 @@ export class ExplorarComponent implements OnInit {
       groupId: grupoId
     };
 
-    this.groupService.joinGroup(userGroup).subscribe(userGroup => {
-      const joinedGroup = this.groups.find(group => group.id === userGroup.groupId);
-      if (joinedGroup) {
-        this.userGroups.push(joinedGroup);
+    this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
+    this.groupService.joinGroup(userGroup).subscribe(
+      (userGroup) => {
+        const joinedGroup = this.groups.find(group => group.id === userGroup.groupId);
+        if (joinedGroup) {
+          this.userGroups.push(joinedGroup);
+        }
+        this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
+      },
+      (error: any) => {
+        console.error('Error al unirse al grupo:', error);
+        this.spinnerService.hide(); // Ocultar spinner si hay un error
       }
-    })
+    );
   }
 
   salirte(grupoId: number) {
@@ -187,16 +214,22 @@ export class ExplorarComponent implements OnInit {
       groupId: grupoId
     };
 
-    this.groupService.deleteUserGroup(userGroup).subscribe(() => {
-      console.log('El usuario se ha eliminado correctamente del grupo');
-      const index = this.userGroups.findIndex(group => group.id === grupoId);
-      if (index !== -1) {
-        this.userGroups.splice(index, 1);
-        this.userGroups = this.userGroups.filter(userGroup => userGroup.id !== grupoId);
+    this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
+    this.groupService.deleteUserGroup(userGroup).subscribe(
+      () => {
+        console.log('El usuario se ha eliminado correctamente del grupo');
+        const index = this.userGroups.findIndex(group => group.id === grupoId);
+        if (index !== -1) {
+          this.userGroups.splice(index, 1);
+          this.userGroups = this.userGroups.filter(userGroup => userGroup.id !== grupoId);
+        }
+        this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
+      },
+      (error) => {
+        console.error('Error al eliminar el usuario del grupo:', error);
+        this.spinnerService.hide(); // Ocultar spinner si hay un error
       }
-    }, (error) => {
-      console.error('Error al eliminar el usuario del grupo:', error);
-    });
+    );
   }
 
 

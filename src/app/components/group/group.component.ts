@@ -11,6 +11,7 @@ import { User } from '../../services/user/User';
 import { Group } from '../../services/groups/Group';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { VariableBinding } from '@angular/compiler';
+import { SpinnerService } from '../../services/spinner/spinner.service';
 @Component({
   selector: 'app-group',
   standalone: true,
@@ -41,7 +42,8 @@ export class GroupComponent implements AfterViewInit {
     private sanitizer: DomSanitizer,
     private userService: UserService,
     private renderer: Renderer2,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private spinnerService :SpinnerService
   ) { }
 
   ngAfterViewInit(): void {
@@ -58,6 +60,7 @@ export class GroupComponent implements AfterViewInit {
       dateSent: new Date()
     };
 
+    this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
     this.groupService.sendGroupMessage(this.groupId, this.user.id, message, file)
       .subscribe(
         (response: any) => {
@@ -74,7 +77,7 @@ export class GroupComponent implements AfterViewInit {
             this.renderer.appendChild(this.messagesContainer.nativeElement, imgElement);
           }
           this.loadGroupMessages();
-
+          this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
         },
         (error: any) => {
           // Caso de error: La solicitud falló
@@ -82,6 +85,7 @@ export class GroupComponent implements AfterViewInit {
           this.scrollToBottom();
           this.resetMessageInput();
           this.loadGroupMessages();
+          this.spinnerService.hide(); // Ocultar spinner si hay un error
         }
       );
   }
@@ -115,6 +119,7 @@ export class GroupComponent implements AfterViewInit {
   }
 
   loadGroupMessages(): void {
+    this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
     this.groupService.getGroupMessages(this.groupId)
       .subscribe(
         messages => {
@@ -124,54 +129,64 @@ export class GroupComponent implements AfterViewInit {
           } else {
             this.hasMoreMessages = false;
           }
+          this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
         },
         error => {
           console.error('Error al cargar los mensajes del grupo:', error);
+          this.spinnerService.hide(); // Ocultar spinner si hay un error
         }
       );
   }
 
   cargarInfoGrupo(): void {
+    this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
     this.groupService.getGroupInfo(this.groupId).subscribe(
       group => {
         this.group = group;
-       this.getCoach(this.group.coachId);
-
+        this.getCoach(this.group.coachId);
+        this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
       },
       error => {
         console.error('Error al cargar la información del grupo:', error);
+        this.spinnerService.hide(); // Ocultar spinner si hay un error
       }
     );
   }
 
   getUserData(): void {
+    this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
     this.userService.getUser().subscribe(
       (user: User | null) => {
         this.user = user;
-          if (this.user && this.user.coach) {
-            this.obtenerGruposCoach();
-          }
-          if (this.user && !this.user.coach) {
-            this.obtenerGruposUser();
-          }
+        if (this.user && this.user.coach) {
+          this.obtenerGruposCoach();
+        }
+        if (this.user && !this.user.coach) {
+          this.obtenerGruposUser();
+        }
+        this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
       },
       error => {
         console.error('Error al obtener datos del usuario:', error);
+        this.spinnerService.hide(); // Ocultar spinner si hay un error
       }
     );
   }
 
 
-  getCoach(coachId:number): void {
+  getCoach(coachId: number): void {
+    this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
     this.userService.getUserById(coachId).subscribe(
       (user: User | null) => {
         this.coach = user;
-          if (this.coach) {
-            this.obtenerGruposCoach();
-          }
+        if (this.coach) {
+          this.obtenerGruposCoach();
+        }
+        this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
       },
       error => {
         console.error('Error al obtener datos del usuario:', error);
+        this.spinnerService.hide(); // Ocultar spinner si hay un error
       }
     );
   }
@@ -197,14 +212,19 @@ export class GroupComponent implements AfterViewInit {
     }
   }
 
-
-
-
   obtenerPersonas(groupId: number): any {
-    this.groupService.getUsersCountInGroup(groupId).subscribe((response) => {
-      this.numero = response;
-      return response;
-    })
+    this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
+    this.groupService.getUsersCountInGroup(groupId).subscribe(
+      (response) => {
+        this.numero = response;
+        this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
+        return response;
+      },
+      (error) => {
+        console.error('Error al obtener el número de personas en el grupo:', error);
+        this.spinnerService.hide(); // Ocultar spinner si hay un error
+      }
+    );
   }
 
 }

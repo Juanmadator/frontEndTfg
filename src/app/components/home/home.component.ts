@@ -25,6 +25,7 @@ import { Comment } from '../../services/posts/Comment';
 import Swal from 'sweetalert2';
 import { Group } from '../../services/groups/Group';
 import { RouterLink } from '@angular/router';
+import { SpinnerService } from '../../services/spinner/spinner.service';
 
 @Component({
   selector: 'app-home',
@@ -41,7 +42,8 @@ export class HomeComponent implements OnInit  {
     private userService: UserService,
     private postsService: PostsService,
     private renderer: Renderer2,
-    private groupService: GroupsService
+    private groupService: GroupsService,
+    private spinnerService:SpinnerService
   ) { }
 
   @ViewChild('modal') modal!: ElementRef;
@@ -139,6 +141,7 @@ export class HomeComponent implements OnInit  {
   }
 
   loadGroups(): void {
+    this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
     this.groupService.getAllGroups().subscribe(
       (groupsData: any[]) => {
         if (groupsData != null && groupsData != undefined) {
@@ -152,8 +155,11 @@ export class HomeComponent implements OnInit  {
           });
         }
         this.groups = groupsData;
+        this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
       },
-      (error: any) => { }
+      (error: any) => {
+        this.spinnerService.hide(); // Ocultar spinner si hay un error
+      }
     );
   }
 
@@ -175,6 +181,7 @@ export class HomeComponent implements OnInit  {
   }
 
   getPosts(): void {
+    this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
     this.postsService.getAllPosts(this.pageNumber, this.pageSize).subscribe(
       (posts: Post[]) => {
         if (posts !== null && posts !== undefined && posts.length > 0) {
@@ -196,8 +203,11 @@ export class HomeComponent implements OnInit  {
                       post.isFavourite = true;
                     }
                   });
+                  this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
                 },
-                (error: any) => { }
+                (error: any) => {
+                  this.spinnerService.hide(); // Ocultar spinner si hay un error
+                }
               );
             }
           }
@@ -206,13 +216,17 @@ export class HomeComponent implements OnInit  {
           this.getUserByPost();
         } else {
           this.hasMorePosts = false;
+          this.spinnerService.hide(); // Ocultar spinner si no hay más posts
         }
       },
-      (error: any) => { }
+      (error: any) => {
+        this.spinnerService.hide(); // Ocultar spinner si hay un error
+      }
     );
   }
 
   getUserByPost(): void {
+    this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
     const userRequests = this.posts.map(post =>
       this.userService.getUserById(post.userId)
     );
@@ -223,8 +237,11 @@ export class HomeComponent implements OnInit  {
             post.userData = users[index]!;
           });
         }
+        this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
       },
-      (error: any) => { }
+      (error: any) => {
+        this.spinnerService.hide(); // Ocultar spinner si hay un error
+      }
     );
   }
 
@@ -245,7 +262,7 @@ export class HomeComponent implements OnInit  {
     this.getPosts();
   }
 
-  crearpost() {
+  crearpost(): void {
     if (!this.postContent && !this.selectedFile) {
       return;
     }
@@ -255,6 +272,7 @@ export class HomeComponent implements OnInit  {
       file = new File([this.selectedFile], this.selectedFile.name, { type: this.selectedFile.type });
     }
 
+    this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
     this.postsService.createPost(file, this.postContent, this.user.id).subscribe(
       (response: any) => {
         this.postContent = '';
@@ -262,8 +280,11 @@ export class HomeComponent implements OnInit  {
         const newPost: Post = response;
         // this.posts.unshift(newPost);
         location.reload();
+        this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
       },
-      (error: any) => { }
+      (error: any) => {
+        this.spinnerService.hide(); // Ocultar spinner si hay un error
+      }
     );
   }
 
@@ -299,12 +320,15 @@ export class HomeComponent implements OnInit  {
   };
 
   getUserData(): void {
+    this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
     this.userService.getUser().subscribe(
       (user: User | null) => {
         this.user = user;
+        this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
       },
       (error: any) => {
         console.error('Error al obtener datos del usuario:', error);
+        this.spinnerService.hide(); // Ocultar spinner si hay un error
       }
     );
   }
@@ -457,7 +481,7 @@ export class HomeComponent implements OnInit  {
   newComment: Comment = { userId: 0, postId: 0, content: '' };
   commentContent: string = '';
 
-  addComment(postId: number) {
+  addComment(postId: number): void {
     const trimmedComment = this.commentContent.trim();
     if (!trimmedComment) {
       return;
@@ -468,13 +492,16 @@ export class HomeComponent implements OnInit  {
       content: trimmedComment
     };
 
+    this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
     this.postsService.createComment(newComment).subscribe(
       (comment: Comment) => {
         this.commentContent = '';
         this.loadComments(postId);
+        this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
       },
       (error) => {
         console.error('Error al crear el comentario:', error);
+        this.spinnerService.hide(); // Ocultar spinner si hay un error
       }
     );
   }
@@ -483,7 +510,8 @@ export class HomeComponent implements OnInit  {
 
 
 
-  loadComments(postId: number) {
+  loadComments(postId: number): void {
+    this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
     this.postsService.getComments(postId).subscribe(
       (response) => {
         this.comments = response;
@@ -491,9 +519,11 @@ export class HomeComponent implements OnInit  {
         setTimeout(() => {
           this.scrollToBottom();
         }, 100); // Asegúrate de que se llama después de actualizar los comentarios
+        this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
       },
       (error) => {
         console.error('Error al cargar los comentarios:', error);
+        this.spinnerService.hide(); // Ocultar spinner si hay un error
       }
     );
   }
@@ -517,7 +547,7 @@ export class HomeComponent implements OnInit  {
 
 
   userGroups: Group[] = [];
-  unirte(grupoId: number) {
+  unirte(grupoId: number): void {
     let id = sessionStorage.getItem("userId");
     const userIdNumber = parseInt(id || '0', 10);
 
@@ -526,15 +556,22 @@ export class HomeComponent implements OnInit  {
       groupId: grupoId
     };
 
-    this.groupService.joinGroup(userGroup).subscribe(userGroup => {
-      const joinedGroup = this.groups.find(group => group.id === userGroup.groupId);
-      if (joinedGroup) {
-        this.userGroups.push(joinedGroup);
+    this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
+    this.groupService.joinGroup(userGroup).subscribe(
+      userGroup => {
+        const joinedGroup = this.groups.find(group => group.id === userGroup.groupId);
+        if (joinedGroup) {
+          this.userGroups.push(joinedGroup);
+        }
+        this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
+      },
+      (error: any) => {
+        this.spinnerService.hide(); // Ocultar spinner si hay un error
       }
-    })
+    );
   }
 
-  salirte(grupoId: number) {
+  salirte(grupoId: number): void {
     const userId = sessionStorage.getItem("userId");
     const userIdNumber = parseInt(userId || '0', 10);
 
@@ -549,42 +586,58 @@ export class HomeComponent implements OnInit  {
       groupId: grupoId
     };
 
-    this.groupService.deleteUserGroup(userGroup).subscribe(() => {
-      const index = this.userGroups.findIndex(group => group.id === grupoId);
-      if (index !== -1) {
-        this.userGroups.splice(index, 1);
-        this.userGroups = this.userGroups.filter(userGroup => userGroup.id !== grupoId);
+    this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
+    this.groupService.deleteUserGroup(userGroup).subscribe(
+      () => {
+        const index = this.userGroups.findIndex(group => group.id === grupoId);
+        if (index !== -1) {
+          this.userGroups.splice(index, 1);
+          this.userGroups = this.userGroups.filter(userGroup => userGroup.id !== grupoId);
+        }
+        this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
+      },
+      (error) => {
+        this.spinnerService.hide(); // Ocultar spinner si hay un error
       }
-    }, (error) => {
-    });
+    );
   }
 
 
   loadGroupsUser(): void {
+    this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
     this.groupService.getAllGroups().subscribe(
       (groups: Group[]) => {
         this.userGroups = groups;
         this.checkMemberships();
+        this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
       },
       (error: any) => {
         console.error('Error al cargar grupos:', error);
+        this.spinnerService.hide(); // Ocultar spinner si hay un error
       }
     );
   }
 
 
   checkMemberships(): void {
-    if(this.groups){
-     this.groups.forEach(group => {
-       this.groupService.checkUserMembership(group.id, this.user!.id)
-         .subscribe((response: boolean) => {
-           if (response) {
-             this.userGroups.push(group);
-           }
-         });
-     });
+    if (this.groups) {
+      this.groups.forEach(group => {
+        this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
+        this.groupService.checkUserMembership(group.id, this.user!.id)
+          .subscribe(
+            (response: boolean) => {
+              if (response) {
+                this.userGroups.push(group);
+              }
+              this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
+            },
+            (error: any) => {
+              this.spinnerService.hide(); // Ocultar spinner si hay un error
+            }
+          );
+      });
     }
-   }
+  }
 
 
    isMember(group: Group): boolean {

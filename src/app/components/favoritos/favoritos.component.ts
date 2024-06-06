@@ -11,6 +11,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { forkJoin } from 'rxjs';
 import { UserService } from '../../services/user/user.service';
 import { User } from '../../services/user/User';
+import { SpinnerService } from '../../services/spinner/spinner.service';
 
 @Component({
   selector: 'app-favoritos',
@@ -26,13 +27,14 @@ export class FavoritosComponent implements OnInit {
   private pageSize: number = 20;
   isLoading: boolean = false;
 
-  constructor(private postService: PostsService,private userService:UserService ,private router: Router, private translate: TranslateService) { }
+  constructor(private postService: PostsService,private userService:UserService ,private router: Router, private translate: TranslateService,private spinnerService: SpinnerService) { }
 
   ngOnInit(): void {
     this.getPosts();
   }
 
   getPosts(): void {
+    this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
     this.isLoading = true; // Se inicia la carga de posts
     if (sessionStorage.getItem("userId")) {
       let userId: string | null = sessionStorage.getItem("userId"); // Obtener el userId
@@ -51,19 +53,23 @@ export class FavoritosComponent implements OnInit {
                 this.posts = this.posts.concat(posts.map(post => ({ ...post, loading: false })));
                 this.startImageLoadingTimer();
                 this.isLoading = false; // Se completa la carga de posts
+                this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
               },
               (error: any) => {
                 console.error('Error al obtener los usuarios:', error);
                 this.isLoading = false; // Se completa la carga de posts (en caso de error)
+                this.spinnerService.hide(); // Ocultar spinner si hay un error
               }
             );
           } else {
             this.isLoading = false; // No hay más posts
+            this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
           }
         },
         (error: any) => {
           console.error('Error al obtener los posts favoritos:', error);
           this.isLoading = false; // Se completa la carga de posts (en caso de error)
+          this.spinnerService.hide(); // Ocultar spinner si hay un error
         }
       );
     }
@@ -102,12 +108,15 @@ export class FavoritosComponent implements OnInit {
           if (sessionStorage.getItem("userId")) {
             let userId: string | null = sessionStorage.getItem("userId"); // Obtener el userId
             let userIdFinal: number = userId ? parseInt(userId) : 0;
+            this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
             this.postService.deleteFavourite(userIdFinal, post.id).subscribe(
               (response) => {
                 location.reload();
+                this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
               },
               (error) => {
                 location.reload();
+                this.spinnerService.hide(); // Ocultar spinner si hay un error
               }
             );
           }

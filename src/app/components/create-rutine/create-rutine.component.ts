@@ -669,53 +669,53 @@ export class CreateRutineComponent implements OnInit, OnDestroy {
   }
 
 
-  eliminarRutina(ejercicio: Rutina): void {
-    this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
-    this.routineService.deleteRoutine(ejercicio.id)
-      .subscribe(
-        (response: string) => {
-          this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
-          this.translate.get('RUTINE_DONE').subscribe((translatedText: string) => {
-            Swal.fire({
-              icon: 'success',
-              title: '',
-              text: translatedText,
-              position: 'top',
-              showConfirmButton: false,
-              timer: 1000, // Tiempo en milisegundos que durará el mensaje
-              timerProgressBar: true, // Barra de progreso del temporizador
-            }).then(() => {
-              // Lanzar confeti
-              this.lanzarConfeti();
-              // Recargar la página
-              setTimeout(() => {
-                this.obtenerRutinas();
-              }, 500);
-            });
-          });
-        },
-        (error) => {
-          this.spinnerService.hide(); // Ocultar spinner si hay un error
-          this.translate.get('RUTINE_DONE').subscribe((translatedText: string) => {
+eliminarRutina(ejercicio: Rutina): void {
+  this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
+  this.routineService.deleteRoutine(ejercicio.id)
+    .subscribe(
+      (response: string) => {
+        this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
+        this.translate.get('RUTINE_DONE').subscribe((translatedText: string) => {
+          Swal.fire({
+            icon: 'success',
+            title: '',
+            text: translatedText,
+            position: 'top',
+            showConfirmButton: false,
+            timer: 1000, // Tiempo en milisegundos que durará el mensaje
+            timerProgressBar: true, // Barra de progreso del temporizador
+          }).then(() => {
+            // Lanzar confeti
             this.lanzarConfeti();
-            Swal.fire({
-              icon: 'success',
-              title: '',
-              text: translatedText,
-              position: 'top',
-              showConfirmButton: false,
-              timer: 1000, // Tiempo en milisegundos que durará el mensaje
-              timerProgressBar: true, // Barra de progreso del temporizador
-            }).then(() => {
-              // Recargar la página
-              setTimeout(() => {
-                this.obtenerRutinas();
-              }, 500);
-            });
+            // Recargar la página
+            setTimeout(() => {
+              this.obtenerRutinas();
+            }, 500);
           });
-        }
-      );
-  }
+        });
+      },
+      (error) => {
+        this.spinnerService.hide(); // Ocultar spinner si hay un error
+        this.translate.get('RUTINE_DONE').subscribe((translatedText: string) => {
+          this.lanzarConfeti();
+          Swal.fire({
+            icon: 'success',
+            title: '',
+            text: translatedText,
+            position: 'top',
+            showConfirmButton: false,
+            timer: 1000, // Tiempo en milisegundos que durará el mensaje
+            timerProgressBar: true, // Barra de progreso del temporizador
+          }).then(() => {
+            // Recargar la página
+            setTimeout(() => {
+              this.obtenerRutinas();
+            }, 500);
+          });
+        });
+      }
+    );
+}
 
   lanzarConfeti(): void {
     var duration = 2 * 1000;
