@@ -59,7 +59,7 @@
             @if(user.age < 16) {
               <span class="red">Debes tener al menos 16 años</span>
             }
-            <input type="date" id="age" placeholder="Age" name="age" class="rounded-1" required min="16" (ngModelChange)="detectChanges()">
+            <input type="date" id="age" placeholder="Age" name="age" disabled class="rounded-1" required min="16" (ngModelChange)="detectChanges()">
 
           </div>
           <div class="email w-100">
@@ -71,7 +71,7 @@
           </div>
         </div>
 
-        <b>{{"PROFILE_COUNTRY" | translate}}:</b>
+        <!-- <b>{{"PROFILE_COUNTRY" | translate}}:</b>
         <select [(ngModel)]="selectedCountry" name="country" required (change)="handleCountryChange($event)" (ngModelChange)="detectChanges()" #country="ngModel">
           <option *ngIf="countries.length === 0" [value]="'Cargando...'">{{ "LOADING_COUNTRIES" | translate }}</option>
           <ng-container *ngFor="let country of countries; let i = index">
@@ -80,7 +80,7 @@
         </select>
         <div *ngIf="country.invalid && (country.dirty || country.touched)" class="alert alert-danger">
           {{ "COUNTRY_REQUIRED" | translate }}
-        </div>
+        </div> -->
       </div>
 
       <div class="botones">

@@ -210,6 +210,10 @@ export class HomeComponent implements OnInit  {
                 }
               );
             }
+
+            this.loadPostImages();
+            this.getUserByPost();
+            this.spinnerService.hide();
           }
 
           this.loadPostImages();

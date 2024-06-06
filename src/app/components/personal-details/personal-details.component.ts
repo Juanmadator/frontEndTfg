@@ -46,30 +46,30 @@ export class PersonalDetailsComponent implements OnInit {
   ngOnInit(): void {
     if (sessionStorage.getItem("userId")) {
       this.getUserData();
-      this.cargarPaises();
+      // this.cargarPaises();
     }
 
   }
 
-  cargarPaises() {
-    this.userService.getCountries().subscribe(
-      data => {
-        this.countries = data.sort((a, b) => a.name.common.localeCompare(b.name.common));
-        this.countries.unshift({ name: { common: 'Seleccionar un país' } });
+  // cargarPaises() {
+  //   this.userService.getCountries().subscribe(
+  //     data => {
+  //       this.countries = data.sort((a, b) => a.name.common.localeCompare(b.name.common));
+  //       this.countries.unshift({ name: { common: 'Seleccionar un país' } });
 
-        if (this.user.country && this.countries.some(country => country.name.common === this.user.country)) {
-          this.selectedCountry = this.user.country;
-        } else {
-          this.selectedCountry = this.countries.length > 0 ? this.countries[0].name.common : '';
-        }
-        this.spinnerService.hide();
-      },
-      error => {
-        console.error('Error al cargar los países:', error);
-        this.spinnerService.hide();
-      }
-    );
-  }
+  //       if (this.user.country && this.countries.some(country => country.name.common === this.user.country)) {
+  //         this.selectedCountry = this.user.country;
+  //       } else {
+  //         this.selectedCountry = this.countries.length > 0 ? this.countries[0].name.common : '';
+  //       }
+  //       this.spinnerService.hide();
+  //     },
+  //     error => {
+  //       console.error('Error al cargar los países:', error);
+  //       this.spinnerService.hide();
+  //     }
+  //   );
+  // }
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
