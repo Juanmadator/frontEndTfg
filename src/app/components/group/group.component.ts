@@ -73,7 +73,7 @@ export class GroupComponent implements AfterViewInit {
           // Si el mensaje incluye una imagen, agregarla al contenedor de mensajes
           if (newMessage.fileUrl && !newMessage.fileUrl.endsWith('.pdf')) {
             const imgElement = this.renderer.createElement('img');
-            this.renderer.setAttribute(imgElement, 'src', `https://juanmadatortfg.onrender.com/images/${newMessage.fileUrl}`);
+            this.renderer.setAttribute(imgElement, 'src', `http://localhost:8080/images/${newMessage.fileUrl}`);
             this.renderer.appendChild(this.messagesContainer.nativeElement, imgElement);
           }
           this.loadGroupMessages();
@@ -104,8 +104,8 @@ export class GroupComponent implements AfterViewInit {
     this.obtenerPersonas(this.groupId);
   }
 
-  obtenerGruposCoach() {
-    this.id=this.coach.id;
+  obtenerGruposCoach(id:number) {
+    this.id=id;
     this.groupService.getGroupsByCoach(this.id).subscribe((response) => {
       this.groups = response;
     })
@@ -159,7 +159,7 @@ export class GroupComponent implements AfterViewInit {
       (user: User | null) => {
         this.user = user;
         if (this.user && this.user.coach) {
-          this.obtenerGruposCoach();
+          this.obtenerGruposCoach(this.user.id);
         }
         if (this.user && !this.user.coach) {
           this.obtenerGruposUser();
@@ -180,7 +180,7 @@ export class GroupComponent implements AfterViewInit {
       (user: User | null) => {
         this.coach = user;
         if (this.coach) {
-          this.obtenerGruposCoach();
+          this.obtenerGruposCoach(this.coach.id);
         }
         this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
       },

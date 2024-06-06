@@ -54,10 +54,15 @@ export class NavbarComponent {
     this.isHomeRoute = this.router.url === '/home';
     this.isFavRoute = this.router.url === '/fav';
     this.isProfile = this.router.url === '/profile';
-    this.isGroups = this.router.url === '/groups' || this.isGroupUrl();
-    this.isGroups=this.router.url==='/create/group';
     this.isExplorar = this.router.url === '/explorar';
     this.isCreateRutine = this.router.url === '/create/rutine';
+    this.checkIfGroupsRoute();
+  }
+
+
+  checkIfGroupsRoute(): void {
+    const url = this.router.url;
+    this.isGroups = url === '/groups' || url.startsWith('/group/') || url === '/create/group';
   }
 
   private isGroupUrl(): boolean {

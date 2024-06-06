@@ -32,7 +32,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     CommonModule,
     LoginComponent,
     HttpClientModule,
-    TranslateModule
+    TranslateModule,
+    
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],

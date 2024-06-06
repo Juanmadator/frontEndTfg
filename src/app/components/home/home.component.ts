@@ -204,7 +204,6 @@ export class HomeComponent implements OnInit  {
                       post.isFavourite = true;
                     }
                   });
-                  this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
                 },
                 (error: any) => {
                   this.spinnerService.hide(); // Ocultar spinner si hay un error
@@ -215,6 +214,8 @@ export class HomeComponent implements OnInit  {
 
           this.loadPostImages();
           this.getUserByPost();
+          this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
+
         } else {
           this.hasMorePosts = false;
           this.spinnerService.hide(); // Ocultar spinner si no hay más posts
@@ -237,6 +238,7 @@ export class HomeComponent implements OnInit  {
           this.posts.forEach((post, index) => {
             post.userData = users[index]!;
           });
+          this.spinnerService.hide();
         }
         this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
       },
@@ -255,7 +257,7 @@ export class HomeComponent implements OnInit  {
       img.onerror = () => {
         post.loading = false;
       };
-      img.src = 'https://juanmadatortfg.onrender.com/images/' + post.imageUrl;
+      img.src = 'http://localhost:8080/images/' + post.imageUrl;
     });
   }
 
@@ -471,7 +473,9 @@ export class HomeComponent implements OnInit  {
   }
 
   deletePost(postId: number, userId: number) {
+    this.spinnerService.show();
     this.postsService.deletePost(postId, userId).subscribe(() => {
+      this.spinnerService.hide();
       const index = this.posts.findIndex(post => post.id === postId);
       if (index !== -1) {
         this.posts.splice(index, 1);
