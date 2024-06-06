@@ -1,8 +1,8 @@
 import { User } from '../services/user/User';
 export const environment={
   production:false,
-  urlHost:'http://localhost:8080/',
-  urlApi:'http://localhost:8080/api/v1',
+  urlHost:'https://juanmadatortfg.onrender.com/',
+  urlApi:'https://juanmadatortfg.onrender.com/api/v1',
   userLogged:false,
   user:'',
 };
