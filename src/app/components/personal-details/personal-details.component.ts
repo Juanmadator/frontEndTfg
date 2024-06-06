@@ -12,6 +12,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import Swal from 'sweetalert2';
 import { RegisterService } from '../../services/register/register.service';
+import { SpinnerService } from '../../services/spinner/spinner.service';
 
 @Component({
   selector: 'app-personal-details',
@@ -21,7 +22,7 @@ import { RegisterService } from '../../services/register/register.service';
   styleUrl: './personal-details.component.css'
 })
 export class PersonalDetailsComponent implements OnInit {
-  constructor(private http: HttpClient, private translate: TranslateService, private registerService: RegisterService, private userService: UserService, private router: Router, private authService: LoginServiceAuth) { }
+  constructor(private http: HttpClient, private spinnerService :SpinnerService,private translate: TranslateService, private registerService: RegisterService, private userService: UserService, private router: Router, private authService: LoginServiceAuth) { }
 
   @ViewChild('selectPais') selectPais!: ElementRef<HTMLSelectElement>;
   @ViewChild('usernameModel') usernameModel!: NgModel;
@@ -61,7 +62,12 @@ export class PersonalDetailsComponent implements OnInit {
         } else {
           this.selectedCountry = this.countries.length > 0 ? this.countries[0].name.common : '';
         }
-      }, error => { }
+        this.spinnerService.hide();
+      },
+      error => {
+        console.error('Error al cargar los países:', error);
+        this.spinnerService.hide();
+      }
     );
   }
 
@@ -69,9 +75,11 @@ export class PersonalDetailsComponent implements OnInit {
     this.selectedFile = event.target.files[0];
   }
 
+
   onSubmit(event: any, form: NgForm) {
     event.preventDefault();
     if (form.valid) {
+      this.spinnerService.show();
       this.checkUsername().then(isAvailable => {
         if (isAvailable) {
           if (this.formChanges) {
@@ -79,44 +87,35 @@ export class PersonalDetailsComponent implements OnInit {
             this.pillado = false;
           }
         } else {
+          this.spinnerService.hide();
           this.translate.get('USERNAME_ALREADY_EXISTS').subscribe((translatedText: string) => {
-            const Toast = Swal.mixin({
-              toast: true,
-              position: "bottom",
-              showConfirmButton: false,
-              timer: 3000,
-              timerProgressBar: true,
-              didOpen: (toast) => {
-                toast.onmouseenter = Swal.stopTimer;
-                toast.onmouseleave = Swal.resumeTimer;
-              }
-            });
-            Toast.fire({
-              icon: "error",
-              title: `${translatedText}`
-            });
+            this.showToast('error', translatedText);
           });
         }
       });
     } else {
       this.translate.get('FILL_FIELDS').subscribe((translatedText: string) => {
-        const Toast = Swal.mixin({
-          toast: true,
-          position: "bottom",
-          showConfirmButton: false,
-          timer: 1300,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.onmouseenter = Swal.stopTimer;
-            toast.onmouseleave = Swal.resumeTimer;
-          }
-        });
-        Toast.fire({
-          icon: "error",
-          title: `${translatedText}`
-        });
+        this.showToast('error', translatedText);
       });
     }
+  }
+
+  showToast(icon: 'success' | 'error', message: string): void {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "bottom",
+      showConfirmButton: false,
+      timer: 1300,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      }
+    });
+    Toast.fire({
+      icon: icon,
+      title: message
+    });
   }
 
   onFileInputChange(event: any): void {
@@ -151,6 +150,7 @@ export class PersonalDetailsComponent implements OnInit {
       this.user.age = localDate.toISOString();
 
       if (this.user.gender) {
+        this.spinnerService.show();
         this.userService.updateUser(userId, this.user, this.selectedFile).subscribe(
           (response: any) => {
             this.user = response;
@@ -161,55 +161,33 @@ export class PersonalDetailsComponent implements OnInit {
               this.authService.login(this.user.username, decryptedPassword, 'Cambios efectuados correctamente').subscribe(
                 () => {
                   location.reload();
+                  this.spinnerService.hide();
                 },
                 (error: any) => {
                   console.error('Error al iniciar sesión después de actualizar el usuario:', error);
+                  this.spinnerService.hide();
                 }
               );
+            } else {
+              this.spinnerService.hide();
             }
           },
           (error: any) => {
             if (error.status === 502) {
               this.translate.get('USERNAME_ALREADY_EXISTS').subscribe((translatedText: string) => {
-                const Toast = Swal.mixin({
-                  toast: true,
-                  position: "bottom",
-                  showConfirmButton: false,
-                  timer: 3000,
-                  timerProgressBar: true,
-                  didOpen: (toast) => {
-                    toast.onmouseenter = Swal.stopTimer;
-                    toast.onmouseleave = Swal.resumeTimer;
-                  }
-                });
-                Toast.fire({
-                  icon: "error",
-                  title: `${translatedText}`
-                });
+                this.showToast('error', translatedText);
               });
             } else {
               console.error('Error al actualizar el usuario:', error);
             }
+            this.spinnerService.hide();
           }
         );
       } else {
         this.translate.get('FILL_FIELDS').subscribe((translatedText: string) => {
-          const Toast = Swal.mixin({
-            toast: true,
-            position: "bottom",
-            showConfirmButton: false,
-            timer: 1300,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-              toast.onmouseenter = Swal.stopTimer;
-              toast.onmouseleave = Swal.resumeTimer;
-            }
-          });
-          Toast.fire({
-            icon: "error",
-            title: `${translatedText}`
-          });
+          this.showToast('error', translatedText);
         });
+        this.spinnerService.hide();
       }
     }
   }
@@ -227,7 +205,6 @@ export class PersonalDetailsComponent implements OnInit {
               resolve(true);
             } else {
               this.pillado = true;
-
               resolve(false);
             }
           },
@@ -255,6 +232,7 @@ export class PersonalDetailsComponent implements OnInit {
   }
 
   getUserData(): void {
+    this.spinnerService.show();
     this.userService.getUser().subscribe(
       (user: User | null) => {
         if (user) {
@@ -278,9 +256,11 @@ export class PersonalDetailsComponent implements OnInit {
         } else {
           console.log('No se encontró ningún usuario.');
         }
+        this.spinnerService.hide();
       },
       (error: any) => {
         console.error('Error al obtener datos del usuario:', error);
+        this.spinnerService.hide();
       }
     );
   }
@@ -292,7 +272,6 @@ export class PersonalDetailsComponent implements OnInit {
   }
 
   public closeSession(): void {
-    console.log("cerrando sesion");
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("userId");
     sessionStorage.setItem("redirectToHome", "true");

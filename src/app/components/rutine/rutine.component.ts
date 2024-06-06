@@ -13,6 +13,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { FixedMessageComponent } from '../../fixed-message/fixed-message.component';
+import { SpinnerService } from '../../services/spinner/spinner.service';
 
 @Component({
   selector: 'app-rutine',
@@ -33,13 +34,14 @@ export class RutineComponent implements OnInit {
 
   isLinear = false;
 
-  constructor(private _formBuilder: FormBuilder, private userService: UserService, private groupService: GroupsService) { }
+  constructor(private _formBuilder: FormBuilder,  private spinnerService: SpinnerService,private userService: UserService, private groupService: GroupsService) { }
   ngOnInit(): void {
     this.getUserData();
   }
 
 
   getUserData(): void {
+    this.spinnerService.show();
     this.userService.getUser().subscribe(
       (user: User | null) => {
         this.user = user;
@@ -49,67 +51,70 @@ export class RutineComponent implements OnInit {
         } else {
           this.getGroupsByUser(this.user.id);
         }
+        this.spinnerService.hide();
       },
       (error: any) => {
         console.error('Error al obtener datos del usuario:', error);
+        this.spinnerService.hide();
       }
     );
   }
-
   getGroupsByCoach(userId: number): void {
+    this.spinnerService.show();
     this.groupService.getGroupsByCoach(userId).subscribe(
       (groups: Group[]) => {
-        // Guardamos los grupos del coach en una variable temporal
         const coachGroups = groups;
-        // Ahora también obtenemos los grupos a los que pertenece el usuario (coach)
         this.getGroupsByUser(userId, coachGroups);
+        this.spinnerService.hide();
       },
       (error: any) => {
         console.error('Error al obtener los grupos del usuario (coach):', error);
+        this.spinnerService.hide();
       }
     );
-}
+  }
 
-getGroupsByUser(userId: number, coachGroups?: Group[]): void { // Haz que coachGroups sea opcional
-  this.groupService.getGroupsByNormalUser(userId).subscribe(
-    (userGroups: Group[]) => {
-      const allGroups = coachGroups ? coachGroups.concat(userGroups) : userGroups; // Verifica si coachGroups existe antes de concatenar
-      this.groups = allGroups;
-    },
-    (error: any) => {
-      console.error('Error al obtener los grupos del usuario:', error);
-    }
-  );
-}
-
+  getGroupsByUser(userId: number, coachGroups?: Group[]): void {
+    this.spinnerService.show();
+    this.groupService.getGroupsByNormalUser(userId).subscribe(
+      (userGroups: Group[]) => {
+        const allGroups = coachGroups ? coachGroups.concat(userGroups) : userGroups;
+        this.groups = allGroups;
+        this.spinnerService.hide();
+      },
+      (error: any) => {
+        console.error('Error al obtener los grupos del usuario:', error);
+        this.spinnerService.hide();
+      }
+    );
+  }
 
   createGroup(name: string, description: string, coachId: number, profileImage: File): void {
-    this.groupService.createGroup(name, description, coachId, profileImage)
-      .subscribe(
-        (response) => {
-
-          console.log('Grupo creado con éxito:', response);
-          // Puedes manejar la respuesta como desees aquí
-        },
-        (error) => {
-          console.error('Error al crear el grupo:', error);
-          // Puedes manejar el error como desees aquí
-        }
-      );
+    this.spinnerService.show();
+    this.groupService.createGroup(name, description, coachId, profileImage).subscribe(
+      (response) => {
+        console.log('Grupo creado con éxito:', response);
+        this.spinnerService.hide();
+      },
+      (error) => {
+        console.error('Error al crear el grupo:', error);
+        this.spinnerService.hide();
+      }
+    );
   }
 
   deleteGroup(groupId: number): void {
-    this.groupService.deleteGroup(groupId)
-      .subscribe(
-        () => {
-          console.log('Grupo eliminado con éxito');
-          // Puedes manejar la respuesta como desees aquí
-        },
-        (error) => {
-          console.error('Error al eliminar el grupo:', error);
-          // Puedes manejar el error como desees aquí
-        }
-      );
+    this.spinnerService.show();
+    this.groupService.deleteGroup(groupId).subscribe(
+      () => {
+        console.log('Grupo eliminado con éxito');
+        this.spinnerService.hide();
+      },
+      (error: any) => {
+        console.error('Error al eliminar el grupo:', error);
+        this.spinnerService.hide();
+      }
+    );
   }
 
 
