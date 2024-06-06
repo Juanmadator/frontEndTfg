@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class RegisterService {
 
-private baseUrl:string="https://juanmadatortfg.onrender.com/auth";
+private baseUrl:string="http://localhost:8080/auth";
 
   constructor(private http: HttpClient) { }
 

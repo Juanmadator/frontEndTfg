@@ -1,13 +1,13 @@
+<div *ngIf="isSpinnerVisible">
+  <app-spinner></app-spinner>
+</div>
 
-
-  @if(!isLoginPage() && !isRegisterPage()&& !notFoundPage() && !isVerified() && !notVerified()){
-    <app-common-header></app-common-header>
-    }
-    <app-spinner *ngIf="isSpinnerVisible"></app-spinner>
-   <div class="">
-    <router-outlet> </router-outlet>
-   </div>
-    @if(showFooter&&!isLoginPage() && !notFoundPage()&& !isVerified() && !notVerified() && !isProfile() ){
-    <app-common-footer></app-common-footer>
-    }
-
+@if(!isLoginPage() && !isRegisterPage() && !notFoundPage() && !isVerified() && !notVerified()){
+  <app-common-header></app-common-header>
+}
+<div class="">
+  <router-outlet></router-outlet>
+</div>
+@if(showFooter && !isLoginPage() && !notFoundPage() && !isVerified() && !notVerified() && !isProfile()){
+  <app-common-footer></app-common-footer>
+}

@@ -237,7 +237,7 @@ export class HomeComponent implements OnInit  {
       img.onerror = () => {
         post.loading = false;
       };
-      img.src = 'https://juanmadatortfg.onrender.com/images/' + post.imageUrl;
+      img.src = 'http://localhost:8080/images/' + post.imageUrl;
     });
   }
 
@@ -353,28 +353,27 @@ export class HomeComponent implements OnInit  {
       this.postsService.addFavourite(postId, this.user.id).subscribe(
         () => {
           this.translate.get('ADD_FAV').subscribe((translatedText: string) => {
-            const Toast = Swal.mixin({
-              toast: true,
-              position: "top",
-              showConfirmButton: false,
-              timer: 1300,
-              timerProgressBar: true,
-              customClass: {
-                popup: 'pop-up'
-              },
-              didOpen: (toast) => {
-                toast.onmouseenter = Swal.stopTimer;
-                toast.onmouseleave = Swal.resumeTimer;
-              }
-            });
-            Toast.fire({
-              icon: "success",
-              title: `<i class="fa-regular fa-heart"></i>  ${translatedText}`
-            });
+            // const Toast = Swal.mixin({
+            //   toast: true,
+            //   position: "top",
+            //   showConfirmButton: false,
+            //   timer: 1300,
+            //   timerProgressBar: true,
+            //   customClass: {
+            //     popup: 'pop-up'
+            //   },
+            //   didOpen: (toast) => {
+            //     toast.onmouseenter = Swal.stopTimer;
+            //     toast.onmouseleave = Swal.resumeTimer;
+            //   }
+            // });
+            // Toast.fire({
+            //   icon: "success",
+            //   title: `<i class="fa-regular fa-heart"></i>  ${translatedText}`
+            // });
           });
         },
         error => {
-          console.error('Failed to add favourite:', error);
           postToUpdate.isFavourite = false;
           this.removePostFromFavourites(postId);
         }
@@ -385,28 +384,27 @@ export class HomeComponent implements OnInit  {
       this.postsService.addFavourite(postId, this.user.id).subscribe(
         () => {
           this.translate.get('DELETE_FAV').subscribe((translatedText: string) => {
-            const Toast = Swal.mixin({
-              toast: true,
-              position: "top",
-              showConfirmButton: false,
-              timer: 1300,
-              timerProgressBar: true,
-              customClass: {
-                popup: 'pop-up'
-              },
-              didOpen: (toast) => {
-                toast.onmouseenter = Swal.stopTimer;
-                toast.onmouseleave = Swal.resumeTimer;
-              }
-            });
-            Toast.fire({
-              icon: "success",
-              title: `<i class="fa-solid fa-heart-crack"></i> ${translatedText}`
-            });
+            // const Toast = Swal.mixin({
+            //   toast: true,
+            //   position: "top",
+            //   showConfirmButton: false,
+            //   timer: 1300,
+            //   timerProgressBar: true,
+            //   customClass: {
+            //     popup: 'pop-up'
+            //   },
+            //   didOpen: (toast) => {
+            //     toast.onmouseenter = Swal.stopTimer;
+            //     toast.onmouseleave = Swal.resumeTimer;
+            //   }
+            // });
+            // Toast.fire({
+            //   icon: "success",
+            //   title: `<i class="fa-solid fa-heart-crack"></i> ${translatedText}`
+            // });
           });
         },
         error => {
-          console.error('Failed to remove favourite:', error);
           postToUpdate.isFavourite = true;
           this.favouritePosts.push({ postId: postId, isFavourite: true });
         }
