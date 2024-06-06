@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import * as CryptoJS from 'crypto-js';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { SpinnerService } from '../../services/spinner/spinner.service';
 
 @Component({
   selector: 'app-login',
@@ -24,9 +25,10 @@ export class LoginComponent implements OnInit {
   rememberCredentials: boolean = false;
   showMessage: boolean = false;
   constructor(private authService: LoginServiceAuth,
-    private userService: UserService, private route: ActivatedRoute) {
+    private userService: UserService, private route: ActivatedRoute,private spinnerService:SpinnerService) {
 
   }
+
   ngOnInit(): void {
     const verificationEmailSent = sessionStorage.getItem('showModal');
     if (verificationEmailSent === 'true') {
@@ -37,7 +39,7 @@ export class LoginComponent implements OnInit {
       }, 5000);
     }
 
-      // Configurar temporizador para ocultar el mensaje después de 5 segundos
+    // Configurar temporizador para ocultar el mensaje después de 5 segundos
 
     if (sessionStorage.getItem('userCredentials')) {
       const storedUserCredentials = sessionStorage.getItem('userCredentials');
@@ -45,8 +47,8 @@ export class LoginComponent implements OnInit {
       if (storedUserCredentials) {
         const decryptedData = CryptoJS.AES.decrypt(storedUserCredentials, 'your-secret-key');
         const userRemember = JSON.parse(decryptedData.toString(CryptoJS.enc.Utf8));
-        this.user.username = userRemember.username;
-        this.user.password = userRemember.password;
+        this.username = userRemember.username;
+        this.password = userRemember.password;
         this.rememberCredentials = true;
       }
     }
@@ -54,6 +56,7 @@ export class LoginComponent implements OnInit {
 
   logUser(event: any, username: string, password: string): void {
     event.preventDefault();
+    this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
     this.authService.login(username, password).subscribe(
       () => {
         this.user.username = username;
@@ -97,6 +100,11 @@ export class LoginComponent implements OnInit {
         } else {
           sessionStorage.removeItem('logError');
         }
+        this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
+      },
+      (error) => {
+        console.error('Error al iniciar sesión:', error);
+        this.spinnerService.hide(); // Ocultar spinner si hay un error
       }
     );
   }
@@ -106,6 +114,7 @@ export class LoginComponent implements OnInit {
   public user: any = {};
 
   getUserData(): void {
+    this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
     this.userService.getUser().subscribe(
       (user: User | null) => {
         this.user = user;
@@ -114,12 +123,13 @@ export class LoginComponent implements OnInit {
         } else {
           console.log('No se encontró ningún usuario.');
         }
+        this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
       },
       (error: any) => {
         console.error('Error al obtener datos del usuario:', error);
+        this.spinnerService.hide(); // Ocultar spinner si hay un error
       }
     );
   }
-
 
 }

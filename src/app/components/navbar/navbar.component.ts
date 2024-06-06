@@ -6,6 +6,7 @@ import { NgClass } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { NavbarService } from '../../services/navbar/navbar.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { SpinnerService } from '../../services/spinner/spinner.service';
 
 @Component({
   selector: 'app-navbar',
@@ -18,7 +19,7 @@ export class NavbarComponent {
 
   @Input() showNavbar: boolean = false;
 
-  constructor(private http: HttpClient,private userService: UserService, private router: Router, public navbarService: NavbarService) { }
+  constructor(private http: HttpClient,private userService: UserService, private router: Router, public navbarService: NavbarService,private spinnerService:SpinnerService) { }
   public menuItems =
     document.querySelectorAll(".menu-item");
 
@@ -43,20 +44,20 @@ export class NavbarComponent {
     const customizeTheme = document.querySelector(".customize-theme");
     theme?.addEventListener("click", this.openModal);
     customizeTheme?.addEventListener("click", this.closeModal);
+
     // Escucha el evento de entrada en el campo de búsqueda de mensajes
     this.messageSearch?.nativeElement.addEventListener('keyup', this.filterMessages);
 
     if (sessionStorage.getItem("userId")) {
       this.getUserData();
     }
-
-
     this.isHomeRoute = this.router.url === '/home';
     this.isFavRoute = this.router.url === '/fav';
     this.isProfile = this.router.url === '/profile';
     this.isGroups = this.router.url === '/groups' || this.isGroupUrl();
-    this.isExplorar=this.router.url==='/explorar'
-    this.isCreateRutine=this.router.url==='/create/rutine';
+    this.isGroups=this.router.url==='/create/group';
+    this.isExplorar = this.router.url === '/explorar';
+    this.isCreateRutine = this.router.url === '/create/rutine';
   }
 
   private isGroupUrl(): boolean {
@@ -67,18 +68,21 @@ export class NavbarComponent {
   public user: any = {};
 
   getUserData(): void {
+    this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
     this.userService.getUser().subscribe(
       (user: User | null) => {
         this.user = user;
+        this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
       },
       (error: any) => {
         console.error('Error al obtener datos del usuario:', error);
+        this.spinnerService.hide(); // Ocultar spinner si hay un error
       }
     );
   }
 
 
-  public changeActiveItem(item: any): void {
+  changeActiveItem(item: any): void {
     const menuItems = document.querySelectorAll(".menu-item");
     menuItems.forEach(menuItem => {
       menuItem.classList.remove('active');
@@ -88,7 +92,6 @@ export class NavbarComponent {
     if (menuItem) {
       menuItem.classList.add('active');
     }
-
   }
 
   filterMessages = () => {
@@ -112,20 +115,16 @@ export class NavbarComponent {
   };
 
 
-  public openModal = (): void => {
-
+  openModal = (): void => {
     const customizeTheme = document.querySelector(".customize-theme");
 
     if (customizeTheme?.classList.contains("dnone")) {
       customizeTheme.classList.remove("dnone");
-      customizeTheme.classList.add("display-grid")
+      customizeTheme.classList.add("display-grid");
     }
-
   }
 
-
-
-  public closeModal = (e: any): void => {
+  closeModal = (e: any): void => {
     const clickedElement = e.target as HTMLElement;
     const customizeTheme = document.querySelector(".customize-theme");
     if (clickedElement?.classList.contains("customize-theme")) {
@@ -134,10 +133,7 @@ export class NavbarComponent {
     }
   }
 
-
-
-  //CERRAR SESION
-  public closeSession(): void {
+  closeSession(): void {
     console.log("cerrando sesion");
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("userId");

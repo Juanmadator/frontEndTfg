@@ -84,11 +84,9 @@ export class HomeComponent implements OnInit  {
     this.getUserData();
     this.loadGroups();
 
-   if(this.user){
-    this.loadGroupsUser();
-   }
-
-
+    if (this.user) {
+      this.loadGroupsUser();
+    }
   }
 
 
@@ -149,8 +147,11 @@ export class HomeComponent implements OnInit  {
             this.groupService.getCoachUsername(group.id).subscribe(
               (response: any) => {
                 group.coachUsername = response.username;
+                this.spinnerService.hide();
               },
-              (error: any) => { }
+              (error: any) => {
+                this.spinnerService.hide();
+               }
             );
           });
         }
@@ -505,6 +506,7 @@ export class HomeComponent implements OnInit  {
       }
     );
   }
+
 
   @ViewChild('messagesContainer') messagesContainer!: ElementRef;
 

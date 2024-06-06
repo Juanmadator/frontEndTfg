@@ -1,4 +1,3 @@
-// spinner.service.ts
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
@@ -6,22 +5,22 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class SpinnerService {
-  private activeRequests = 0;
+  private requestCount = 0;
   private spinnerSubject = new BehaviorSubject<boolean>(false);
-  spinner$ = this.spinnerSubject.asObservable();
+  public spinner$ = this.spinnerSubject.asObservable();
 
   show(): void {
-    this.activeRequests++;
-    if (this.activeRequests === 1) {
+    this.requestCount++;
+    if (this.requestCount === 1) {
       this.spinnerSubject.next(true);
     }
   }
 
   hide(): void {
-    if (this.activeRequests > 0) {
-      this.activeRequests--;
+    if (this.requestCount > 0) {
+      this.requestCount--;
     }
-    if (this.activeRequests === 0) {
+    if (this.requestCount === 0) {
       this.spinnerSubject.next(false);
     }
   }

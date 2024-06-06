@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router, RouterOutlet } from '@angular/router';
 import { CommonHeaderComponent } from './components/common-header/common-header.component';
 import { CommonFooterComponent } from './components/common-footer/common-footer.component';
@@ -50,7 +50,7 @@ export class AppComponent implements OnInit {
   showFooter: boolean = false;
   scrollThreshold: number = 50; // Cantidad de desplazamiento para mostrar el footer
 
-  constructor(private router: Router, private translate: TranslateService, private spinnerService: SpinnerService) {
+  constructor(private router: Router, private translate: TranslateService,private cdr: ChangeDetectorRef, private spinnerService: SpinnerService) {
     this.translate.setDefaultLang('es');
     const browserLang = this.translate.getBrowserLang();
     this.translate.use(browserLang?.match(/en|es/) ? browserLang : 'en');
@@ -64,6 +64,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.spinnerService.spinner$.subscribe((isVisible: boolean) => {
       this.isSpinnerVisible = isVisible;
+      this.cdr.detectChanges();  // Forzar la detección de cambios
     });
   }
 
