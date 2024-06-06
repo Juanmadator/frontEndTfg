@@ -66,16 +66,16 @@ export class AppComponent implements OnInit {
       this.isSpinnerVisible = isVisible;
     });
 
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationStart) {
-        this.isSpinnerVisible = true;
-      } else if (event instanceof NavigationEnd) {
-        // Ocultar el spinner después de un breve retraso
-        setTimeout(() => {
-          this.isSpinnerVisible = false;
-        }, 400);
-      }
-    });
+    // this.router.events.subscribe(event => {
+    //   if (event instanceof NavigationStart) {
+    //     this.isSpinnerVisible = true;
+    //   } else if (event instanceof NavigationEnd) {
+    //     // Ocultar el spinner después de un breve retraso
+    //     setTimeout(() => {
+    //       this.isSpinnerVisible = false;
+    //     }, 400);
+    //   }
+    // });
   }
 
   isLoginPage(): boolean {

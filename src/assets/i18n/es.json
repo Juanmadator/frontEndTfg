@@ -230,7 +230,7 @@
     "LIST":"Añade ejercicios",
     "WELCOME":"Bienvenido a Fit-Track",
     "NOT_ACCOUNT":"¿Aun no tienes una cuenta?",
-    "NO_GROUPS":"Aun no existen grupos grupos",
+    "NO_GROUPS":"No se han podido encontrar grupos",
     "NO_GROUPS_TIENES":"Aun no te has unido a ningun grupo"
 }
 
