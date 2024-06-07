@@ -154,6 +154,7 @@ export class CreateGroupComponent implements OnInit {
   }
 
   crearGrupo(): void {
+    console.log(this.tituloGrupo,this.descripcionGrupo,this.user.id,this.imagen);
     this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
     this.groupService.createGroup(this.tituloGrupo, this.descripcionGrupo, this.user.id, this.imagen).subscribe(
       (response: any) => {

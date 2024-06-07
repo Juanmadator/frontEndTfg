@@ -45,6 +45,9 @@
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Añadimos sombra */
 }
+.apoyo{
+  width: 80%;
+}
 
 
 .participantes{
@@ -77,11 +80,19 @@ img{
     gap: 50px;
   }
   .contenido{
-    width: 100%;
+    width: 90%;
+  }
+
+  .apoyo{
+    width: 90%;
   }
 
   .titulo{
     padding-bottom: 60px;
+  }
+
+  .caja{
+    width: 100%;
   }
 }
 
@@ -100,6 +111,5 @@ a{
 
 
 .apoyo{
-  width: 100%;
   height: 50px;
 }
