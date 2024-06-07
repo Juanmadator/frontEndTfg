@@ -12,7 +12,6 @@
 
 .caja{
   width: 80%;
-  margin: 0 auto;
   display: grid;
 }
 
@@ -92,8 +91,15 @@ img{
   }
 
   .caja{
-    width: 100%;
+    width: 90%;
   }
+}
+
+@media(min-width:769px){
+ .caja{
+  margin: 0 auto;
+ }
+
 }
 
 
@@ -112,4 +118,5 @@ a{
 
 .apoyo{
   height: 50px;
+  margin: 0 auto;
 }
