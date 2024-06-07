@@ -89,7 +89,7 @@ export class FavoritosComponent implements OnInit {
         img.onload = () => {
           this.posts[index].loading = false;
         };
-        img.src = 'https://juanmadatortfg.onrender.com /images/' + post.imageUrl;
+        img.src = 'https://juanmadatortfg.onrender.com/images/' + post.imageUrl;
       }
     });
   }
