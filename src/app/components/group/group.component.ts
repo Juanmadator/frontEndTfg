@@ -179,6 +179,7 @@ export class GroupComponent implements AfterViewInit {
     this.userService.getUserById(coachId).subscribe(
       (user: User | null) => {
         this.coach = user;
+        console.log(this.coach);
         if (this.coach) {
           this.obtenerGruposCoach(this.coach.id);
         }

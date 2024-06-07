@@ -102,13 +102,15 @@ export class HomeComponent implements OnInit  {
   }
 
   getUserByComment(): void {
-    this.spinnerService.show();
     const userRequests = this.comments.map(comment =>
       this.userService.getUserById(comment.userId)
     );
 
     forkJoin(userRequests).subscribe(
+
       (users: (User)[]) => {
+    this.spinnerService.show();
+
         if (users.every(user => user !== null)) {
           this.comments.forEach((comment, index) => {
             if (users[index]) {

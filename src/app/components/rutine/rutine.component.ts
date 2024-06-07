@@ -107,7 +107,11 @@ export class RutineComponent implements OnInit {
     this.spinnerService.show();
     this.groupService.deleteGroup(groupId).subscribe(
       () => {
-        console.log('Grupo eliminado con éxito');
+        if(this.user.coach){
+          this.getGroupsByCoach(this.user.id);
+        }else{
+          this.getGroupsByUser(this.user.id);
+        }
         this.spinnerService.hide();
       },
       (error: any) => {

@@ -21,13 +21,9 @@
       <div *ngFor="let message of groupMessages" class="message">
         <div class="mensaje-contenido">
           <div class="super-content">
-           @if(this.user.coach){
             <img [src]="'https://juanmadatortfg.onrender.com/profile-images/'+this.coach.profilepicture" alt="" class="perfil"
-            [title]="this.user.username">
-           }@else {
-            <img [src]="'https://juanmadatortfg.onrender.com/profile-images/'+this.coach.profilepicture" alt="" class="perfil"
-            [title]="this.user.username">
-           }
+            [title]="this.coach.username">
+
             <p>{{ message.message }}
               <ng-container *ngIf="message.fileUrl && message.fileUrl.endsWith('.pdf')">
                 <a [href]="'https://juanmadatortfg.onrender.com/images/' + message.fileUrl" target="_blank">

@@ -34,8 +34,15 @@ export class GroupsService {
     return this.http.post<any>(`${this.baseUrl}/create/${coachId}`, formData, { headers: headers });
   }
 
+
   deleteGroup(groupId: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${groupId}`);
+    const token = sessionStorage.getItem('token');
+    if (!token) {
+      return of(null)
+    }
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.delete(`${this.baseUrl}/${groupId}`,{headers:headers});
   }
 
   getGroupsByCoach(userId: number): Observable<any> {
