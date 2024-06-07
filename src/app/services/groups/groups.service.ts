@@ -1,6 +1,6 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, catchError, of, throwError } from 'rxjs';
 import { GroupMessage } from './GroupMessage';
 import { UserGroup } from './UserGroup';
 import { Group } from './Group';
@@ -31,7 +31,21 @@ export class GroupsService {
     if (profileImage) {
       formData.append('profileImage', profileImage, profileImage.name);
     }
-    return this.http.post<any>(`${this.baseUrl}/create/${coachId}`, formData, { headers: headers });
+    return this.http.post<any>(`${this.baseUrl}/create/${coachId}`, formData, { headers: headers }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    let errorMessage = 'An unknown error occurred!';
+    if (error.error instanceof ErrorEvent) {
+      // Client-side errors
+      errorMessage = `Client-side error: ${error.error.message}`;
+    } else {
+      // Server-side errors
+      errorMessage = `Server-side error: ${error.status}\nMessage: ${error.message}`;
+    }
+    return throwError(errorMessage);
   }
 
 
