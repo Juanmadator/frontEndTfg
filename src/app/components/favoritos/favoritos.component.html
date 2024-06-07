@@ -19,7 +19,7 @@
             <div class="user">
               <div class="profile-photo">
                 <img *ngIf="post.userData && post.userData.profilepicture"
-                  [src]="'https://juanmadatortfg.onrender.com/profile-images/' + post.userData.profilepicture" alt="User photo">
+                  [src]="'https://juanmadatortfg.onrender.com /profile-images/' + post.userData.profilepicture" alt="User photo">
                 <img *ngIf="!post.userData || !post.userData.profilepicture" src="assets/images/anonimo.png"
                   alt="User photo">
               </div>
@@ -35,7 +35,7 @@
 
           </div>
           <div class="photo" *ngIf="post.imageUrl && !post.loading">
-            <img [src]="'https://juanmadatortfg.onrender.com/images/' + post.imageUrl" [id]="'post-image-' + post.id" alt="Post photo"
+            <img [src]="'https://juanmadatortfg.onrender.com /images/' + post.imageUrl" [id]="'post-image-' + post.id" alt="Post photo"
               class="post-image" loading="eager">
           </div>
           <div class="contenido-post">

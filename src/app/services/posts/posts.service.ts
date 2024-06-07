@@ -10,7 +10,7 @@ import { Comment } from './Comment';
 })
 export class PostsService {
 
-  private baseUrl: string = 'https://juanmadatortfg.onrender.com/api/';
+  private baseUrl: string = 'https://juanmadatortfg.onrender.com /api/';
 
   constructor(private http: HttpClient) { }
 

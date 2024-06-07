@@ -102,6 +102,7 @@ export class HomeComponent implements OnInit  {
   }
 
   getUserByComment(): void {
+    this.spinnerService.show();
     const userRequests = this.comments.map(comment =>
       this.userService.getUserById(comment.userId)
     );
@@ -114,6 +115,7 @@ export class HomeComponent implements OnInit  {
               comment.userData = users[index];
             }
           });
+          this.spinnerService.hide();
         }
       },
       (error: any) => { }
@@ -261,7 +263,7 @@ export class HomeComponent implements OnInit  {
       img.onerror = () => {
         post.loading = false;
       };
-      img.src = 'https://juanmadatortfg.onrender.com/images/' + post.imageUrl;
+      img.src = 'https://juanmadatortfg.onrender.com /images/' + post.imageUrl;
     });
   }
 

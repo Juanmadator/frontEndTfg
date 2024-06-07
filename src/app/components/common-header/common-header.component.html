@@ -30,7 +30,7 @@
       <div class="profile-photo">
         <ng-container *ngIf="user.profilepicture">
           <a [routerLink]="['/profile']">
-            <img [src]="'https://juanmadatortfg.onrender.com/profile-images/' + user.profilepicture" alt="Profile Picture" [title]="user.username">
+            <img [src]="'https://juanmadatortfg.onrender.com /profile-images/' + user.profilepicture" alt="Profile Picture" [title]="user.username">
           </a>
         </ng-container>
         <ng-container *ngIf="user.verified && !user.profilepicture">

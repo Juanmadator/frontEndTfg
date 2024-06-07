@@ -10,7 +10,7 @@ import { Group } from './Group';
 })
 export class GroupsService {
 
-  private baseUrl = 'https://juanmadatortfg.onrender.com/api/groups';
+  private baseUrl = 'https://juanmadatortfg.onrender.com /api/groups';
 
   constructor(private http: HttpClient) { }
 
