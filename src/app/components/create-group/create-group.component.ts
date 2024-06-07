@@ -178,7 +178,26 @@ export class CreateGroupComponent implements OnInit {
       (error: any) => {
         console.error('Error al crear el grupo:', error);
         this.spinnerService.hide(); // Ocultar spinner si hay un error
+        this.showError(error); // Mostrar detalles del error
       }
     );
   }
+
+
+  showError(error: any): void {
+    let errorMessage = 'An error occurred while creating the group.';
+    if (error.error && error.error.message) {
+      errorMessage = error.error.message;
+    } else if (error.status) {
+      errorMessage = `Error ${error.status}: ${error.statusText}`;
+    }
+
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: errorMessage,
+    });
+  }
+
+
 }

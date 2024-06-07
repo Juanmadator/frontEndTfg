@@ -197,7 +197,7 @@ main .contenedor .left .profile {
 .middle .create-post input[type="text"] {
   transition: 0.3s;
   justify-self: start;
-  width: 100%;
+  width: 80%;
   padding-left: 1rem;
   background: 0 0;
   color: var(--color-dark);
