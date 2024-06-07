@@ -189,3 +189,12 @@ nav a:hover{
     margin-top: -50px;
   }
 }
+
+
+.error-login,small{
+  width: 100%;
+  background-color: rgb(218, 85, 85);
+  color: white;
+  padding: 20px;
+  border-radius: 5px;
+}

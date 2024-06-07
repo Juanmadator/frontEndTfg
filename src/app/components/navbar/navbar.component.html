@@ -1,112 +1,79 @@
 <main>
   <div class="contenedor">
     <div class="left">
-      <a class="profile">
-
+      <div class="profile">
         <div class="profile-photo">
-          @if(user.verified && user.profilepicture){
-          <a [routerLink]="['/profile']">
-            <img [src]="'https://juanmadatortfg.onrender.com/profile-images/'+user.profilepicture" alt="Profile Picture"
-              title={{user.username}}>
+          <a *ngIf="user.verified && user.profilepicture" [routerLink]="['/profile']">
+            <img [src]="'https://juanmadatortfg.onrender.com/profile-images/' + user.profilepicture" alt="Profile Picture" [title]="user.username">
           </a>
-          }
-          @else if(user.verified && !user.profilepicture){
-          <a [routerLink]="['/profile']">
+          <a *ngIf="user.verified && !user.profilepicture" [routerLink]="['/profile']">
             <img src="assets/images/anonimo.png" alt="Anónimo">
           </a>
-          }
-          @else {
-          <a [routerLink]="['/login']"> <img src="assets/images/anonimo.png" alt="Anónimo"></a>
-          }
+          <a *ngIf="!user.verified" [routerLink]="['/login']">
+            <img src="assets/images/anonimo.png" alt="Anónimo">
+          </a>
         </div>
 
         <div class="handle">
-          @if(user.name && user.lastname){
-          <div>
-            <h5>{{user.name}}</h5>@if(user.coach){
-            <small class="d-flex align-content-center g-2"><i class="mt-1">{{"NAVBAR_ENTRENADOR"|translate}}</i> </small>
-            }@else {
-              <small><i>{{"NAVBAR_ESTANDAR"|translate}}</i></small>
-            }
+          <div *ngIf="user.name && user.lastname">
+            <h5>{{user.name}}</h5>
+            <div *ngIf="user.coach; else standardUser">
+              <small class="d-flex align-content-center g-2">
+                <i class="mt-1">{{ 'NAVBAR_ENTRENADOR' | translate }}</i>
+              </small>
+            </div>
+            <ng-template #standardUser>
+              <small><i>{{ 'NAVBAR_ESTANDAR' | translate }}</i></small>
+            </ng-template>
+          </div>
+          <div *ngIf="!user.name || !user.lastname">
+            <h5>Anónimo</h5>
           </div>
 
-          }@else {
-          <h5>Anonimo</h5>
-          }
-
           <p class="text-muted">
-
-            @if(user.username){
-            &#64;{{user.username}}
-            }@else {
-            &#64;Anonimo
-            }
-
+            &#64;{{ user.username || 'Anonimo' }}
           </p>
         </div>
-      </a>
-
-      <div class="sidebar">
-        <a class="menu-item" [routerLink]="['/home']" [ngClass]="{'active': isHomeRoute}"
-          (click)="changeActiveItem($event.target)" [title]="'TITLES.HOME'|translate">
-          <span><i class="uil uil-home "></i></span>
-          <h3>Home</h3>
-        </a>
-        <a class="menu-item" [routerLink]="['/explorar']" [ngClass]="{'active': isExplorar}"
-          (click)="changeActiveItem($event.target)" [title]="'TITLES.EXPLORE'|translate">
-          <span><i class="uil uil-compass"></i></span>
-          <h3>{{"NAVBAR_EXPLORAR"|translate}}</h3>
-        </a>
-
-        @if(user!=null){
-        <a class="menu-item" [routerLink]="['/groups']"
-          [ngClass]="{'gray-background': !user.verified,'active': isGroups}"
-          [style.pointer-events]="user.verified ? 'auto' : 'none'" (click)="changeActiveItem($event.target)" [title]="'TITLES.GROUPS'|translate">
-          <span><i class="fas fa-users"></i>
-          </span>
-          <h3>{{"NAVBAR_GRUPOS"|translate}}</h3>
-        </a>
-        }
-        <div class="contenedor-sidebar">
-          <a [routerLink]="['/fav']" [ngClass]="{'gray-background': !user.verified,'active': isFavRoute}"
-            class="menu-item" (click)="user.verified && changeActiveItem($event.target)"
-            [style.pointer-events]="user.verified ? 'auto' : 'none'" [title]="'TITLES.FAVS'|translate">
-            <span><i class="uil uil-bookmark"></i></span>
-            <h3>{{"NAVBAR_FAVS"|translate}}</h3>
-          </a>
-          <a [routerLink]="['/create/rutine']" [ngClass]="{'gray-background': !user.verified,'active': isCreateRutine}" class="menu-item"
-            (click)="user.verified && changeActiveItem($event.target)"
-            [style.pointer-events]="user.verified ? 'auto' : 'none'" [title]="'TITLES.RUTINE'|translate">
-            <span><i class="fa-solid fa-dumbbell"></i></span>
-            <h3>{{"NAVBAR_RUTINE"|translate}}</h3>
-          </a>
-          <a [routerLink]="['/profile']" [ngClass]="{'gray-background': !user.verified,'active': isProfile}"
-            class="menu-item" (click)="user.verified && changeActiveItem($event.target)"
-            [style.pointer-events]="user.verified ? 'auto' : 'none'" [title]="'TITLES.PROFILE'|translate">
-            <span><i class="uil uil-user"></i>
-
-            </span>
-            <h3>{{"NAVBAR_PROFILE"|translate}}</h3>
-          </a>
-
-        </div>
-
-
-        <a class="menu-item" (click)="changeActiveItem($event.target)" [title]="'TITLES.ABOUT'|translate">
-          <span><i class="fa-solid fa-circle-info"></i>
-          </span>
-          <h3>{{"NAVBAR_ABOUT"|translate}}</h3>
-        </a>
-
       </div>
 
-      @if(user.verified){
-      <label for="create-post" class="btn btn-primary" (click)="closeSession()">{{"CLOSE_SESSION"|translate}}</label>
-      }@else {
-      <a [routerLink]="['/login']"> <label for="create-post" class="btn btn-primary">{{"SIGN_IN"|translate}}</label></a>
-      }
+      <div class="sidebar">
+        <a class="menu-item" [routerLink]="['/home']" [ngClass]="{ 'active': isHomeRoute }" (click)="changeActiveItem($event.target)" [title]="'TITLES.HOME' | translate">
+          <span><i class="uil uil-home"></i></span>
+          <h3>Home</h3>
+        </a>
+        <a class="menu-item" [routerLink]="['/explorar']" [ngClass]="{ 'active': isExplorar }" (click)="changeActiveItem($event.target)" [title]="'TITLES.EXPLORE' | translate">
+          <span><i class="uil uil-compass"></i></span>
+          <h3>{{ 'NAVBAR_EXPLORAR' | translate }}</h3>
+        </a>
 
+        <a *ngIf="user" class="menu-item" [routerLink]="['/groups']" [ngClass]="{ 'gray-background': !user.verified, 'active': isGroups }" [style.pointer-events]="user.verified ? 'auto' : 'none'" (click)="changeActiveItem($event.target)" [title]="'TITLES.GROUPS' | translate">
+          <span><i class="fas fa-users"></i></span>
+          <h3>{{ 'NAVBAR_GRUPOS' | translate }}</h3>
+        </a>
+
+          <a [routerLink]="['/fav']" [ngClass]="{ 'gray-background': !user.verified, 'active': isFavRoute }" class="menu-item" (click)="user.verified && changeActiveItem($event.target)" [style.pointer-events]="user.verified ? 'auto' : 'none'" [title]="'TITLES.FAVS' | translate">
+            <span><i class="uil uil-bookmark"></i></span>
+            <h3>{{ 'NAVBAR_FAVS' | translate }}</h3>
+          </a>
+          <a [routerLink]="['/create/rutine']" [ngClass]="{ 'gray-background': !user.verified, 'active': isCreateRutine }" class="menu-item" (click)="user.verified && changeActiveItem($event.target)" [style.pointer-events]="user.verified ? 'auto' : 'none'" [title]="'TITLES.RUTINE' | translate">
+            <span><i class="fa-solid fa-dumbbell"></i></span>
+            <h3>{{ 'NAVBAR_RUTINE' | translate }}</h3>
+          </a>
+          <a [routerLink]="['/profile']" [ngClass]="{ 'gray-background': !user.verified, 'active': isProfile }" class="menu-item" (click)="user.verified && changeActiveItem($event.target)" [style.pointer-events]="user.verified ? 'auto' : 'none'" [title]="'TITLES.PROFILE' | translate">
+            <span><i class="uil uil-user"></i></span>
+            <h3>{{ 'NAVBAR_PROFILE' | translate }}</h3>
+          </a>
+
+        <a class="menu-item" [routerLink]="['/about']" [ngClass]="{ 'active': isAbout }" (click)="changeActiveItem($event.target)" [title]="'TITLES.ABOUT' | translate">
+          <span><i class="fa-solid fa-circle-info"></i></span>
+          <h3>{{ 'NAVBAR_ABOUT' | translate }}</h3>
+        </a>
+      </div>
+
+      <label *ngIf="user.verified" for="create-post" class="btn btn-primary" (click)="closeSession()">{{ 'CLOSE_SESSION' | translate }}</label>
+      <a *ngIf="!user.verified" [routerLink]="['/login']">
+        <label for="create-post" class="btn btn-primary">{{ 'SIGN_IN' | translate }}</label>
+      </a>
     </div>
-
   </div>
 </main>

@@ -77,6 +77,7 @@ a {
   width: 0.5rem;
   height: 100%;
   position: absolute;
+  left: 0;
   background: var(--color-primary);
 }
 .left .sidebar .menu-item:first-child.active {
@@ -86,6 +87,10 @@ a {
 .left .sidebar .menu-item:last-child.active {
   border-bottom-left-radius: var(--card-border-radius);
   overflow: hidden;
+}
+
+.left .sidebar .menu-item.active:last-child {
+  border-bottom-left-radius: var(--card-border-radius);
 }
 .left .btn {
   margin-top: 1rem;
@@ -168,9 +173,6 @@ a {
     z-index: 100000;
   }
 }
-
-
-
 
 .user-coach{
   display: flex;

@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { UserService } from '../../services/user/user.service';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../../services/user/User';
-import { NgClass } from '@angular/common';
+import { CommonModule, NgClass } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { NavbarService } from '../../services/navbar/navbar.service';
 import { TranslateModule } from '@ngx-translate/core';
@@ -11,7 +11,7 @@ import { SpinnerService } from '../../services/spinner/spinner.service';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [NgClass, RouterLink,TranslateModule],
+  imports: [NgClass, RouterLink,TranslateModule,CommonModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
@@ -34,7 +34,7 @@ export class NavbarComponent {
   isGroups:boolean=false;
   isExplorar:boolean=false;
   isCreateRutine:boolean=false;
-
+  isAbout:boolean=false;
   setActiveItem(item: string) {
     this.navbarService.setActiveItem(item);
   }
@@ -55,6 +55,7 @@ export class NavbarComponent {
     this.isFavRoute = this.router.url === '/fav';
     this.isProfile = this.router.url === '/profile';
     this.isExplorar = this.router.url === '/explorar';
+    this.isAbout = this.router.url === '/about';
     this.isCreateRutine = this.router.url === '/create/rutine';
     this.checkIfGroupsRoute();
   }

@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
   public errorPassword!: string;
   rememberCredentials: boolean = false;
   showMessage: boolean = false;
+  error:boolean=false;
   constructor(private authService: LoginServiceAuth,
     private userService: UserService, private route: ActivatedRoute,private spinnerService:SpinnerService) {
 
@@ -103,7 +104,7 @@ export class LoginComponent implements OnInit {
         this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
       },
       (error) => {
-        console.error('Error al iniciar sesión:', error);
+        this.error=true;
         this.spinnerService.hide(); // Ocultar spinner si hay un error
       }
     );

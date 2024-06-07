@@ -59,6 +59,10 @@ export const routes: Routes = [
    {
     path: '404',
     loadComponent: () => import('./components/page404/page404.component').then(c => c.Page404Component)
+  },
+  {
+    path: 'about',
+    loadComponent: () => import('./components/about/about.component').then(c => c.AboutComponent)
   }
 
   , {

@@ -230,5 +230,11 @@
   "WELCOME": "Welcome to Fit-Track",
   "NOT_ACCOUNT": "Don't have an account yet?",
   "NO_GROUPS": "Groups could not be found",
-  "NO_GROUPS_TIENES": "You haven't joined any groups yet"
+  "NO_GROUPS_TIENES": "You haven't joined any groups yet",
+  "ALUMNO":"Student",
+  "VISIT_WEB":"Visit the web",
+  "ERROR_LOGIN": "An error has occurred",
+  "USER_LOGIN_INCORRECTO":"Invalid username",
+    "PASSWORD_LOGIN_INCORRECTO":"Invalid password"
+
 }

@@ -231,6 +231,11 @@
     "WELCOME":"Bienvenido a Fit-Track",
     "NOT_ACCOUNT":"¿Aun no tienes una cuenta?",
     "NO_GROUPS":"No se han podido encontrar grupos",
-    "NO_GROUPS_TIENES":"Aun no te has unido a ningun grupo"
+    "NO_GROUPS_TIENES":"Aun no te has unido a ningun grupo",
+    "ALUMNO":"Alumno",
+    "VISIT_WEB":"Visita la web",
+    "ERROR_LOGIN":"Ha ocurrido un error",
+    "USER_LOGIN_INCORRECTO":"Usuario incorrecto",
+    "PASSWORD_LOGIN_INCORRECTO":"Contraseña incorrecta"
 }
 
