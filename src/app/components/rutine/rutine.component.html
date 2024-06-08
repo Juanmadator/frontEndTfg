@@ -35,7 +35,7 @@
     </article>
   </section>
 
-  <div *ngIf="groups.length<=0">
+  <div *ngIf="groups.length<=0 && !cargando">
     <app-fixed-message
       message="{{'NO_GROUPS_TIENES'|translate}}"></app-fixed-message>
   </div>

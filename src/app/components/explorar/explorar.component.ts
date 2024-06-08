@@ -30,6 +30,7 @@ export class ExplorarComponent implements OnInit {
   user: User | null = null;
   searchText: string = '';
   coachNameSearchText: string = '';
+  cargando:boolean=false;
 
   constructor(
     private groupService: GroupsService,
@@ -62,6 +63,7 @@ export class ExplorarComponent implements OnInit {
 
 
   loadGroups(): void {
+    this.cargando=true;
     this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
     this.groupService.getAllGroups().subscribe(
       (groups: Group[]) => {
@@ -73,10 +75,12 @@ export class ExplorarComponent implements OnInit {
           this.checkMemberships();
         }
         this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
+        this.cargando=false;
       },
       (error: any) => {
         console.error('Error al cargar grupos:', error);
         this.spinnerService.hide(); // Ocultar spinner si hay un error
+        this.cargando=false;
       }
     );
   }

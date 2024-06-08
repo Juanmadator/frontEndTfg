@@ -50,7 +50,7 @@
     </article>
   </section>
 
-  <div *ngIf="paginatedGroups.length<=0">
+  <div *ngIf="paginatedGroups.length<=0 && !cargando">
     <app-fixed-message
     message="{{'NO_GROUPS'|translate}}"></app-fixed-message>
   </div>

@@ -31,7 +31,7 @@ export class RutineComponent implements OnInit {
 
   public user: any = {};
   groups: Group[] = [];
-
+cargando:boolean=false;
   isLinear = false;
 
   constructor(private _formBuilder: FormBuilder,  private spinnerService: SpinnerService,private userService: UserService, private groupService: GroupsService) { }
@@ -60,31 +60,37 @@ export class RutineComponent implements OnInit {
     );
   }
   getGroupsByCoach(userId: number): void {
+    this.cargando=true;
     this.spinnerService.show();
     this.groupService.getGroupsByCoach(userId).subscribe(
       (groups: Group[]) => {
         const coachGroups = groups;
         this.getGroupsByUser(userId, coachGroups);
         this.spinnerService.hide();
+        this.cargando=false;
       },
       (error: any) => {
         console.error('Error al obtener los grupos del usuario (coach):', error);
         this.spinnerService.hide();
+        this.cargando=false;
       }
     );
   }
 
   getGroupsByUser(userId: number, coachGroups?: Group[]): void {
+    this.cargando=true;
     this.spinnerService.show();
     this.groupService.getGroupsByNormalUser(userId).subscribe(
       (userGroups: Group[]) => {
         const allGroups = coachGroups ? coachGroups.concat(userGroups) : userGroups;
         this.groups = allGroups;
         this.spinnerService.hide();
+        this.cargando=false;
       },
       (error: any) => {
         console.error('Error al obtener los grupos del usuario:', error);
         this.spinnerService.hide();
+        this.cargando=false;
       }
     );
   }
