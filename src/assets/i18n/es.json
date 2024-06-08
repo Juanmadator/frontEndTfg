@@ -150,8 +150,8 @@
       "PASSWORD":"Contraseña",
       "USERNAME":"Usuario",
       "NAME":"Nombre",
-      "LASTNAME":"Apellidos"
-
+      "LASTNAME":"Apellidos",
+      "EMAIL":"email@gmail.com"
     },
     "REMEMBER":"Recordar credenciales",
     "TITLES": {
@@ -236,6 +236,11 @@
     "VISIT_WEB":"Visita la web",
     "ERROR_LOGIN":"Ha ocurrido un error",
     "USER_LOGIN_INCORRECTO":"Usuario incorrecto",
-    "PASSWORD_LOGIN_INCORRECTO":"Contraseña incorrecta"
+    "PASSWORD_LOGIN_INCORRECTO":"Contraseña incorrecta",
+    "USERNAME_AGE":"Usuario y cumpleaños",
+    "LASTNAME_REQUIRED":"El apellido es obligatorio",
+    "EMAIL_REQUIRED":"El email es obligatorio",
+    "EMAIL_INVALID":"El email debe ser válido",
+    "PASSWORD_REQUIRED":"La contraseña es obligatoria"
 }
 

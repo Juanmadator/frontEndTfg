@@ -1,88 +1,58 @@
-<body >
-<div class="caja">
-
-     <main class="contenedor rounded-1 ">
-
-       <div class="formulario  p-5 ">
-         <h1 class="text-center text-black">{{"REGISTER"|translate}}</h1>
-         <form [formGroup]="myForm" (ngSubmit)="onSubmit(myForm.value)" #form="ngForm">
-             <input type="text" [placeholder]="'PLACEHOLDERS.NAME'|translate" formControlName="name" class="rounded-1 w-100" required>
-             <!-- Mostrar errores del campo Name -->
-             <input type="text" [placeholder]="'PLACEHOLDERS.LASTNAME'|translate" formControlName="lastname" class="rounded-1 w-100" required>
-             <!-- Mostrar errores del campo Lastname -->
-           <div class="row">
-             <div class="col">
-               <div *ngIf="myForm.get('name')?.invalid && myForm.get('name')?.touched">
-                 <small *ngIf="myForm.get('name')?.errors?.['required']">El nombre es obligatorio.</small>
-               </div>
-
-             </div>
-             <div class="col">
-               <div *ngIf="myForm.get('lastname')?.invalid && myForm.get('lastname')?.touched">
-                 <small *ngIf="myForm.get('lastname')?.errors?.['required']">El apellido es obligatorio.</small>
-               </div>
-             </div>
-           </div>
-           <div>
-             <small class="edad-username">Nombre de usuario y edad*</small>
-           </div>
-           <div class="d-flex gap-1 gap-md-3">
-                 <input type="text" placeholder="Username" (blur)="checkUsername()" formControlName="username"
-                   class="rounded-1 w-100" required>
-               <div class="col-md-6">
-                 <input type="date" placeholder="age" formControlName="age" class="rounded-1 w-100" min="16">
-               </div>
-           </div>
-           <div *ngIf="myForm.controls['username'].invalid && myForm.controls['username'].touched">
-             <small *ngIf="myForm.controls['username'].errors?.['required']">El nombre de usuario es obligatorio.</small>
-             <small *ngIf="myForm.controls['username'].errors?.['taken']">El nombre de usuario ya está en uso.</small>
-         </div>
-
-           <input type="text" placeholder="Email" (blur)="checkEmail()" formControlName="email" class="rounded-1 w-100"
-             required autocomplete>
-           <!-- Mostrar errores del campo Email -->
-           <div *ngIf="myForm.get('email')?.invalid && myForm.get('email')?.touched">
-             <small *ngIf="myForm.get('email')?.errors?.['required']">El correo electrónico es obligatorio.</small>
-             <small *ngIf="myForm.get('email')?.errors?.['email']">El correo electrónico no es válido.</small>
-             <small *ngIf="myForm.get('email')?.errors?.['taken']">El correo electrónico ya está en uso.</small>
-           </div>
-          <div class="coach">
-           <input type="checkbox" formControlName="coach" id="coach">
-           <label for="coach">Registrarse como coach</label>
+<body>
+  <div class="caja">
+    <main class="contenedor rounded-1 ">
+      <div class="formulario">
+        <div class="contenido">
+          <h1 class="text-center text-black">{{"REGISTER" | translate}}</h1>
+        <form [formGroup]="myForm" (ngSubmit)="onSubmit(myForm.value)" #form="ngForm">
+          <input type="text" [placeholder]="getPlaceholder('name')" formControlName="name" [ngClass]="getClass('name')"
+            required>
+          <input type="text" [placeholder]="getPlaceholder('lastname')" formControlName="lastname"
+            [ngClass]="getClass('lastname')" required>
+          <div class="row g-2">
+            <div class="col-md-6">
+              <input type="text" [placeholder]="getPlaceholder('username')" (blur)="checkUsername()"
+                formControlName="username" [ngClass]="getClass('username')" class="rounded-1 w-100" required>
+            </div>
+            <div class="col-md-6">
+              <input type="date" placeholder="age" formControlName="age" [ngClass]="getClass('age')"
+                class="rounded-1 w-100" min="16">
+            </div>
           </div>
-           <input type="password" [placeholder]="'PLACEHOLDERS.PASSWORD'|translate" formControlName="password" class="rounded-1" required
-             autocomplete="current-password">
-           <div *ngIf="myForm.get('password')?.invalid && myForm.get('password')?.touched">
-             <small *ngIf="myForm.get('password')?.errors?.['required']">La contraseña es obligatoria.</small>
-           </div>
 
-           <input type="submit" class="rounded-1" value="Registrarme"/>
-
-           <a  [routerLink]="['/login']" class="text-center cuenta">¿Ya tienes cuenta? <br>{{"SIGN_IN"|translate}}</a>
-         </form>
-       </div>
-
-       <div class="contenedor-right  align-content-center  order-xl-2 fin">
-         <h1 class="text-center fs-3 ">¿Ya nos conoces y </h1>
-         <h5 class="text-center mb-2">tienes una cuenta?</h5>
-         <button class="d-grid w-50 mx-auto p-2 rounded-1 register"><a [routerLink]="['/login']"> <span>{{"SIGN_IN"|translate}}</span></a></button>
-       </div>
+          <input type="text" [placeholder]="getPlaceholder('email')" (blur)="checkEmail()" formControlName="email"
+            [ngClass]="getClass('email')" required autocomplete>
 
 
-     </main>
-
-     <nav>
-      <a [routerLink]="['/home']">
-       <h1 class="text-center"><img class="icono" src="/assets/images/icono.png" alt=""></h1>
-      </a>
-     </nav>
-</div>
+          <div class="coach">
+            <input type="checkbox" formControlName="coach" id="coach">
+            <label for="coach">Registrarse como coach</label>
+          </div>
+          <input type="password" [placeholder]="getPlaceholder('password')" formControlName="password"
+            [ngClass]="getClass('password')" required autocomplete="current-password">
 
 
+          <input type="submit" class="rounded-1" value="Registrarme" />
+          <a [routerLink]="['/login']" class="text-center cuenta">¿Ya tienes cuenta? <br>{{"SIGN_IN" | translate}}</a>
+          <a [routerLink]="['/home']" class="ir-home-1">
+            <h1 class="text-center"><img class="icono" src="/assets/images/icono.png" alt=""></h1>
+          </a>
+        </form>
+        </div>
+      </div>
+      <div class="contenedor-right align-content-center order-xl-2 fin">
+        <h1 class="text-center fs-3 ">¿Ya nos conoces y </h1>
+        <h5 class="text-center mb-2">tienes una cuenta?</h5>
+        <button class="d-grid w-50 mx-auto p-2 rounded-1 register"><a [routerLink]="['/login']"> <span>{{"SIGN_IN" |
+              translate}}</span></a></button>
+        <a [routerLink]="['/home']" class="ir-home-2">
+          <h1 class="text-center"><img class="icono" src="/assets/images/icono.png" alt=""></h1>
+        </a>
+      </div>
+    </main>
+  </div>
 </body>
 
-
 @if(showSpinner){
-  <app-spinner></app-spinner>
-
+<app-spinner></app-spinner>
 }

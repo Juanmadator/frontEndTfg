@@ -7,7 +7,7 @@ import { User } from '../../services/user/User';
 import { RegisterService } from '../../services/register/register.service';
 import { UserService } from '../../services/user/user.service';
 import { SpinnerComponent } from '../spinner/spinner.component';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-register',
@@ -31,7 +31,7 @@ export class RegisterComponent implements OnInit {
   showSpinner: boolean = false;
   // gender!:string;
   // country!:string;
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private registerService: RegisterService, private http: HttpClient, private router: Router) {
+  constructor(private formBuilder: FormBuilder,private translate: TranslateService, private userService: UserService, private registerService: RegisterService, private http: HttpClient, private router: Router) {
 
   }
   ngOnInit(): void {
@@ -49,6 +49,14 @@ export class RegisterComponent implements OnInit {
       age: ['', [Validators.required]],
       coach: [false]
     });
+  }
+
+  getClass(field: string): string {
+    const control = this.myForm.get(field);
+    if (control && control.invalid && control.touched) {
+      return 'input-error';
+    }
+    return '';
   }
 
   onSubmit(value: any): void {
@@ -127,6 +135,29 @@ export class RegisterComponent implements OnInit {
     } else {
       this.myForm.get("username")?.setErrors(null);
     }
+  }
+
+
+  getPlaceholder(field: string): string {
+    const control = this.myForm.get(field);
+    if (control && control.invalid && control.touched) {
+      if (control.errors?.['required']) {
+        return this.getTranslatedPlaceholder(`${field.toUpperCase()}_REQUIRED`);
+      } else if (control.errors?.['email']) {
+        return this.getTranslatedPlaceholder('EMAIL_INVALID');
+      } else if (control.errors?.['taken']) {
+        return this.getTranslatedPlaceholder('USERNAME_TAKEN');
+      }
+    }
+    return this.getTranslatedPlaceholder(`PLACEHOLDERS.${field.toUpperCase()}`);
+  }
+
+  getTranslatedPlaceholder(key: string): string {
+    let translatedPlaceholder = '';
+    this.translate.get(key).subscribe((res: string) => {
+      translatedPlaceholder = res;
+    });
+    return translatedPlaceholder;
   }
 
   checkEmail() {

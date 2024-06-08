@@ -49,6 +49,10 @@ form input[type="submit"] {
   background-color: white;
 }
 
+.formulario h1{
+  margin-top: 20px;
+}
+
 .contenedor-right {
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
@@ -124,7 +128,11 @@ form select option:hover {
 }
 
 small {
-  color: rgb(255, 0, 0);
+  padding: 15px;
+  border-radius: 5px;
+  background-color: rgb(212, 74, 74);
+  display: block;
+  color: white;
 }
 
 .fin {
@@ -148,12 +156,14 @@ small {
     margin: 0 auto;
     border-radius: 0;
     padding-bottom: 50px;
+    width: 100%;
   }
 
-  .formulario h1{
-    padding-top: 30px;
-
+  .contenido{
+    width: 80%;
+    margin: 0 auto;
   }
+
 }
 
 @media (max-width: 967px) {
@@ -166,7 +176,7 @@ small {
   }
 }
 .edad-username {
-  color: black;
+  color: white;
 }
 
 .coach {
@@ -184,16 +194,23 @@ small {
 nav {
   width: 100%;
   z-index: 200;
+  position: absolute;
 }
 
-nav a {
-  text-decoration: none;
-  display: flex;
-  justify-content: center;
+@media (max-width: 1499px) {
+  main {
+    padding-top: 100px;
+  }
+}
+.formulario {
+  padding: 10px;
+}
+a {
   transition: 0.3s all ease;
-  margin: 0;
-  width: fit-content;
-  margin: 0 auto;
+}
+
+a:hover {
+transform: scale(1.08);
 }
 
 nav a:hover {
@@ -203,12 +220,47 @@ nav a:hover {
 .icono {
   align-self: center;
   width: 70px;
-  margin-bottom: 30px; /* Este margen no afectará a otros elementos debido a position: absolute */
   filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1));
 }
 
-@media(max-width: 1500px) {
+@media (max-width: 1500px) {
   .contenedor {
     margin-top: -50px;
   }
+}
+
+@media(min-width:968px){
+  .ir-home-1{
+    display: none;
+  }
+}
+
+.ir-home-2 h1 {
+  display: grid;
+  place-items: center;
+}
+
+.ir-home-1,
+.ir-home-2 {
+  align-self: center;
+}
+
+.ir-home-2{
+  margin-top: 20px;
+}
+
+a {
+  padding: 0;
+}
+
+@media (min-width: 993px) {
+  .formulario {
+    padding: 20px;
+  }
+}
+
+
+form .input-error{
+  background-color: rgb(212, 74, 74);
+  color: white;
 }
