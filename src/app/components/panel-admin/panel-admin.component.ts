@@ -48,7 +48,6 @@ export class PanelAdminComponent implements OnInit {
   }
 
   loadUsers(): void {
-    this.spinnerService.show();
     this.userService.getAllUsers(this.pageNumber, this.pageSize).subscribe(
       (data: Page<User>) => {
         if (data) {
