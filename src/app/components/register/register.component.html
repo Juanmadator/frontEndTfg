@@ -3,7 +3,7 @@
     <main class="contenedor rounded-1 ">
       <div class="formulario">
         <div class="contenido">
-          <h1 class="text-center text-black">{{"REGISTER" | translate}}</h1>
+          <h1 class="text-center text-black titulo">{{"REGISTER" | translate}}</h1>
         <form [formGroup]="myForm" (ngSubmit)="onSubmit(myForm.value)" #form="ngForm">
           <input type="text" [placeholder]="getPlaceholder('name')" formControlName="name" [ngClass]="getClass('name')"
             required>
