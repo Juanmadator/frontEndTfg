@@ -83,13 +83,16 @@ export class LoginComponent implements OnInit {
 
         if (sessionStorage.getItem('logError') == 'Nombre de usuario incorrecto') {
           this.errorUsuario = 'Usuario incorrecto';
+          this.spinnerService.hide();
         }
         if (sessionStorage.getItem('logError') == 'Contraseña incorrecta') {
           this.errorUsuario = '';
           this.errorPassword = 'Contraseña incorrecta';
-          this.passwordInput.nativeElement.value = '';
+          this.password = '';
+          this.spinnerService.hide();
         } else {
           sessionStorage.removeItem('logError');
+          this.spinnerService.hide();
         }
         this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
       },

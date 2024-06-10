@@ -1,13 +1,13 @@
-.token-invalid-container {
+.token-valid-container {
   background-color: #f0f0f0;
   text-align: center;
   padding-top: 50px;
 }
 
-.token-invalid-title {
+.token-valid-title {
   color: #25b338;
 }
 
-.token-invalid-text {
+.token-valid-text {
   color: #757575;
 }
