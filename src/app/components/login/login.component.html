@@ -5,7 +5,7 @@
 
     <main class="container rounded-1 ">
 
-      <div class="formulario bg-white  p-5 ">
+      <div class="formulario bg-white ">
         <h1 class="text-center text-black">{{"SIGN_IN"|translate}}</h1>
         <form method="post" (submit)="logUser($event,username.value,password.value)" >
           <input type="text" [placeholder]="'PLACEHOLDERS.USERNAME'|translate" #username name="username" class="rounded-1 w-100" autocomplete="off" [(ngModel)]="user.username">

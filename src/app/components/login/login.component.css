@@ -6,12 +6,23 @@ input[type="submit"] {
 }
 .container {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: grid;
   min-height: 500px;
 }
+
+@media(min-width:601px){
+  .container{
+    top: 50%;
+    left: 50%;
+    display: grid;
+  transform: translate(-50%, -50%);
+
+  }
+
+  form{
+  width: 80%;
+  }
+}
+
 .caja,
 form {
   display: flex;
@@ -33,10 +44,12 @@ form {
 }
 form {
   margin: 40px auto 0;
-  width: 80%;
   flex-direction: column;
   gap: 20px;
 }
+
+
+
 input[type="submit"]:hover {
   background: #ab98f4;
 }
@@ -53,6 +66,7 @@ form input::placeholder {
   border-top-right-radius: 8px;
   display: grid;
   align-content: center;
+  padding: 20px;
 }
 .contenedor-right {
   border-bottom-left-radius: 8px;
@@ -205,3 +219,5 @@ nav a:hover{
   width: 100%;
 }
 }
+
+

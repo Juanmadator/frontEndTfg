@@ -1,6 +1,6 @@
 <div class="token-invalid-container">
-  <h1 class="token-invalid-title">La verificación ha fallado</h1>
-  <p class="token-invalid-text">El token de verificación es inválido o ha expirado. Por favor, intenta registrarte de nuevo.</p>
-  <p class="token-invalid-text">Ya puede cerrar esta ventana</p>
-  <button (click)="close()">Cerrar</button>
+  <h1 class="token-invalid-title">{{'TOKEN_INVALID_CONTAINER.TITLE' | translate}}</h1>
+  <p class="token-invalid-text">{{'TOKEN_INVALID_CONTAINER.TEXT_1' | translate}}</p>
+  <p class="token-invalid-text">{{'TOKEN_INVALID_CONTAINER.TEXT_2' | translate}}</p>
+  <button (click)="close()">{{'TOKEN_INVALID_CONTAINER.CLOSE_BUTTON' | translate}}</button>
 </div>

@@ -241,6 +241,25 @@
     "LASTNAME_REQUIRED":"El apellido es obligatorio",
     "EMAIL_REQUIRED":"El email es obligatorio",
     "EMAIL_INVALID":"El email debe ser válido",
-    "PASSWORD_REQUIRED":"La contraseña es obligatoria"
+    "PASSWORD_REQUIRED":"La contraseña es obligatoria",
+    "TOKEN_INVALID_CONTAINER": {
+      "TITLE": "La verificación ha fallado",
+      "TEXT_1": "El token de verificación es inválido o ha expirado. Por favor, intenta registrarte de nuevo.",
+      "TEXT_2": "Ya puede cerrar esta ventana",
+      "CLOSE_BUTTON": "Cerrar"
+    },
+    "TOKEN_VALID_CONTAINER": {
+      "TITLE": "Verificación correcta",
+      "TEXT_1": "Te has registrado satisfactoriamente en Fit-Track.",
+      "TEXT_2": "Ya puede cerrar esta ventana",
+      "CLOSE_BUTTON": "Cerrar"
+    },
+    "YA_TIENES_CUENTA":"¿Ya tienes cuenta?",
+    "REGISTER_COACH":"Regístrate como entrenador",
+    "HEADINGS": {
+      "KNOW_US": "¿Ya nos conoces y ",
+      "HAVE_ACCOUNT": "tienes una cuenta?"
+    }
+    ,"BIRTHDAY":"Cumpleaños"
 }
 

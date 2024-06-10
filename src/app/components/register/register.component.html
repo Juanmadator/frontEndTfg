@@ -16,7 +16,7 @@
             </div>
             <div class="col-md-6">
               <input type="date" placeholder="age" formControlName="age" [ngClass]="getClass('age')"
-                class="rounded-1 w-100" min="16">
+                class="rounded-1 w-100" min="16" [title]="'BIRTHDAY'|translate">
             </div>
           </div>
 
@@ -26,14 +26,14 @@
 
           <div class="coach">
             <input type="checkbox" formControlName="coach" id="coach">
-            <label for="coach">Registrarse como coach</label>
+            <label for="coach">{{"REGISTER_COACH"|translate}}</label>
           </div>
           <input type="password" [placeholder]="getPlaceholder('password')" formControlName="password"
             [ngClass]="getClass('password')" required autocomplete="current-password">
 
 
           <input type="submit" class="rounded-1" value="Registrarme" />
-          <a [routerLink]="['/login']" class="text-center cuenta">¿Ya tienes cuenta? <br>{{"SIGN_IN" | translate}}</a>
+          <a [routerLink]="['/login']" class="text-center cuenta">{{"YA_TIENES_CUENTA"|translate}} <br>{{"SIGN_IN" | translate}}</a>
           <a [routerLink]="['/home']" class="ir-home-1">
             <h1 class="text-center"><img class="icono" src="/assets/images/icono.png" alt=""></h1>
           </a>
@@ -41,8 +41,8 @@
         </div>
       </div>
       <div class="contenedor-right align-content-center order-xl-2 fin">
-        <h1 class="text-center fs-3 ">¿Ya nos conoces y </h1>
-        <h5 class="text-center mb-2">tienes una cuenta?</h5>
+        <h1 class="text-center fs-3 ">{{"HEADINGS.KNOW_US"|translate}} </h1>
+        <h5 class="text-center mb-2">{{"HEADINGS.HAVE_ACCOUNT"|translate}}</h5>
         <button class="d-grid w-50 mx-auto p-2 rounded-1 register"><a [routerLink]="['/login']"> <span>{{"SIGN_IN" |
               translate}}</span></a></button>
         <a [routerLink]="['/home']" class="ir-home-2">
