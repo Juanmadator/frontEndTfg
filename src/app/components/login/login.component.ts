@@ -48,6 +48,7 @@ export class LoginComponent implements OnInit {
       if (storedUserCredentials) {
         const decryptedData = CryptoJS.AES.decrypt(storedUserCredentials, 'your-secret-key');
         const userRemember = JSON.parse(decryptedData.toString(CryptoJS.enc.Utf8));
+
         this.username = userRemember.username;
         this.password = userRemember.password;
         this.rememberCredentials = true;
@@ -55,42 +56,31 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  logUser(event: any, username: string, password: string): void {
+  logUser(event: any): void {
     event.preventDefault();
     this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
-    this.authService.login(username, password).subscribe(
+    this.authService.login(this.username, this.password).subscribe(
       () => {
-        this.user.username = username;
-        this.user.password = password;
-        // Crear objeto con las credenciales del usuario
         let user = {
-          username: this.user.username,
-          password: this.user.password
+          username: this.username,
+          password: this.password
         };
-        // Cifrar solo la contraseña
-        const encryptedPassword = CryptoJS.AES.encrypt(password, 'your-secret-key').toString();
-        // Almacenar la contraseña cifrada en sessionStorage
+        const encryptedPassword = CryptoJS.AES.encrypt(this.password, 'your-secret-key').toString();
         sessionStorage.setItem('encryptedPassword', encryptedPassword);
 
-        //EN CASO DE QUE SE MARQUE EL CHECKBOX PARA RECORDAR CREDENCIALES
         if (this.rememberCredentials) {
-          // Cifrar el objeto completo con las credenciales del usuario
           const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(user), 'your-secret-key').toString();
-          // Almacenar las credenciales cifradas en sessionStorage
           sessionStorage.setItem('userCredentials', encryptedData);
         } else {
-          // Eliminar las credenciales almacenadas en sessionStorage si no se recuerdan
           if (sessionStorage.getItem('userCredentials')) {
             sessionStorage.removeItem('userCredentials');
           }
         }
 
-        // Obtener otros datos necesarios del usuario si están presentes en sessionStorage
         if (sessionStorage.getItem('userId')) {
           this.getUserData();
         }
 
-        // Manejar errores de inicio de sesión
         if (sessionStorage.getItem('logError') == 'Nombre de usuario incorrecto') {
           this.errorUsuario = 'Usuario incorrecto';
         }
@@ -104,7 +94,7 @@ export class LoginComponent implements OnInit {
         this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
       },
       (error) => {
-        this.error=true;
+        this.error = true;
         this.spinnerService.hide(); // Ocultar spinner si hay un error
       }
     );

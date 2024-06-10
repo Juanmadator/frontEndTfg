@@ -7,10 +7,10 @@
 
       <div class="formulario bg-white ">
         <h1 class="text-center text-black">{{"SIGN_IN"|translate}}</h1>
-        <form method="post" (submit)="logUser($event,username.value,password.value)" >
-          <input type="text" [placeholder]="'PLACEHOLDERS.USERNAME'|translate" #username name="username" class="rounded-1 w-100" autocomplete="off" [(ngModel)]="user.username">
+        <form method="post" (submit)="logUser($event)" >
+          <input type="text" [placeholder]="'PLACEHOLDERS.USERNAME'|translate"  name="username" class="rounded-1 w-100" autocomplete="off" [(ngModel)]="username">
           <small *ngIf="errorUsuario">{{"USER_LOGIN_INCORRECTO"|translate}}</small>
-          <input type="password" [placeholder]="'PLACEHOLDERS.PASSWORD'|translate" autocomplete="current-password" #password name="password" class="rounded-1" [(ngModel)]="user.password">
+          <input type="password" [placeholder]="'PLACEHOLDERS.PASSWORD'|translate" autocomplete="current-password" name="password" class="rounded-1" [(ngModel)]="password">
           <small *ngIf="errorPassword">{{"PASSWORD_LOGIN_INCORRECTO"|translate}}</small>
           <div *ngIf="error" class="error-login">{{"ERROR_LOGIN"|translate}}</div>
           <div class="recordar-usuario">
