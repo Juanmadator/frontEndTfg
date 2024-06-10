@@ -196,6 +196,8 @@
     transition: 0.3s all ease;
     color: var(--color-primary);
     cursor: pointer;
+    width: 30px;
+    height: 30px;
   }
 
   .idioma:hover{
