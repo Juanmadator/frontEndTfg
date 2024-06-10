@@ -10,7 +10,7 @@
             <img src="assets/images/anonimo.png" alt="Anónimo">
           </a>
           <a *ngIf="!user.verified" [routerLink]="['/login']">
-            <img src="assets/images/anonimo.png" alt="Anónimo">
+            <img src="assets/images/anonimo.png" [title]="'SIGN_IN'|translate" alt="Anónimo">
           </a>
         </div>
 
