@@ -14,11 +14,10 @@
   align-items: center;
   height: fit-content;
   margin: 0 auto;
-  margin-top: 40px;
 }
 
 .formulario {
-  margin-top: 55px;
+  margin-top: 95px;
   width: 50%;
   padding: 40px;
   border-radius: 10px;
@@ -167,6 +166,10 @@ input[type="submit"]:hover {
   .other-navbar {
     width: 287px;
   }
+}
+
+.other-navbar{
+  margin-top: -95px;
 }
 
 @media (max-width: 600px) {

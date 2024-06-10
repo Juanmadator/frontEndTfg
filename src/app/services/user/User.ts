@@ -8,5 +8,6 @@ export interface User{
   gender?:string,
   country?:string,
   profilepicture?:string
-  coach:boolean
+  coach:boolean,
+  role:string
 }

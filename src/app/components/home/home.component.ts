@@ -30,11 +30,11 @@ import { SpinnerService } from '../../services/spinner/spinner.service';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [NavbarComponent, CommonModule, TranslateModule, FormsModule, InfiniteScrollModule, LazyLoadImageModule,RouterLink],
+  imports: [NavbarComponent, CommonModule, TranslateModule, FormsModule, InfiniteScrollModule, LazyLoadImageModule, RouterLink],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent implements OnInit  {
+export class HomeComponent implements OnInit {
   constructor(
     private elementRef: ElementRef,
     private translate: TranslateService,
@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit  {
     private postsService: PostsService,
     private renderer: Renderer2,
     private groupService: GroupsService,
-    private spinnerService:SpinnerService
+    private spinnerService: SpinnerService
   ) { }
 
   @ViewChild('modal') modal!: ElementRef;
@@ -109,7 +109,7 @@ export class HomeComponent implements OnInit  {
     forkJoin(userRequests).subscribe(
 
       (users: (User)[]) => {
-    this.spinnerService.show();
+        this.spinnerService.show();
 
         if (users.every(user => user !== null)) {
           this.comments.forEach((comment, index) => {
@@ -155,7 +155,7 @@ export class HomeComponent implements OnInit  {
               },
               (error: any) => {
                 this.spinnerService.hide();
-               }
+              }
             );
           });
         }
@@ -634,7 +634,7 @@ export class HomeComponent implements OnInit  {
 
 
   checkMemberships(): void {
-    if (this.groups) {
+    if (this.groups && this.user!=null && this.user.verified) {
       this.groups.forEach(group => {
         this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
         this.groupService.checkUserMembership(group.id, this.user!.id)
@@ -654,7 +654,7 @@ export class HomeComponent implements OnInit  {
   }
 
 
-   isMember(group: Group): boolean {
+  isMember(group: Group): boolean {
     return this.userGroups.some(userGroup => userGroup.id === group.id);
   }
 

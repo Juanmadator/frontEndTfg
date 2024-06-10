@@ -24,7 +24,7 @@
   padding: 10px;
   border-radius: 10px;
   margin: 10px;
-  z-index: 100;
+  z-index: 50;
 }
 img {
   border-radius: 20px;
@@ -33,6 +33,16 @@ img {
 .posts {
   width: 90%;
   z-index: -1;
+}
+
+@media(max-width:601px){
+
+  .caja{
+    width: 100%;
+  }
+.posts{
+  width: 100%;
+}
 }
 .caja {
   padding-top: 50px;
@@ -43,6 +53,14 @@ img {
     display: none;
   }
 
+}
+
+.contenido-post p{
+  padding-top: 10px;
+}
+
+.fa-heart{
+color: red;
 }
 @media(min-width:992px){
   .posts{
@@ -62,7 +80,7 @@ img {
   margin-top: 10px;
   border-radius: 10px;
   margin: 0 auto;
-  z-index: 150;
+  z-index: 50;
 }
 @media(min-width:993px){
   .caja{
@@ -100,4 +118,10 @@ img {
 
 .posts{
   margin: 0 auto;
+}
+
+
+.apoyo{
+  height: 50px;
+  width: 100%;
 }

@@ -7,7 +7,7 @@
     <div infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollUpDistance]="2" [infiniteScrollThrottle]="1000"
       (scrolled)="onScroll()" class="">
       <h1 class="text-center fw-semibold titulo">{{"LISTA_FAVS"|translate}}</h1>
-     <div class="alert" *ngIf="posts.length === 0">
+     <div class="alert" *ngIf="posts.length === 0 && !isLoading">
       <app-fixed-message
       message="{{'NO_FAVS'|translate}}"></app-fixed-message>
      </div>
@@ -28,9 +28,7 @@
                 <!-- Agrega otros detalles del usuario si es necesario -->
               </div>
             </div>
-            <button class="edit"  (click)="show(post)">
-              <i class="fa-solid fa-heart-crack" title="Dislike"></i>
-            </button>
+
 
 
           </div>
@@ -42,6 +40,13 @@
             <p>{{ post.content }}</p>
           </div>
 
+          <div>
+            <button class="edit"  (click)="show(post)">
+              <i class="fa-solid fa-heart" title="Dislike"></i>
+            </button>
+            <p>{{post.datePosted.toString()| formatDate}}</p>
+          </div>
+
         </div>
        </div>
       }
@@ -49,5 +54,7 @@
     </div>
   </div>
 </div>
+
+<div class="apoyo"></div>
 
 

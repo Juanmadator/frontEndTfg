@@ -1,0 +1,203 @@
+<div class="caja">
+  <div class="other-navbar">
+    <app-navbar></app-navbar>
+  </div>
+  <div class="contenido">
+    <div class="container mt-4">
+      <div class="menu d-flex justify-content-center mb-4">
+        <div id="users"  [class.active]="currentView === 'users'" (click)="setView('users')">{{"PANEL.USERS"|translate}}</div>
+        <div id="groups"  [class.active]="currentView === 'groups'" (click)="setView('groups')">{{"PANEL.GROUPS"|translate}}</div>
+        <div id="posts"  [class.active]="currentView === 'posts'" (click)="setView('posts')">{{"PANEL.POSTS"|translate}}</div>
+      </div>
+
+      <div *ngIf="currentView === 'users'">
+       @if(users.length>0){
+        <div class="d-none d-lg-block">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th></th>
+                <th>{{"PROFILE_USERNAME" | translate}}</th>
+                <th>{{"PROFILE_NAME" | translate}}</th>
+                <th>Email</th>
+                <th>{{"ACTIONS" | translate}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of users" >
+              @if(user.role!="ADMIN"){
+                <td>
+                  <img *ngIf="user.profilepicture" [src]="'https://juanmadatortfg.onrender.com/profile-images/' + user.profilepicture" alt="" class="" style="width: 50px; height: 50px;">
+                  <img *ngIf="!user.profilepicture" src="/assets/images/anonimo.png" alt="" class="" style="width: 50px; height: 50px;">
+                </td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.name }} {{ user.lastname }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                  <button class="btn btn-danger btn-sm" (click)="deleteUser(user.id)">Delete</button>
+                </td>
+              }
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="d-lg-none">
+          <div class="card mb-3" *ngFor="let user of users" >
+            @if(user.role!="ADMIN"){
+            <div class="row g-0">
+              <div class="col-md-4 d-flex justify-content-center p-3">
+                <img *ngIf="user.profilepicture" [src]="'https://juanmadatortfg.onrender.com/profile-images/' + user.profilepicture" alt="">
+                <img *ngIf="!user.profilepicture" src="/assets/images/anonimo.png" alt="">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">{{ user.username }}</h5>
+                  <p class="card-text">{{ user.name }} {{ user.lastname }}</p>
+                  <p class="card-text"><small class="text-muted">{{ user.email }}</small></p>
+                  <button class="btn btn-danger btn-sm" (click)="deleteUser(user.id)">Delete</button>
+                </div>
+              </div>
+            </div>
+          }
+          </div>
+        </div>
+       }@else {
+        <app-fixed-message
+        message="{{'COINCIDENCIAS'|translate}}"></app-fixed-message>
+       }
+      </div>
+
+      <div *ngIf="currentView === 'groups'">
+        @if(groups.length>0){
+        <div class="d-none d-lg-block">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Name</th>
+                <th>{{"DESCRIPTION"|translate}}</th>
+                <th>{{"NAVBAR_ENTRENADOR"|translate}}</th>
+                <th>{{"CREADO"|translate}}</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let group of groups">
+                <td>
+                  <img *ngIf="group.profileImage" [src]="'https://juanmadatortfg.onrender.com/images/' + group.profileImage" alt="" class="" style="width: 50px; height: 50px;">
+                  <img *ngIf="!group.profileImage" src="/assets/images/anonimo.png" alt="" class="" style="width: 50px; height: 50px;">
+                </td>
+                <td>{{ group.name }}</td>
+                <td ><p class="des">{{ group.description }}</p></td>
+                <td>{{ group.coachName }}</td>
+                <td>{{ group.createdAt.toString()| formatDate }}</td>
+                <td>
+                  <button class="btn btn-danger btn-sm" (click)="deleteGroup(group.id)">{{"DELETE"|translate}}</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="d-lg-none">
+          <div class="card mb-3" *ngFor="let group of groups">
+            <div class="row g-0">
+              <div class="col-md-4 d-flex justify-content-center p-3">
+                <img *ngIf="group.profileImage" [src]="'https://juanmadatortfg.onrender.com/images/' + group.profileImage" alt="" >
+                <img *ngIf="!group.profileImage" src="/assets/images/anonimo.png" alt="" >
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">{{ group.name }}</h5>
+                  <p class="card-text des">{{ group.description  }}</p>
+                  <p class="card-text"><small class="text-muted">Coach: {{ group.coachName }}</small></p>
+                  <p class="card-text"><small class="text-muted">Created At: {{ group.createdAt.toString()| formatDate }}</small></p>
+                  <button class="btn btn-danger btn-sm" (click)="deleteGroup(group.id)">Delete</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      }@else{
+        <app-fixed-message
+        message="{{'COINCIDENCIAS'|translate}}"></app-fixed-message>
+      }
+      </div>
+
+      <div *ngIf="currentView === 'posts'">
+        <div *ngIf="posts.length > 0; else noPosts">
+          <div class="d-none d-lg-block">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>{{"CONTENT"|translate}}</th>
+                  <th>{{"PROFILE_USERNAME" | translate}}</th>
+                  <th>{{"CREADO" | translate}}</th>
+                  <th>{{"ACTIONS"|translate}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let post of posts">
+                  <td>
+                    <img *ngIf="post.imageUrl" [src]="'https://juanmadatortfg.onrender.com/images/' + post.imageUrl" alt="" class="post-imagen">
+                  </td>
+                  <td><p class="des">{{ post.content }}</p></td>
+                  <td>{{ post.userData!.username }}</td>
+                  <td>{{ post.datePosted.toString() | formatDate }}</td>
+                  <td>
+                    <button class="btn btn-danger btn-sm" (click)="deletePost(post.id,post.userId)">{{"DELETE" | translate}}</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="d-lg-none">
+            <div class="card mb-3" *ngFor="let post of posts">
+              <div class="row g-0">
+                <div class="col-md-4 d-flex justify-content-center p-3">
+                  <img *ngIf="post.imageUrl" [src]="'https://juanmadatortfg.onrender.com/images/' + post.imageUrl" class="post-imagen" alt="">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <p class="card-text">{{ post.content }}</p>
+                    <p class="card-text"><small class="text-muted">{{ post.userData!.username }}</small></p>
+                    <p class="card-text"><small class="text-muted">{{ post.datePosted.toString() | formatDate }}</small></p>
+                    <button class="btn btn-danger btn-sm" (click)="deletePost(post.id,post.userId)">{{"DELETE" | translate}}</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-template #noPosts>
+          <app-fixed-message message="{{'COINCIDENCIAS' | translate}}"></app-fixed-message>
+        </ng-template>
+      </div>
+      <nav *ngIf="(currentView === 'users' && users.length > 0) || (currentView === 'groups' && groups.length > 0) || (currentView === 'posts' && posts.length > 0)" aria-label="Page navigation">
+        <ul class="pagination">
+          <li class="page-item" [class.disabled]="pageNumber === 0">
+            <a class="page-link" (click)="onPageChange(pageNumber)" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li class="page-item" *ngFor="let page of pages">
+            <a class="page-link" (click)="onPageChange(page)">{{ page }}</a>
+          </li>
+          <li class="page-item" [class.disabled]="pageNumber === totalPages - 1">
+            <a class="page-link" (click)="onPageChange(pageNumber + 2)" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+
+</div>
+
+
+<div class="apoyo"></div>

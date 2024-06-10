@@ -4,6 +4,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Post } from './Post';
 import { Comment } from './Comment';
+import { Page } from '../user/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,21 @@ export class PostsService {
   getAllPosts(pageNumber: number, pageSize: number): Observable<Post[]> {
     const url = `${this.baseUrl}posts?page=${pageNumber}&pageSize=${pageSize}`;
     return this.http.get<Post[]>(url).pipe(
+      catchError(error => {
+        console.error('Error al obtener los posts:', error);
+        return throwError('Error al obtener los posts');
+      })
+    );
+  }
+
+
+  getAllPostsPaginated(pageNumber: number, pageSize: number): Observable<Page<Post>> {
+    const params = new HttpParams()
+      .set('page', pageNumber.toString())
+      .set('pageSize', pageSize.toString());
+
+    const url = `${this.baseUrl}posts`;
+    return this.http.get<Page<Post>>(url, { params }).pipe(
       catchError(error => {
         console.error('Error al obtener los posts:', error);
         return throwError('Error al obtener los posts');

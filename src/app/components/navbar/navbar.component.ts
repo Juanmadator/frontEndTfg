@@ -35,6 +35,7 @@ export class NavbarComponent {
   isExplorar:boolean=false;
   isCreateRutine:boolean=false;
   isAbout:boolean=false;
+  isAdmin:boolean=false;
   setActiveItem(item: string) {
     this.navbarService.setActiveItem(item);
   }
@@ -52,6 +53,7 @@ export class NavbarComponent {
       this.getUserData();
     }
     this.isHomeRoute = this.router.url === '/home';
+    this.isAdmin = this.router.url === '/admin';
     this.isFavRoute = this.router.url === '/fav';
     this.isProfile = this.router.url === '/profile';
     this.isExplorar = this.router.url === '/explorar';

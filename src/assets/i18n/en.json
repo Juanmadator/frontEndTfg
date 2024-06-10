@@ -260,5 +260,17 @@
     "KNOW_US": "Do you know us and",
     "HAVE_ACCOUNT": "have an account?"
   },
-  "BIRTHDAY": "Birthday"
+  "BIRTHDAY": "Birthday",
+  "PASSWORD_PATTERN": "Must contain: [Uppercase, lowercase, number, symbol, and 8 characters]",
+  "MANDATORY":"Mandatory",
+  "NAVBAR_ADMIN":"Administrator",
+  "ACTIONS":"Actions",
+  "CREADO":"Created",
+  "PANEL":{
+    "USERS":"Users",
+    "GROUPS":"Groups",
+    "POSTS":"Posts"
+  },
+  "COINCIDENCIAS": "No matches found",
+  "CONTENT":"Content"
 }

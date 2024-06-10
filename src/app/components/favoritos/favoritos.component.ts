@@ -12,11 +12,12 @@ import { forkJoin } from 'rxjs';
 import { UserService } from '../../services/user/user.service';
 import { User } from '../../services/user/User';
 import { SpinnerService } from '../../services/spinner/spinner.service';
+import { FormatDatePipe } from '../../pipes/format-date.pipe';
 
 @Component({
   selector: 'app-favoritos',
   standalone: true,
-  imports: [CommonModule, InfiniteScrollModule, NavbarComponent, FixedMessageComponent, TranslateModule],
+  imports: [CommonModule, InfiniteScrollModule, NavbarComponent, FixedMessageComponent, TranslateModule,FormatDatePipe],
   templateUrl: './favoritos.component.html',
   styleUrl: './favoritos.component.css'
 })
@@ -95,33 +96,32 @@ export class FavoritosComponent implements OnInit {
   }
 
   show(post: Post) {
-    this.translate.get(['DELETE_FROM_LIST', 'DELETE_POST_CONFIRMATION', 'YES_DELETE', 'CANCEL']).subscribe(translations => {
-      Swal.fire({
-        title: translations['DELETE_FROM_LIST'],
-        text: translations['DELETE_POST_CONFIRMATION'],
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: translations['YES_DELETE'],
-        cancelButtonText: translations['CANCEL']
-      }).then((result) => {
-        if (result.isConfirmed) {
-          if (sessionStorage.getItem("userId")) {
-            let userId: string | null = sessionStorage.getItem("userId"); // Obtener el userId
-            let userIdFinal: number = userId ? parseInt(userId) : 0;
-            this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
-            this.postService.deleteFavourite(userIdFinal, post.id).subscribe(
-              (response) => {
-                location.reload();
-                this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
-              },
-              (error) => {
-                location.reload();
-                this.spinnerService.hide(); // Ocultar spinner si hay un error
-              }
-            );
-          }
+    if (sessionStorage.getItem("userId")) {
+      let userId: string | null = sessionStorage.getItem("userId"); // Obtener el userId
+      let userIdFinal: number = userId ? parseInt(userId) : 0;
+      this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
+      this.postService.deleteFavourite(userIdFinal, post.id).subscribe(
+        (response) => {
+          // Eliminar el post localmente
+          this.posts = this.posts.filter(p => p.id !== post.id);
+
+          // Reiniciar pageNumber y obtener los posts nuevamente
+          this.pageNumber = 0;
+          this.posts = [];
+          this.getPosts();
+          this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
+        },
+        (error) => {
+          this.spinnerService.hide(); // Ocultar spinner si hay un error
+          Swal.fire({
+            title: 'Error',
+            text: 'No se ha podido borrar el post.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
         }
-      });
-    });
+      );
+    }
   }
+
 }

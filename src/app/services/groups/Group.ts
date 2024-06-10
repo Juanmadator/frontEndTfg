@@ -7,7 +7,6 @@ export interface Group {
   createdAt: Date;
   coachName: string;
   perteneceUsuario:boolean;
-
 }
 
 export interface GroupResponse {

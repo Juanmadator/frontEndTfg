@@ -32,8 +32,8 @@ body {
   padding: 10px;
   height: 450px;
   overflow-y: scroll;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 10px;
 }
 
 .messages::-webkit-scrollbar-track {
@@ -79,7 +79,6 @@ body {
 .cajas {
   width: 100%;
   display: grid;
-  grid-template-columns: 5fr 1fr;
 }
 
 .contenido p {
@@ -421,8 +420,20 @@ form input {
 
 
 @media(min-width:993px){
+
+.cajas{
+  grid-template-columns: 5fr 0.5fr;
+}
+
   .grupos-2{
     display: grid;
     gap:20px;
   }
+
+  .segundo{
+    display: block;
+  }
+
 }
+
+

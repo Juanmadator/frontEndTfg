@@ -16,7 +16,7 @@
             </div>
             <div class="col-md-6">
               <input type="date" placeholder="age" formControlName="age" [ngClass]="getClass('age')"
-                class="rounded-1 w-100" min="16" [title]="'BIRTHDAY'|translate">
+                class="rounded-1 w-100" min="16" [title]="'MANDATORY'|translate">
             </div>
           </div>
 
@@ -28,9 +28,9 @@
             <input type="checkbox" formControlName="coach" id="coach">
             <label for="coach">{{"REGISTER_COACH"|translate}}</label>
           </div>
-          <input type="password" [placeholder]="getPlaceholder('password')" formControlName="password"
+          <input type="password"formControlName="password" [placeholder]="'PLACEHOLDERS.PASSWORD'|translate"
             [ngClass]="getClass('password')" required autocomplete="current-password">
-
+          <small *ngIf="getPlaceholder('password')!='Contraseña'">{{getPlaceholder('password')}}</small>
 
           <input type="submit" class="rounded-1" value="Registrarme" />
           <a [routerLink]="['/login']" class="text-center cuenta">{{"YA_TIENES_CUENTA"|translate}} <br>{{"SIGN_IN" | translate}}</a>

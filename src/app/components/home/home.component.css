@@ -3,6 +3,8 @@ main .contenedor .left .profile {
   border-radius: var(--card-border-radius);
   background: var(--color-white);
 }
+
+
 .left .sidebar .menu-item:hover,
 .search-bar {
   background: var(--color-light);
@@ -578,10 +580,11 @@ input[type="text"]:focus {
 .interaction-buttons span i {
   font-size: 100px;
 }
-.contenido-post p {
+.contenido-post  {
   font-size: 16px;
   text-align: justify;
   margin-left: 5px;
+
 }
 
 .photo {
@@ -899,4 +902,11 @@ input[type="text"]:focus {
 {
   display: flex;
   gap: 10px;
+}
+
+
+@media(max-width:600px){
+  .main-container{
+    display: block;
+  }
 }

@@ -36,6 +36,7 @@ cargando:boolean=false;
 
   constructor(private _formBuilder: FormBuilder,  private spinnerService: SpinnerService,private userService: UserService, private groupService: GroupsService) { }
   ngOnInit(): void {
+    this.cargando=true;
     this.getUserData();
   }
 

@@ -17,15 +17,23 @@
         <div class="handle">
           <div *ngIf="user.name && user.lastname">
             <h5>{{user.name}}</h5>
-            <div *ngIf="user.coach; else standardUser">
+            <div *ngIf="user.role === 'ADMIN'; else nonAdminUser">
               <small class="d-flex align-content-center g-2">
-                <i class="mt-1">{{ 'NAVBAR_ENTRENADOR' | translate }}</i>
+                <i class="mt-1">{{ 'NAVBAR_ADMIN' | translate }}</i>
               </small>
             </div>
-            <ng-template #standardUser>
-              <small><i>{{ 'NAVBAR_ESTANDAR' | translate }}</i></small>
+            <ng-template #nonAdminUser>
+              <div *ngIf="user.coach; else standardUser">
+                <small class="d-flex align-content-center g-2">
+                  <i class="mt-1">{{ 'NAVBAR_ENTRENADOR' | translate }}</i>
+                </small>
+              </div>
+              <ng-template #standardUser>
+                <small><i>{{ 'NAVBAR_ESTANDAR' | translate }}</i></small>
+              </ng-template>
             </ng-template>
           </div>
+
           <div *ngIf="!user.name || !user.lastname">
             <h5>Anónimo</h5>
           </div>
@@ -40,6 +48,11 @@
         <a class="menu-item" [routerLink]="['/home']" [ngClass]="{ 'active': isHomeRoute }" (click)="changeActiveItem($event.target)" [title]="'TITLES.HOME' | translate">
           <span><i class="uil uil-home"></i></span>
           <h3>Home</h3>
+        </a>
+
+        <a class="menu-item" *ngIf="this.user.role==='ADMIN'" [routerLink]="['/admin']" [ngClass]="{ 'active': isAdmin }" (click)="changeActiveItem($event.target)" [title]="'TITLES.HOME' | translate">
+          <span><i class="fa-solid fa-screwdriver-wrench"></i></span>
+          <h3>Panel</h3>
         </a>
         <a class="menu-item" [routerLink]="['/explorar']" [ngClass]="{ 'active': isExplorar }" (click)="changeActiveItem($event.target)" [title]="'TITLES.EXPLORE' | translate">
           <span><i class="uil uil-compass"></i></span>

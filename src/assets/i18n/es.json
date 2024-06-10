@@ -260,6 +260,18 @@
       "KNOW_US": "¿Ya nos conoces y ",
       "HAVE_ACCOUNT": "tienes una cuenta?"
     }
-    ,"BIRTHDAY":"Cumpleaños"
+    ,"BIRTHDAY":"Cumpleaños",
+    "PASSWORD_PATTERN":"Debe contener: [Mayúscula,minúscula,número,símbolo y 8 caracteres]",
+    "MANDATORY":"Obligatorio",
+    "NAVBAR_ADMIN":"Administrador",
+    "ACTIONS":"Acciones",
+    "CREADO":"Creado",
+    "PANEL":{
+      "USERS":"Usuarios",
+      "GROUPS":"Grupos",
+      "POSTS":"Publicaciones"
+    },
+   "COINCIDENCIAS":"No se han encontrado coincidencias",
+   "CONTENT":"Contenido"
 }
 

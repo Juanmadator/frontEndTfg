@@ -134,7 +134,7 @@ small {
   padding: 15px;
   border-radius: 5px;
   background-color: rgb(212, 74, 74);
-  display: block;
+  display: inline-block;
   color: white;
 }
 

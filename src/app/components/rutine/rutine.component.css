@@ -27,7 +27,6 @@ body {
 @media(min-width:993px){
   .fondo {
     grid-template-columns: 1fr 5fr;
-    margin-top: 50px;
   }
 }
 
@@ -61,7 +60,7 @@ body {
 }
 
 
-@media(min-width:860px){
+@media(min-width:780px){
   .articles {
     grid-template-columns: repeat(2, 2fr);
   }

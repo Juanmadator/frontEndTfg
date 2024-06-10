@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { AuthenticationGuardComponent } from './components/authentication-guard/authentication-guard.component';
+import { RegisterGuardComponent } from './components/authentication-guard/register-guard.component';
 
 export const routes: Routes = [
 
@@ -12,7 +13,7 @@ export const routes: Routes = [
     loadComponent: () => import('./components/login/login.component').then(c => c.LoginComponent)
   }, {
     path: 'register',
-    loadComponent: () => import('./components/register/register.component').then(c => c.RegisterComponent)
+    loadComponent: () => import('./components/register/register.component').then(c => c.RegisterComponent) ,canActivate:[RegisterGuardComponent]
   },
   {
     path: 'profile',
@@ -21,11 +22,11 @@ export const routes: Routes = [
   },
   {
     path: 'verification',
-    loadComponent: () => import('./components/verification/verification.component').then(c => c.VerificationComponent),
+    loadComponent: () => import('./components/verification/verification.component').then(c => c.VerificationComponent),canActivate:[RegisterGuardComponent]
   },
   {
     path: 'notVerified',
-    loadComponent: () => import('./components/not-verified/not-verified.component').then(c => c.NotVerifiedComponent)
+    loadComponent: () => import('./components/not-verified/not-verified.component').then(c => c.NotVerifiedComponent),canActivate:[RegisterGuardComponent]
   },
   {
     path: 'groups',
@@ -63,6 +64,11 @@ export const routes: Routes = [
   {
     path: 'about',
     loadComponent: () => import('./components/about/about.component').then(c => c.AboutComponent)
+  }
+  ,
+  {
+    path: 'admin',
+    loadComponent: () => import('./components/panel-admin/panel-admin.component').then(c => c.PanelAdminComponent)
   }
 
   , {

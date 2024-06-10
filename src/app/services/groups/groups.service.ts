@@ -1,9 +1,10 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, of, throwError } from 'rxjs';
 import { GroupMessage } from './GroupMessage';
 import { UserGroup } from './UserGroup';
 import { Group } from './Group';
+import { Page } from '../user/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +47,15 @@ export class GroupsService {
       errorMessage = `Server-side error: ${error.status}\nMessage: ${error.message}`;
     }
     return throwError(errorMessage);
+  }
+
+
+  getAllGroupsPaginated(page: number = 0, size: number = 10): Observable<Page<Group>> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<Page<Group>>(`${this.baseUrl}/all`, { params });
   }
 
 

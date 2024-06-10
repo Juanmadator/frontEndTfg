@@ -3,7 +3,7 @@ import { CanActivate, Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthenticationGuardComponent  implements CanActivate{
+export class RegisterGuardComponent  implements CanActivate{
   constructor( private router: Router) {}
 
   canActivate(): boolean {
@@ -12,11 +12,11 @@ export class AuthenticationGuardComponent  implements CanActivate{
     const userId = sessionStorage.getItem('userId');
 
     if (token && userId) {
-      return true;
-    } else {
-      // Si alguno de los dos o ambos no existen, el usuario no está autenticado, redirige a la página de inicio de sesión.
       this.router.navigate(['/home']);
+
       return false;
+    } else {
+      return true;
     }
   }
 }
