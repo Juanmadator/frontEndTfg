@@ -195,6 +195,7 @@
     background-color: transparent;
     transition: 0.3s all ease;
     color: var(--color-primary);
+    cursor: pointer;
   }
 
   .idioma:hover{
