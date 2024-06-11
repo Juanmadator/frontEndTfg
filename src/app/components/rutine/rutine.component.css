@@ -64,9 +64,13 @@ body {
   .articles {
     grid-template-columns: repeat(2, 2fr);
   }
+
+  .fondo{
+    gap: 20px;
+  }
 }
 
-@media(min-width:1201px){
+@media(min-width:1401px){
   .articles {
     grid-template-columns: 1fr 1fr 1fr;
     margin-top: -160px;
