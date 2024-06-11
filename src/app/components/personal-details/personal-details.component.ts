@@ -125,8 +125,9 @@ export class PersonalDetailsComponent implements OnInit {
       this.user.country = this.selectedCountry;
 
       const inputDateElement = document.getElementById('age') as HTMLInputElement;
-      const localDate = new Date(inputDateElement.value);
-      this.user.age = localDate.toISOString();
+      if (inputDateElement && inputDateElement.value) {
+        this.user.age = inputDateElement.value;
+      }
 
       if (this.user.gender) {
         this.spinnerService.show();
@@ -170,6 +171,7 @@ export class PersonalDetailsComponent implements OnInit {
       }
     }
   }
+
 
   checkUsername(): Promise<boolean> {
     return new Promise((resolve, reject) => {
@@ -222,7 +224,6 @@ export class PersonalDetailsComponent implements OnInit {
             : 'assets/images/anonimo.png';
           if (this.user.age) {
             const dateOfBirth = new Date(this.user.age);
-            dateOfBirth.setDate(dateOfBirth.getDate() + 1);
             const year = dateOfBirth.getFullYear();
             const month = (dateOfBirth.getMonth() + 1).toString().padStart(2, '0');
             const day = dateOfBirth.getDate().toString().padStart(2, '0');
@@ -243,6 +244,7 @@ export class PersonalDetailsComponent implements OnInit {
       }
     );
   }
+
 
   ngAfterViewInit() {
     if (this.selectPais && this.selectPais.nativeElement) {

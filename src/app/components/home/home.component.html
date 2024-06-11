@@ -209,9 +209,9 @@
                 </div>
 
                 <div class="botones">
-                  <button *ngIf="user && isCoachOfGroup(grupo.id)" (click)="salirte(grupo.id)" disabled
+                  <button *ngIf="user && user.id===grupo.coachId" (click)="salirte(grupo.id)" disabled
                     id="salirte">{{"YOUR_GROUP"|translate}}</button>
-                  <button *ngIf="user && isMember(grupo) && user.id !== getCoachIdOfGroup(grupo.id)"
+                  <button *ngIf="user && isMember(grupo) && user.id !== grupo.coachId"
                     (click)="salirte(grupo.id)" id="salirte">{{"EXIT_GROUP"|translate}}</button>
                   <button *ngIf="user && !isMember(grupo) && user.id !== getCoachIdOfGroup(grupo.id)"
                     (click)="unirte(grupo.id)" id="unirte">{{"JOIN_GROUP"|translate}}</button>

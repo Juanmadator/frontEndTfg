@@ -43,7 +43,9 @@ main{
 @media (min-width: 993px) {
   .contenedor {
     grid-template-columns: 1fr 5fr;
+    margin-top:30px;
   }
+
 }
 @media (min-width: 801px) and (max-width: 1200px) {
   .container {

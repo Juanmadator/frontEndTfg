@@ -158,12 +158,17 @@ export class GroupComponent implements AfterViewInit {
     this.userService.getUser().subscribe(
       (user: User | null) => {
         this.user = user;
-        if (this.user && this.user.coach) {
+       if(this.user){
+        if (this.user.coach) {
+          console.log("CARGANDO GRUPOS COACH");
           this.obtenerGruposCoach(this.user.id);
         }
-        if (this.user && !this.user.coach) {
+        if (!this.user.coach) {
+          console.log("CARGANDO GRUPOS USER");
+
           this.obtenerGruposUser();
         }
+       }
         this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
       },
       error => {
@@ -179,10 +184,9 @@ export class GroupComponent implements AfterViewInit {
     this.userService.getUserById(coachId).subscribe(
       (user: User | null) => {
         this.coach = user;
-        console.log(this.coach);
-        if (this.coach) {
-          this.obtenerGruposCoach(this.coach.id);
-        }
+        // if (this.coach) {
+        //   this.obtenerGruposCoach(this.coach.id);
+        // }
         this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
       },
       error => {
