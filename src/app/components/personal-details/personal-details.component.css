@@ -7,6 +7,10 @@
 .formulario {
   background-color: #fff;
 }
+
+main{
+  padding-top: 120px;
+}
 .contenedor {
   width: 80%;
   display: grid;
@@ -17,7 +21,6 @@
 }
 
 .formulario {
-  margin-top: 95px;
   width: 50%;
   padding: 40px;
   border-radius: 10px;
@@ -169,7 +172,7 @@ input[type="submit"]:hover {
 }
 
 .other-navbar{
-  margin-top: -95px;
+  margin-top: -25px;
 }
 
 @media (max-width: 600px) {
