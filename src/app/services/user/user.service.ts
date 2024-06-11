@@ -87,12 +87,12 @@ export class UserService {
   }
 
 
-  getAllUsers(page: number = 0, size: number = 10): Observable<Page<User>> {
+  getAllUsers(page: number = 0, size: number = 10): Observable<any> {
     const params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
 
-    return this.http.get<Page<User>>(`${this.urlApi}/users`, { params });
+    return this.http.get<any>(`${this.urlApi}/users`, { params });
   }
 
 

@@ -48,12 +48,21 @@ export class PanelAdminComponent implements OnInit {
   }
 
   loadUsers(): void {
+    this.spinnerService.show();
     this.userService.getAllUsers(this.pageNumber, this.pageSize).subscribe(
-      (data: Page<User>) => {
-        if (data) {
-          this.users = data.content.filter(user => user.role !== 'ADMIN'); // Filtrar usuarios que no sean ADMIN
-          this.totalElements = data.totalElements;
-          this.totalPages = data.totalPages;
+      (data: any) => {
+        // Suponiendo que el backend devuelve un objeto con una propiedad 'content' que contiene el array de usuarios
+        const usersArray = data.content || [];
+        if (Array.isArray(usersArray)) {
+          this.users = usersArray; // Asignar todos los datos a users
+          this.users = this.users.filter(user => user.role !== 'ADMIN'); // Filtrar y eliminar los usuarios con role diferente de ADMIN
+          this.totalElements = this.users.length;
+          this.totalPages = Math.ceil(this.users.length / this.pageSize);
+        } else {
+          console.error('La respuesta del servidor no contiene un array:', data);
+          this.users = []; // Asignar un array vacío si usersArray no es un array
+          this.totalElements = 0;
+          this.totalPages = 0;
         }
         this.spinnerService.hide();
       },
@@ -70,6 +79,7 @@ export class PanelAdminComponent implements OnInit {
       response => {
         this.users = this.users.filter(user => user.id !== userId);
         this.loadUsers(); // Reload users after deletion
+        this.spinnerService.hide();
       },
       error => {
         console.error('Error deleting user', error);
@@ -87,9 +97,9 @@ export class PanelAdminComponent implements OnInit {
           this.totalElements = data.length; // Assuming totalElements is just the length of the data array
           this.totalPages = Math.ceil(data.length / this.pageSize);
           this.getUserByPost(); // Mover la llamada a getUserByPost aquí
-        } else {
           this.spinnerService.hide();
         }
+        this.spinnerService.hide();
       },
       error => {
         console.error('Error loading posts', error);
@@ -99,6 +109,7 @@ export class PanelAdminComponent implements OnInit {
   }
 
   getUserByPost(): void {
+    this.spinnerService.show();
     const userRequests = this.posts.map(post => this.userService.getUserById(post.userId));
     forkJoin(userRequests).subscribe(
       (users: User[]) => {
@@ -120,6 +131,7 @@ export class PanelAdminComponent implements OnInit {
       response => {
         this.posts = this.posts.filter(post => post.id !== postId);
         this.loadPosts(); // Reload posts after deletion
+        this.spinnerService.hide();
       },
       error => {
         console.error('Error deleting post', error);
@@ -167,6 +179,7 @@ export class PanelAdminComponent implements OnInit {
       response => {
         this.groups = this.groups.filter(group => group.id !== groupId);
         this.loadGroups(); // Reload groups after deletion
+        this.spinnerService.hide();
       },
       error => {
         console.error('Error deleting group', error);

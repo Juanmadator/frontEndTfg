@@ -144,7 +144,7 @@
                     <img *ngIf="post.imageUrl" [src]="'https://juanmadatortfg.onrender.com/images/' + post.imageUrl" alt="" class="post-imagen">
                   </td>
                   <td><p class="des">{{ post.content }}</p></td>
-                  <td>{{ post.userData!.username }}</td>
+                  <td *ngIf="post.userData">{{ post.userData!.username }}</td>
                   <td>{{ post.datePosted.toString() | formatDate }}</td>
                   <td>
                     <button class="btn btn-danger btn-sm" (click)="deletePost(post.id,post.userId)">{{"DELETE" | translate}}</button>
@@ -163,7 +163,7 @@
                 <div class="col-md-8">
                   <div class="card-body">
                     <p class="card-text">{{ post.content }}</p>
-                    <p class="card-text"><small class="text-muted">{{ post.userData!.username }}</small></p>
+                    <p class="card-text" *ngIf="post.userData">{{ post.userData!.username }}><small class="text-muted" *ngIf="post.userData">{{ post.userData!.username }}</small></p>
                     <p class="card-text"><small class="text-muted">{{ post.datePosted.toString() | formatDate }}</small></p>
                     <button class="btn btn-danger btn-sm" (click)="deletePost(post.id,post.userId)">{{"DELETE" | translate}}</button>
                   </div>

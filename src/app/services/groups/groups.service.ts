@@ -50,13 +50,20 @@ export class GroupsService {
   }
 
 
-  getAllGroupsPaginated(page: number = 0, size: number = 10): Observable<Page<Group>> {
+  getAllGroupsPaginated(page: number = 0, size: number = 10): Observable<any> {
     const params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
 
-    return this.http.get<Page<Group>>(`${this.baseUrl}/all`, { params });
+    return this.http.get<any>(`${this.baseUrl}/all`, { params }).pipe(
+      catchError(error => {
+        console.error('Error al obtener los grupos paginados:', error);
+        return throwError('Error al obtener los grupos paginados');
+      })
+    );
   }
+
+
 
 
   deleteGroup(groupId: number): Observable<any> {
