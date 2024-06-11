@@ -97,9 +97,9 @@ export class PanelAdminComponent implements OnInit {
           this.totalElements = data.length; // Assuming totalElements is just the length of the data array
           this.totalPages = Math.ceil(data.length / this.pageSize);
           this.getUserByPost(); // Mover la llamada a getUserByPost aquí
-          this.spinnerService.hide();
+        } else {
+          this.spinnerService.hide(); // Ocultar spinner si no hay datos
         }
-        this.spinnerService.hide();
       },
       error => {
         console.error('Error loading posts', error);
@@ -109,7 +109,6 @@ export class PanelAdminComponent implements OnInit {
   }
 
   getUserByPost(): void {
-    this.spinnerService.show();
     const userRequests = this.posts.map(post => this.userService.getUserById(post.userId));
     forkJoin(userRequests).subscribe(
       (users: User[]) => {

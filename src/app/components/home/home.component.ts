@@ -14,7 +14,7 @@ import { PostsService } from '../../services/posts/posts.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Post } from '../../services/posts/Post';
-import { forkJoin } from 'rxjs';
+import { catchError, forkJoin, map, of } from 'rxjs';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import imageCompression from 'browser-image-compression';
@@ -146,27 +146,41 @@ export class HomeComponent implements OnInit {
     this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
     this.groupService.getAllGroups().subscribe(
       (groupsData: any[]) => {
-        if (groupsData != null && groupsData != undefined) {
-          groupsData.forEach((group: any) => {
-            this.groupService.getCoachUsername(group.id).subscribe(
-              (response: any) => {
-                group.coachUsername = response.username;
-                this.spinnerService.hide();
-              },
-              (error: any) => {
-                this.spinnerService.hide();
-              }
-            );
-          });
+        if (groupsData && groupsData.length > 0) {
+          const coachRequests = groupsData.map(group =>
+            this.groupService.getCoachUsername(group.id).pipe(
+              map(response => {
+                return group;
+              }),
+              catchError(error => {
+                console.error('Error al obtener el nombre de usuario del coach:', error);
+                return of(group); // Retornar el grupo aunque haya error
+              })
+            )
+          );
+
+          forkJoin(coachRequests).subscribe(
+            updatedGroups => {
+              this.groups = updatedGroups;
+              this.spinnerService.hide(); // Ocultar spinner cuando se completan todas las solicitudes
+            },
+            error => {
+              console.error('Error al cargar grupos:', error);
+              this.spinnerService.hide(); // Ocultar spinner si hay un error
+            }
+          );
+        } else {
+          this.groups = groupsData;
+          this.spinnerService.hide(); // Ocultar spinner si no hay grupos
         }
-        this.groups = groupsData;
-        this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
       },
       (error: any) => {
+        console.error('Error al cargar grupos:', error);
         this.spinnerService.hide(); // Ocultar spinner si hay un error
       }
     );
   }
+
 
   showPostPreview() {
     this.showModal = true;
@@ -621,8 +635,8 @@ export class HomeComponent implements OnInit {
     this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
     this.groupService.getAllGroups().subscribe(
       (groups: Group[]) => {
-        this.userGroups = groups;
-        this.checkMemberships();
+        this.groups = groups; // Asignar todos los grupos a this.groups
+        this.checkMemberships(); // Verificar membresías después de asignar this.groups
         this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
       },
       (error: any) => {
@@ -633,37 +647,48 @@ export class HomeComponent implements OnInit {
   }
 
 
+
+
   checkMemberships(): void {
-    if (this.groups && this.user!=null && this.user.verified) {
-      this.groups.forEach(group => {
-        this.spinnerService.show(); // Mostrar spinner antes de iniciar la solicitud
+    if (this.groups && this.user && this.user.verified) {
+      const membershipChecks = this.groups.map(group =>
         this.groupService.checkUserMembership(group.id, this.user!.id)
-          .subscribe(
-            (response: boolean) => {
-              if (response) {
-                this.userGroups.push(group);
-              }
-              this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
-            },
-            (error: any) => {
-              this.spinnerService.hide(); // Ocultar spinner si hay un error
-            }
-          );
+          .pipe(
+            map(response => ({ group, isMember: response })),
+            catchError(error => {
+              console.error('Error checking membership:', error);
+              return of({ group, isMember: false });
+            })
+          )
+      );
+
+      forkJoin(membershipChecks).subscribe(results => {
+        this.userGroups = results
+          .filter(result => result.isMember)
+          .map(result => result.group);
+
+        console.log('User Groups:', this.userGroups); // Log para verificar userGroups
       });
     }
   }
 
-
   isMember(group: Group): boolean {
-    return this.userGroups.some(userGroup => userGroup.id === group.id);
+    const isMember = this.userGroups.some(userGroup => userGroup.id === group.id);
+    console.log(`isMember(${group.id}):`, isMember); // Log para verificar isMember
+    return isMember;
   }
 
   isCoachOfGroup(grupoId: number): boolean {
-    return this.user!.id === this.getCoachIdOfGroup(grupoId);
+    const isCoach = this.user?.id === this.getCoachIdOfGroup(grupoId);
+    console.log(`isCoachOfGroup(${grupoId}):`, isCoach); // Log para verificar isCoachOfGroup
+    return isCoach;
   }
+
   getCoachIdOfGroup(grupoId: number): number | null {
     const grupo = this.groups.find(grupo => grupo.id === grupoId);
-    return grupo ? grupo.coachId : null;
+    const coachId = grupo ? grupo.coachId : null;
+    console.log(`getCoachIdOfGroup(${grupoId}):`, coachId); // Log para verificar getCoachIdOfGroup
+    return coachId;
   }
 
 }
