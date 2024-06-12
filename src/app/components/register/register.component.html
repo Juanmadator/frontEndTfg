@@ -4,40 +4,42 @@
       <div class="formulario">
         <div class="contenido">
           <h1 class="text-center text-black titulo">{{"REGISTER" | translate}}</h1>
-        <form [formGroup]="myForm" (ngSubmit)="onSubmit(myForm.value)" #form="ngForm">
-          <input type="text" [placeholder]="getPlaceholder('name')" formControlName="name" [ngClass]="getClass('name')"
-            required>
-          <input type="text" [placeholder]="getPlaceholder('lastname')" formControlName="lastname"
-            [ngClass]="getClass('lastname')" required>
-          <div class="row g-2">
-            <div class="col-md-6">
-              <input type="text" [placeholder]="getPlaceholder('username')" (blur)="checkUsername()"
-                formControlName="username" [ngClass]="getClass('username')" class="rounded-1 w-100" required>
+          <form [formGroup]="myForm" (ngSubmit)="onSubmit(myForm.value)" #form="ngForm">
+            <input type="text" [placeholder]="getPlaceholder('name')" formControlName="name"
+              [ngClass]="getClass('name')" required>
+            <input type="text" [placeholder]="getPlaceholder('lastname')" formControlName="lastname"
+              [ngClass]="getClass('lastname')" required>
+            <div class="row g-2">
+              <div class="col-md-6">
+                <input type="text" [placeholder]="getPlaceholder('username')" (blur)="checkUsername()"
+                  formControlName="username" [ngClass]="getClass('username')" class="rounded-1 w-100" required>
+              </div>
+              <div class="col-md-6">
+                <input type="date" placeholder="age" formControlName="age" [ngClass]="getClass('age')"
+                  class="rounded-1 w-100" min="16" [title]="'MANDATORY'|translate">
+              </div>
             </div>
-            <div class="col-md-6">
-              <input type="date" placeholder="age" formControlName="age" [ngClass]="getClass('age')"
-                class="rounded-1 w-100" min="16" [title]="'MANDATORY'|translate">
+
+            <input type="text" [placeholder]="getPlaceholder('email')" (blur)="checkEmail()" formControlName="email"
+              [ngClass]="getClass('email')" required autocomplete>
+
+
+            <div class="coach">
+              <input type="checkbox" formControlName="coach" id="coach">
+              <label for="coach">{{"REGISTER_COACH"|translate}}</label>
             </div>
-          </div>
+            <input type="password" formControlName="password" [placeholder]="'PLACEHOLDERS.PASSWORD'|translate"
+              [ngClass]="getClass('password')" required autocomplete="current-password">
+              <small *ngIf="myForm.get('password')!.invalid && myForm.get('password')!.touched">{{getPlaceholder('password')}}</small>
 
-          <input type="text" [placeholder]="getPlaceholder('email')" (blur)="checkEmail()" formControlName="email"
-            [ngClass]="getClass('email')" required autocomplete>
 
-
-          <div class="coach">
-            <input type="checkbox" formControlName="coach" id="coach">
-            <label for="coach">{{"REGISTER_COACH"|translate}}</label>
-          </div>
-          <input type="password"formControlName="password" [placeholder]="'PLACEHOLDERS.PASSWORD'|translate"
-            [ngClass]="getClass('password')" required autocomplete="current-password">
-          <small *ngIf="getPlaceholder('password')!='Contraseña' || getPlaceholder('password')!='Password'">{{getPlaceholder('password')}}</small>
-
-          <input type="submit" class="rounded-1" value="Registrarme" />
-          <a [routerLink]="['/login']" class="text-center cuenta">{{"YA_TIENES_CUENTA"|translate}} <br>{{"SIGN_IN" | translate}}</a>
-          <a [routerLink]="['/home']" class="ir-home-1">
-            <h1 class="text-center"><img class="icono" src="/assets/images/icono.png" alt=""></h1>
-          </a>
-        </form>
+            <input type="submit" class="rounded-1" value="Registrarme" />
+            <a [routerLink]="['/login']" class="text-center cuenta">{{"YA_TIENES_CUENTA"|translate}} <br>{{"SIGN_IN" |
+              translate}}</a>
+            <a [routerLink]="['/home']" class="ir-home-1">
+              <h1 class="text-center"><img class="icono" src="/assets/images/icono.png" alt=""></h1>
+            </a>
+          </form>
         </div>
       </div>
       <div class="contenedor-right align-content-center order-xl-2 fin">

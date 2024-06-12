@@ -23,7 +23,7 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private translate: TranslateService,
+    private translateService: TranslateService,
     private userService: UserService,
     private registerService: RegisterService,
     private http: HttpClient,
@@ -133,14 +133,12 @@ export class RegisterComponent implements OnInit {
         return this.getTranslatedPlaceholder('PASSWORD_PATTERN');
       }
     }
+    // Devuelve la clave de traducción para el placeholder
     return this.getTranslatedPlaceholder(`PLACEHOLDERS.${field.toUpperCase()}`);
   }
 
   getTranslatedPlaceholder(key: string): string {
-    let translatedPlaceholder = '';
-    this.translate.get(key).subscribe((res: string) => {
-      translatedPlaceholder = res;
-    });
-    return translatedPlaceholder;
+    // Aquí iría la lógica para obtener la traducción basada en la clave proporcionada
+    return this.translateService.instant(key);
   }
 }
