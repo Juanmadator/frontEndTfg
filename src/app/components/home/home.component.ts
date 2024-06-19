@@ -153,7 +153,6 @@ export class HomeComponent implements OnInit {
                 return group;
               }),
               catchError(error => {
-                console.error('Error al obtener el nombre de usuario del coach:', error);
                 return of(group); // Retornar el grupo aunque haya error
               })
             )
@@ -165,7 +164,6 @@ export class HomeComponent implements OnInit {
               this.spinnerService.hide(); // Ocultar spinner cuando se completan todas las solicitudes
             },
             error => {
-              console.error('Error al cargar grupos:', error);
               this.spinnerService.hide(); // Ocultar spinner si hay un error
             }
           );
@@ -175,7 +173,6 @@ export class HomeComponent implements OnInit {
         }
       },
       (error: any) => {
-        console.error('Error al cargar grupos:', error);
         this.spinnerService.hide(); // Ocultar spinner si hay un error
       }
     );
@@ -352,7 +349,6 @@ export class HomeComponent implements OnInit {
         this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
       },
       (error: any) => {
-        console.error('Error al obtener datos del usuario:', error);
         this.spinnerService.hide(); // Ocultar spinner si hay un error
       }
     );
@@ -371,7 +367,6 @@ export class HomeComponent implements OnInit {
         const compressedFile = await this.compressImage(file);
         this.selectedFile = compressedFile;
       } catch (error) {
-        console.error('Error al comprimir la imagen:', error);
       }
     }
   }
@@ -527,7 +522,6 @@ export class HomeComponent implements OnInit {
         this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
       },
       (error) => {
-        console.error('Error al crear el comentario:', error);
         this.spinnerService.hide(); // Ocultar spinner si hay un error
       }
     );
@@ -550,7 +544,6 @@ export class HomeComponent implements OnInit {
         this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
       },
       (error) => {
-        console.error('Error al cargar los comentarios:', error);
         this.spinnerService.hide(); // Ocultar spinner si hay un error
       }
     );
@@ -640,7 +633,6 @@ export class HomeComponent implements OnInit {
         this.spinnerService.hide(); // Ocultar spinner cuando se completa la solicitud
       },
       (error: any) => {
-        console.error('Error al cargar grupos:', error);
         this.spinnerService.hide(); // Ocultar spinner si hay un error
       }
     );
@@ -656,7 +648,6 @@ export class HomeComponent implements OnInit {
           .pipe(
             map(response => ({ group, isMember: response })),
             catchError(error => {
-              console.error('Error checking membership:', error);
               return of({ group, isMember: false });
             })
           )
@@ -667,27 +658,23 @@ export class HomeComponent implements OnInit {
           .filter(result => result.isMember)
           .map(result => result.group);
 
-        console.log('User Groups:', this.userGroups); // Log para verificar userGroups
       });
     }
   }
 
   isMember(group: Group): boolean {
     const isMember = this.userGroups.some(userGroup => userGroup.id === group.id);
-    console.log(`isMember(${group.id}):`, isMember); // Log para verificar isMember
     return isMember;
   }
 
   isCoachOfGroup(grupoId: number): boolean {
     const isCoach = this.user?.id === this.getCoachIdOfGroup(grupoId);
-    console.log(`isCoachOfGroup(${grupoId}):`, isCoach); // Log para verificar isCoachOfGroup
     return isCoach;
   }
 
   getCoachIdOfGroup(grupoId: number): number | null {
     const grupo = this.groups.find(grupo => grupo.id === grupoId);
     const coachId = grupo ? grupo.coachId : null;
-    console.log(`getCoachIdOfGroup(${grupoId}):`, coachId); // Log para verificar getCoachIdOfGroup
     return coachId;
   }
 
